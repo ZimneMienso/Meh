@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dght2m2eweyef"]
+
+[node name="Cameraman" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(2.95913e-08, -0.118803, 0.992918, 3.54059e-09, 0.992918, 0.118803, -1, -1.95399e-14, 2.98024e-08, 7.77646, 0.108124, 0)
+size = 1.952
