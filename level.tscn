@@ -1,7 +1,9 @@
-[gd_scene load_steps=36 format=3 uid="uid://bsvnhuwivwpc7"]
+[gd_scene load_steps=38 format=3 uid="uid://bsvnhuwivwpc7"]
 
-[ext_resource type="PackedScene" uid="uid://ct86fo0jnrlo6" path="res://CharacterPlaceholder.fbx" id="1_vonw3"]
-[ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://PlayerCharacter.gd" id="2_oi3di"]
+[ext_resource type="PackedScene" uid="uid://ct86fo0jnrlo6" path="res://Assets/Import/CharacterPlaceholder.fbx" id="1_vonw3"]
+[ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/PlayerCharacter.gd" id="2_oi3di"]
+[ext_resource type="PackedScene" uid="uid://b3usd5ssxc6b1" path="res://Scenes/Components/equipment_gantry.tscn" id="3_oi3di"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="4_0b4ue"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vonw3"]
 size = Vector3(1, 1.711, 0.435)
@@ -70,6 +72,38 @@ material = SubResource("StandardMaterial3D_8b0r0")
 radius = 0.1
 height = 0.2
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vonw3"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_oi3di"]
+material = SubResource("StandardMaterial3D_vonw3")
+top_radius = 0.1
+bottom_radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0b4ue"]
+albedo_color = Color(0.0833333, 1, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_f2txt"]
+material = SubResource("StandardMaterial3D_0b4ue")
+top_radius = 0.1
+bottom_radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oi3di"]
+albedo_color = Color(1, 0.916667, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0b4ue"]
+material = SubResource("StandardMaterial3D_oi3di")
+top_radius = 0.1
+bottom_radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f2txt"]
+albedo_color = Color(0, 0.166667, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1ainy"]
+material = SubResource("StandardMaterial3D_f2txt")
+top_radius = 0.1
+bottom_radius = 0.1
+
 [sub_resource type="BoxMesh" id="BoxMesh_vonw3"]
 size = Vector3(1, 1, 146.175)
 
@@ -103,45 +137,13 @@ size = Vector3(10, 6, 1)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_km5ld"]
 points = PackedVector3Array(5, 3, 0.5, 5, 3, -0.5, -5, -3, 0.5, 5, -3, 0.5, 5, -3, -0.5, -5, -3, -0.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vonw3"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_oi3di"]
-material = SubResource("StandardMaterial3D_vonw3")
-top_radius = 0.1
-bottom_radius = 0.1
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0b4ue"]
-albedo_color = Color(0.0833333, 1, 0, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_f2txt"]
-material = SubResource("StandardMaterial3D_0b4ue")
-top_radius = 0.1
-bottom_radius = 0.1
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oi3di"]
-albedo_color = Color(1, 0.916667, 0, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_0b4ue"]
-material = SubResource("StandardMaterial3D_oi3di")
-top_radius = 0.1
-bottom_radius = 0.1
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f2txt"]
-albedo_color = Color(0, 0.166667, 1, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_1ainy"]
-material = SubResource("StandardMaterial3D_f2txt")
-top_radius = 0.1
-bottom_radius = 0.1
-
 [node name="level" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.258819, 0.965926, 0, -0.965926, -0.258819, 0, 2.92702, 0)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
-collision_layer = 0
+collision_layer = 2
 floor_snap_length = 0.3
 script = ExtResource("2_oi3di")
 jump_impulse = 14.0
@@ -161,15 +163,98 @@ transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 
 
 [node name="Skeleton3D" parent="CharacterBody3D/CharacterPlaceholder/Armature" index="0"]
 bones/1/rotation = Quaternion(4.21608e-09, -3.51247e-08, 0.707107, 0.707107)
-bones/4/rotation = Quaternion(-2.51463e-22, 2.11758e-22, 1.33227e-15, 1)
-bones/5/rotation = Quaternion(3.77489e-08, 1.78814e-07, 5.96244e-09, 1)
-bones/16/rotation = Quaternion(0.99955, 0.0289087, -0.000232296, -0.00798615)
-bones/17/rotation = Quaternion(0.000323348, -4.24449e-07, 0.0589688, 0.99826)
-bones/21/rotation = Quaternion(-0.707107, 6.91275e-08, 6.91275e-08, 0.707107)
-bones/23/rotation = Quaternion(-2.41645e-09, -1.19209e-07, -6.59233e-10, 1)
-bones/32/rotation = Quaternion(-2.11294e-07, 0.00797818, 0.999968, -3.31557e-05)
-bones/33/rotation = Quaternion(0.000322948, 7.04502e-06, -0.0301426, 0.999546)
-bones/36/rotation = Quaternion(0.0528444, 0.998602, 4.2818e-05, -0.000809135)
+bones/1/scale = Vector3(1, 1, 1)
+bones/2/position = Vector3(-6.08865e-12, 0.00389541, -3.06453e-18)
+bones/2/rotation = Quaternion(-0.707107, 1.96704e-08, 1.96704e-08, 0.707107)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/position = Vector3(9.87016e-18, 0.00274309, 1.73472e-18)
+bones/3/rotation = Quaternion(-0.707107, 1.54543e-08, -2.38865e-08, 0.707107)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/position = Vector3(1.89444e-17, 0.00213525, -4.33681e-19)
+bones/4/rotation = Quaternion(-5.22735e-22, 2.27374e-15, 8.88179e-16, 1)
+bones/5/position = Vector3(-2.27374e-17, 0.00317312, -4.33681e-19)
+bones/5/rotation = Quaternion(1.80953e-29, 1.19209e-07, 8.47597e-24, 1)
+bones/6/position = Vector3(0.000521685, 0.000417749, 7.23348e-05)
+bones/6/rotation = Quaternion(-0.0275183, 0.000710158, -0.220712, 0.97495)
+bones/7/position = Vector3(-1.70208e-11, 0.000549528, -3.22665e-10)
+bones/7/rotation = Quaternion(-0.147333, -0.0111648, 0.0392369, 0.988245)
+bones/8/position = Vector3(0.00046873, 0.00117042, 5.29678e-05)
+bones/8/rotation = Quaternion(-0.0337562, -6.19969e-08, 2.09397e-09, 0.99943)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/position = Vector3(1.17937e-11, 0.000619535, 3.19894e-10)
+bones/9/rotation = Quaternion(-0.0070847, 8.13087e-08, -1.12089e-08, 0.999975)
+bones/10/position = Vector3(-0.000456231, 0.00117042, 5.29675e-05)
+bones/10/rotation = Quaternion(-0.0337562, -6.19969e-08, 2.09397e-09, 0.99943)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/position = Vector3(5.94775e-11, 0.000619535, 1.29594e-10)
+bones/11/rotation = Quaternion(-0.0070847, 8.13087e-08, -1.12089e-08, 0.999975)
+bones/12/position = Vector3(-1.55754e-11, 0.00117042, 5.29676e-05)
+bones/12/rotation = Quaternion(-0.0337562, -1.37124e-08, -9.46303e-09, 0.99943)
+bones/12/scale = Vector3(1, 1, 1)
+bones/13/position = Vector3(4.72351e-17, 0.000619536, 1.45703e-10)
+bones/13/rotation = Quaternion(-0.00708612, -2.48312e-08, -1.7133e-09, 0.999975)
+bones/14/position = Vector3(0.000350534, 0.00389541, -1.53223e-11)
+bones/14/rotation = Quaternion(-2.06243e-08, -2.59043e-07, -3.46361e-07, 1)
+bones/15/position = Vector3(5.10028e-11, 0.00172088, -5.54238e-17)
+bones/15/rotation = Quaternion(1.96081e-08, -3.8946e-08, -0.00169123, 0.999999)
+bones/15/scale = Vector3(1, 1, 1)
+bones/16/position = Vector3(-4.76475e-12, -0.000246493, -0.000863965)
+bones/16/rotation = Quaternion(0.99955, 0.0289145, 0.000228999, -0.00797471)
+bones/16/scale = Vector3(1, 1, 1)
+bones/17/position = Vector3(-3.58543e-12, 0.00400195, -4.26036e-12)
+bones/17/rotation = Quaternion(0.000323338, -2.66579e-07, 0.0589729, 0.99826)
+bones/17/scale = Vector3(1, 1, 1)
+bones/18/position = Vector3(-1.34345e-10, 0.0038467, 1.65142e-11)
+bones/18/rotation = Quaternion(-0.0616394, 0.00253862, -0.0451463, 0.997074)
+bones/18/scale = Vector3(1, 1, 1)
+bones/19/position = Vector3(5.1602e-11, 0.00119532, -1.99353e-10)
+bones/19/rotation = Quaternion(0.0407103, 0.0345691, -0.646329, 0.761187)
+bones/19/scale = Vector3(1, 1, 1)
+bones/20/position = Vector3(-6.08865e-12, 0.00389541, -3.06453e-18)
+bones/20/rotation = Quaternion(7.58615e-08, 0.707107, 0.707107, 5.33851e-08)
+bones/20/scale = Vector3(1, 1, 1)
+bones/21/position = Vector3(-3.85944e-16, 0.00274309, 1.73472e-18)
+bones/21/rotation = Quaternion(-0.707107, 4.9169e-08, 8.85098e-08, 0.707107)
+bones/21/scale = Vector3(1, 1, 1)
+bones/22/position = Vector3(3.79011e-16, 0.00213525, -4.33681e-19)
+bones/22/rotation = Quaternion(-1.71243e-21, 3.41061e-15, -1.42109e-14, 1)
+bones/23/position = Vector3(0, 0.00317312, -4.33681e-19)
+bones/23/rotation = Quaternion(3.51312e-28, -1.19209e-07, 2.04414e-28, 1)
+bones/24/position = Vector3(-0.000521685, 0.000417749, 7.23348e-05)
+bones/24/rotation = Quaternion(-0.0275183, -0.000710158, 0.220712, 0.97495)
+bones/24/scale = Vector3(1, 1, 1)
+bones/25/position = Vector3(1.70208e-11, 0.000549528, -3.22665e-10)
+bones/25/rotation = Quaternion(-0.147333, 0.0111648, -0.0392369, 0.988245)
+bones/25/scale = Vector3(1, 1, 1)
+bones/26/position = Vector3(-0.00046873, 0.00117042, 5.29678e-05)
+bones/26/rotation = Quaternion(-0.0337562, 6.19969e-08, -2.09397e-09, 0.99943)
+bones/26/scale = Vector3(1, 1, 1)
+bones/27/position = Vector3(-1.17937e-11, 0.000619535, 3.19894e-10)
+bones/27/rotation = Quaternion(-0.0070847, -8.13087e-08, 1.12089e-08, 0.999975)
+bones/28/position = Vector3(0.000456231, 0.00117042, 5.29675e-05)
+bones/28/rotation = Quaternion(-0.0337562, 6.19969e-08, -2.09397e-09, 0.99943)
+bones/28/scale = Vector3(1, 1, 1)
+bones/29/position = Vector3(-5.94775e-11, 0.000619535, 1.29594e-10)
+bones/29/rotation = Quaternion(-0.0070847, -8.13087e-08, 1.12089e-08, 0.999975)
+bones/30/position = Vector3(1.55754e-11, 0.00117042, 5.29676e-05)
+bones/30/rotation = Quaternion(-0.0337562, 1.37124e-08, 9.46303e-09, 0.99943)
+bones/30/scale = Vector3(1, 1, 1)
+bones/31/position = Vector3(3.23457e-17, 0.000619536, 1.45703e-10)
+bones/31/rotation = Quaternion(-0.00708612, 2.48312e-08, 1.7133e-09, 0.999975)
+bones/32/position = Vector3(0.000231337, -0.000246493, 0.000863965)
+bones/32/rotation = Quaternion(3.89664e-07, 0.00797812, 0.999968, -1.5534e-09)
+bones/32/scale = Vector3(1, 1, 1)
+bones/33/position = Vector3(1.06713e-11, 0.00399526, -3.53451e-11)
+bones/33/rotation = Quaternion(0.000323037, 9.98704e-06, -0.0300832, 0.999547)
+bones/33/scale = Vector3(1, 1, 1)
+bones/34/position = Vector3(-4.99284e-11, 0.00384669, -8.4293e-11)
+bones/34/rotation = Quaternion(-0.0616394, -0.00253854, 0.0451465, 0.997074)
+bones/34/scale = Vector3(1, 1, 1)
+bones/35/position = Vector3(6.45628e-11, 0.00119532, 5.87136e-11)
+bones/35/rotation = Quaternion(0.0407111, -0.0345683, 0.646329, 0.761187)
+bones/35/scale = Vector3(1, 1, 1)
+bones/36/position = Vector3(-0.000614074, 0.000334849, -0.000863964)
+bones/36/rotation = Quaternion(0.0528444, 0.998602, 4.28157e-05, -0.00080909)
 
 [node name="StatsLabel" type="Label3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.97114, 0)
@@ -185,124 +270,6 @@ randomness = 1.0
 collision_base_size = 0.66
 process_material = SubResource("ParticleProcessMaterial_8cye3")
 draw_pass_1 = SubResource("SphereMesh_h6smj")
-
-[node name="floor" type="StaticBody3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.502308, 0)
-mesh = SubResource("BoxMesh_vonw3")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.502308, 0)
-shape = SubResource("ConvexPolygonShape3D_oi3di")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.72078, -7.40653)
-mesh = SubResource("BoxMesh_0b4ue")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.72078, -7.40653)
-shape = SubResource("ConvexPolygonShape3D_vonw3")
-
-[node name="StaticBody3D2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55232, 24.8724)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.72078, -7.40653)
-mesh = SubResource("BoxMesh_0b4ue")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.72078, -7.40653)
-shape = SubResource("ConvexPolygonShape3D_vonw3")
-
-[node name="platform" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.79885, -14.0498)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="platform"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
-mesh = SubResource("BoxMesh_oi3di")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="platform"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
-shape = SubResource("ConvexPolygonShape3D_0b4ue")
-
-[node name="platform2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.71375, -20.5278)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="platform2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
-mesh = SubResource("BoxMesh_oi3di")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="platform2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
-shape = SubResource("ConvexPolygonShape3D_f2txt")
-
-[node name="platform3" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.71375, -26.5247)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="platform3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
-mesh = SubResource("BoxMesh_oi3di")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="platform3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
-shape = SubResource("ConvexPolygonShape3D_1ainy")
-
-[node name="platform4" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.71375, -33.0021)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="platform4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
-mesh = SubResource("BoxMesh_oi3di")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="platform4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
-shape = SubResource("ConvexPolygonShape3D_n6hdu")
-
-[node name="ramp" type="StaticBody3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ramp"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
-mesh = SubResource("PrismMesh_vonw3")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ramp"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
-shape = SubResource("ConvexPolygonShape3D_km5ld")
-
-[node name="ramp3" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, -7)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ramp3"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
-mesh = SubResource("PrismMesh_vonw3")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ramp3"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
-shape = SubResource("ConvexPolygonShape3D_km5ld")
-
-[node name="ramp2" type="StaticBody3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 35)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ramp2"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
-mesh = SubResource("PrismMesh_vonw3")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ramp2"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
-shape = SubResource("ConvexPolygonShape3D_km5ld")
-
-[node name="ramp4" type="StaticBody3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 4.37114e-08, 0.866025, -0.5, 7.57103e-08, -0.5, -0.866025, 0, 3, 43)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ramp4"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
-mesh = SubResource("PrismMesh_vonw3")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ramp4"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
-shape = SubResource("ConvexPolygonShape3D_km5ld")
 
 [node name="DebugProp" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -323,5 +290,241 @@ skeleton = NodePath("../CharacterBody3D")
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("CylinderMesh_1ainy")
 skeleton = NodePath("../CharacterBody3D")
+
+[node name="Equipment Gantry" parent="." instance=ExtResource("3_oi3di")]
+transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, -1, 0, -2)
+
+[node name="geometry" type="Node3D" parent="."]
+
+[node name="floor" type="StaticBody3D" parent="geometry"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.502308, 0)
+mesh = SubResource("BoxMesh_vonw3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.502308, 0)
+shape = SubResource("ConvexPolygonShape3D_oi3di")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="geometry"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.72078, -7.40653)
+mesh = SubResource("BoxMesh_0b4ue")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.72078, -7.40653)
+shape = SubResource("ConvexPolygonShape3D_vonw3")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55232, 24.8724)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.72078, -7.40653)
+mesh = SubResource("BoxMesh_0b4ue")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.72078, -7.40653)
+shape = SubResource("ConvexPolygonShape3D_vonw3")
+
+[node name="platform" type="StaticBody3D" parent="geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.79885, -14.0498)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/platform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
+mesh = SubResource("BoxMesh_oi3di")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/platform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
+shape = SubResource("ConvexPolygonShape3D_0b4ue")
+
+[node name="platform2" type="StaticBody3D" parent="geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.71375, -20.5278)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/platform2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
+mesh = SubResource("BoxMesh_oi3di")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/platform2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
+shape = SubResource("ConvexPolygonShape3D_f2txt")
+
+[node name="platform3" type="StaticBody3D" parent="geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.71375, -26.5247)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/platform3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
+mesh = SubResource("BoxMesh_oi3di")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/platform3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
+shape = SubResource("ConvexPolygonShape3D_1ainy")
+
+[node name="platform4" type="StaticBody3D" parent="geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.71375, -33.0021)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/platform4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
+mesh = SubResource("BoxMesh_oi3di")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/platform4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49653)
+shape = SubResource("ConvexPolygonShape3D_n6hdu")
+
+[node name="ramp" type="StaticBody3D" parent="geometry"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/ramp"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
+mesh = SubResource("PrismMesh_vonw3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/ramp"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
+shape = SubResource("ConvexPolygonShape3D_km5ld")
+
+[node name="ramp3" type="StaticBody3D" parent="geometry"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, -7)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/ramp3"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
+mesh = SubResource("PrismMesh_vonw3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/ramp3"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
+shape = SubResource("ConvexPolygonShape3D_km5ld")
+
+[node name="ramp2" type="StaticBody3D" parent="geometry"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 35)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/ramp2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
+mesh = SubResource("PrismMesh_vonw3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/ramp2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
+shape = SubResource("ConvexPolygonShape3D_km5ld")
+
+[node name="ramp4" type="StaticBody3D" parent="geometry"]
+transform = Transform3D(-1, 0, -8.74228e-08, 4.37114e-08, 0.866025, -0.5, 7.57103e-08, -0.5, -0.866025, 0, 3, 43)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="geometry/ramp4"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
+mesh = SubResource("PrismMesh_vonw3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/ramp4"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
+shape = SubResource("ConvexPolygonShape3D_km5ld")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InventoryMenu" type="HBoxContainer" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatsContainer" type="VBoxContainer" parent="Control/InventoryMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatsLabelContainer" type="PanelContainer" parent="Control/InventoryMenu/StatsContainer"]
+layout_mode = 2
+
+[node name="Stats Label" type="Label" parent="Control/InventoryMenu/StatsContainer/StatsLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Stats"
+horizontal_alignment = 1
+
+[node name="Stats" type="PanelContainer" parent="Control/InventoryMenu/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="Control/InventoryMenu/StatsContainer/Stats"]
+layout_mode = 2
+text = "sraks"
+
+[node name="LoadoutContainer" type="VBoxContainer" parent="Control/InventoryMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LoadoutLabelContainer" type="PanelContainer" parent="Control/InventoryMenu/LoadoutContainer"]
+layout_mode = 2
+
+[node name="Loadout Label" type="Label" parent="Control/InventoryMenu/LoadoutContainer/LoadoutLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Loadout"
+horizontal_alignment = 1
+
+[node name="Loadout" type="PanelContainer" parent="Control/InventoryMenu/LoadoutContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InventoryContainer" type="VBoxContainer" parent="Control/InventoryMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButtonContainer" type="HBoxContainer" parent="Control/InventoryMenu/InventoryContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="InventoryLabelContainer" type="PanelContainer" parent="Control/InventoryMenu/InventoryContainer/CloseButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Inventory Label" type="Label" parent="Control/InventoryMenu/InventoryContainer/CloseButtonContainer/InventoryLabelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Inventory"
+horizontal_alignment = 1
+
+[node name="CloseMenuButton" type="Button" parent="Control/InventoryMenu/InventoryContainer/CloseButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.09
+text = "X"
+
+[node name="InventorySearchOptions" type="HBoxContainer" parent="Control/InventoryMenu/InventoryContainer"]
+layout_mode = 2
+
+[node name="TextSearch" type="LineEdit" parent="Control/InventoryMenu/InventoryContainer/InventorySearchOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search items..."
+
+[node name="TagFilter" type="Button" parent="Control/InventoryMenu/InventoryContainer/InventorySearchOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+text = "Tags"
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/InventoryMenu/InventoryContainer"]
+layout_mode = 2
+
+[node name="Inventory" type="PanelContainer" parent="Control/InventoryMenu/InventoryContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FlowContainer" type="FlowContainer" parent="Control/InventoryMenu/InventoryContainer/Inventory"]
+layout_mode = 2
+
+[node name="ItemSlot" type="Button" parent="Control/InventoryMenu/InventoryContainer/Inventory/FlowContainer"]
+layout_mode = 2
+icon = ExtResource("4_0b4ue")
+
+[connection signal="pressed" from="Control/InventoryMenu/InventoryContainer/CloseButtonContainer/CloseMenuButton" to="Control/InventoryMenu" method="hide"]
 
 [editable path="CharacterBody3D/CharacterPlaceholder"]

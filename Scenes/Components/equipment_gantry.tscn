@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3usd5ssxc6b1"]
+
+[ext_resource type="Script" uid="uid://c3kt3ghbl25s5" path="res://Scripts/equipment_gantry.gd" id="1_vulyj"]
+[ext_resource type="PackedScene" uid="uid://4brsrhgpwyow" path="res://Assets/Import/Equipment Gantry.fbx" id="2_v0804"]
+[ext_resource type="PackedScene" uid="uid://20t7neqcdl64" path="res://Scenes/Components/interactable.tscn" id="3_fhm6x"]
+
+[node name="Equipment Gantry" type="Node3D"]
+script = ExtResource("1_vulyj")
+
+[node name="Equipment Gantry" parent="." instance=ExtResource("2_v0804")]
+
+[node name="Interactable" parent="." instance=ExtResource("3_fhm6x")]
+visible = true
+
+[node name="CollisionShape3D" parent="Interactable" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98023e-08, 0.35, 0.45)
+
+[node name="InteractingPlayerPositionReference" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+
+[connection signal="interaction" from="Interactable" to="." method="_on_interaction"]
+
+[editable path="Interactable"]

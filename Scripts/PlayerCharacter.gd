@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Player
 
 @onready var anim_player: AnimationPlayer = $CharacterPlaceholder/AnimationPlayer
 
@@ -40,8 +41,10 @@ const anim_name_run: String = "Armature|Run"
 
 var using_rocket_engine: bool = false
 
+
 func _ready() -> void:
 	CAMERAMAN.tracking = self
+
 
 func _physics_process(delta: float) -> void:
 	var input_vector = Input.get_vector("Move Right","Move Left","Move Down","Move Up")
@@ -59,6 +62,7 @@ func align_rotation_with_velocity():
 	rotation.y = deg_to_rad(-sign(velocity.z) * 90 + 90)
 
 #region Character Actions
+
 
 func get_player_action_requests(input_vector: Vector2) -> Array[int]:
 	var character_action_requests: Array[int]
@@ -95,6 +99,7 @@ func get_player_action_requests(input_vector: Vector2) -> Array[int]:
 
 	return character_action_requests
 
+
 func manage_character_actions(delta: float, character_action_requests: Array[int], input_vector: Vector2):
 	for character_action in character_action_requests:
 		match character_action:
@@ -115,17 +120,21 @@ func manage_character_actions(delta: float, character_action_requests: Array[int
 			CHAR_ACTIONS.GRAPPLING_HOOK:
 				use_grappling_hook()
 
+
 func run(delta: float, input_vector_x: float):
 	if abs(velocity.z) <= run_max_speed or sign(velocity.z) != sign(input_vector_x):
 		velocity.z += run_acceleration * input_vector_x * delta
 	anim_player.play(anim_name_run)
 
+
 func grounded_stop(delta):
 	velocity.z = apply_constant_friction(delta, velocity.z, ground_stop_friction)
 	anim_player.play(anim_name_idle)
 
+
 func jump():
 	velocity.y += jump_impulse
+
 
 func air_control(delta: float, input_vector_x: float):
 	if abs(velocity.z) <= air_control_max_velocity or sign(velocity.z) != sign(input_vector_x):
@@ -133,9 +142,11 @@ func air_control(delta: float, input_vector_x: float):
 	if abs(velocity.z) > air_control_max_velocity:
 		velocity.z = apply_constant_friction(delta, velocity.z, air_friction)
 
+
 func freefall(delta: float):
 	anim_player.play("Armature|BasePose")
 	velocity.z = apply_constant_friction(delta, velocity.z, air_friction)
+
 
 func slide(delta: float):
 	if velocity.z != 0:
@@ -154,9 +165,11 @@ func slide(delta: float):
 	var slope_gravity_acceleration_z: float = get_gravity().length() * floor_angle * delta * slope_direction
 	velocity.z += slope_gravity_acceleration_z
 
+
 func use_rocket_engine(delta: float):
 	velocity += velocity.normalized() * delta * 20
 	$RocketEngineParticles.emitting = true
+
 
 func use_grappling_hook():
 	if not hook_attachments.is_empty():
@@ -217,8 +230,10 @@ class HookAttachment:
 
 var hook_attachments: Array[HookAttachment]
 
+
 func on_hook_projectile_collision(hit_collider: Node3D, hook_placeholder: RigidBody3D):
 	attach_grappling_hook(hit_collider, hook_placeholder.global_position)
+
 
 func attach_grappling_hook(attach_to: Node3D, hook_position: Vector3):
 	hook_attach_point_debug = MeshInstance3D.new()
@@ -235,6 +250,7 @@ func attach_grappling_hook(attach_to: Node3D, hook_position: Vector3):
 	
 	new_hook_attachment.add_child(hook_attach_point_debug)
 
+
 func apply_grappling_hook_swing():
 	
 
@@ -250,47 +266,17 @@ func apply_grappling_hook_swing():
 	last_attachment.global_position.direction_to(global_position) * \
 	last_attachment.hook_distance + last_attachment.global_position
 
-	var where_is_character: Vector3 = global_position
-	var where_rope_wants: Vector3 = nearest_point_on_circle
-	var angle_to_where_rope_wants: float = Vector3.FORWARD.angle_to(where_rope_wants - global_position)
-	var speed_away_from_where_rope_wants: float = \
-	velocity.rotated(Vector3.RIGHT, -angle_to_where_rope_wants).z
-	var velocity_away_from_where_rope_wants: Vector3 = \
-	Vector3(0, 0, speed_away_from_where_rope_wants).rotated(Vector3.RIGHT, angle_to_where_rope_wants)
-	var rope_static_force: Vector3 = where_rope_wants - where_is_character - velocity_away_from_where_rope_wants
-
-	var tangent: Vector3
 	var tangent_left: Vector3 = (last_attachment.to_local(nearest_point_on_circle)).cross(Vector3.LEFT).normalized()
 	var tangent_right: Vector3 = (last_attachment.to_local(nearest_point_on_circle)).cross(Vector3.RIGHT).normalized()
-	var velocity_angle_to_left_tangent: float = velocity.angle_to(tangent_left + global_position)
-	var velocity_angle_to_right_tangent: float = velocity.angle_to(tangent_right + global_position)
-	if velocity_angle_to_left_tangent < velocity_angle_to_right_tangent:
-		tangent = tangent_right
-	elif velocity_angle_to_left_tangent > velocity_angle_to_right_tangent:
-		tangent = tangent_left
-	else:
-		tangent = sign(velocity.z) * tangent_right
-	
-	
-	$"../DebugProp".global_position = where_rope_wants
-	$"../DebugProp2".global_position = tangent * 2 + where_rope_wants
-	$"../DebugProp3".global_position = tangent_right + where_rope_wants
-	$"../DebugProp4".global_position = tangent_left + where_rope_wants
-
-	if global_position.distance_to(last_attachment.global_position) <= last_attachment.hook_distance:
-		return
-	# "elastic"
-	#velocity = velocity + rope_static_force + tangent
-	# "rigid"
-	global_position = where_rope_wants
-	velocity = velocity.rotated(Vector3.RIGHT, velocity.angle_to(tangent - global_position))
 
 
 	
 #endregion Grappling Hook
 
+
 static func apply_constant_friction(delta: float, value: float, friction: float) -> float:
 	return move_toward(value, 0, friction * delta)
+
 
 func debug_update_stats_label(player_actions: Array[int]):
 	var text: String = \
@@ -307,3 +293,7 @@ func debug_update_stats_label(player_actions: Array[int]):
 	var player_actions_text: Array[String] = player_action_text_converter.call()
 	
 	$StatsLabel.text = text % [velocity.round(), player_actions_text, ]
+
+
+func _on_tag_filter_button_pressed() -> void:
+	pass # Replace with function body.

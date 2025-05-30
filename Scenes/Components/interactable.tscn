@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://20t7neqcdl64"]
+
+[ext_resource type="Script" uid="uid://dr4tiee6nb4m3" path="res://Scripts/interactable.gd" id="1_iwnww"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sc7f8"]
+size = Vector3(0.8, 0.7, 1.1)
+
+[node name="Interactable" type="Area3D"]
+visible = false
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_iwnww")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_sc7f8")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered" unbinds=1]
+[connection signal="body_exited" from="." to="." method="_on_body_exited" unbinds=1]
