@@ -1,7 +1,7 @@
 [gd_scene load_steps=38 format=3 uid="uid://bsvnhuwivwpc7"]
 
 [ext_resource type="PackedScene" uid="uid://ct86fo0jnrlo6" path="res://Assets/Import/CharacterPlaceholder.fbx" id="1_vonw3"]
-[ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/PlayerCharacter.gd" id="2_oi3di"]
+[ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/classes/PlayerCharacter.gd" id="2_oi3di"]
 [ext_resource type="PackedScene" uid="uid://b3usd5ssxc6b1" path="res://Scenes/Components/equipment_gantry.tscn" id="3_oi3di"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="4_0b4ue"]
 
@@ -146,11 +146,6 @@ transform = Transform3D(1, 0, 0, 0, -0.258819, 0.965926, 0, -0.965926, -0.258819
 collision_layer = 2
 floor_snap_length = 0.3
 script = ExtResource("2_oi3di")
-jump_impulse = 14.0
-air_friction = 3.0
-constant_slide_friction = 3.0
-grappling_hook_range = 10.0
-grappling_hook_speed = 30.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856841, 0)

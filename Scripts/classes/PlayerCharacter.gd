@@ -3,26 +3,49 @@ class_name Player
 
 @onready var anim_player: AnimationPlayer = $CharacterPlaceholder/AnimationPlayer
 
-@export_category("Grounded Movement")
-@export_range(0, 30, 0.1, "or_greater") var run_max_speed: float = 7
-@export_range(0, 500, 0.1, "or_greater") var run_acceleration: float = 100
-@export_range(0, 500, 0.1, "or_greater") var ground_stop_friction: float = 300
-@export_category("Jump")
-@export_range(0, 100, 0.1, "or_greater") var jump_impulse: float = 10
-@export_range(0, 100, 0.1, "or_greater") var max_jump_velocity: float = 10
-@export_category("Air Control")
-@export_range(0, 30, 0.1, "or_greater") var air_acceleration: float = 4
-@export_range(0, 30, 0.1, "or_greater") var air_control_max_velocity: float = 7
-@export_range(0, 5, 0.1, "or_greater") var air_friction: float = 0.1
-@export_category("Slide")
+## Run
+var run_max_speed: float:
+	get():
+		return attributes[Attribute.TYPE.RUN_MAX_SPEED].value
+var run_acceleration: float:
+	get():
+		return attributes[Attribute.TYPE.RUN_ACCELERATION].value
+var ground_stop_friction: float:
+	get():
+		return attributes[Attribute.TYPE.GROUND_STOP_FRICTION].value
+## Jump
+var jump_impulse: float:
+	get():
+		return attributes[Attribute.TYPE.JUMP_IMPULSE].value
+var max_jump_velocity: float:
+	get():
+		return attributes[Attribute.TYPE.MAX_JUMP_VELOCITY].value
+## Air Control
+var air_acceleration: float:
+	get():
+		return attributes[Attribute.TYPE.AIR_ACCELERATION].value
+var air_control_max_velocity: float:
+	get():
+		return attributes[Attribute.TYPE.AIR_CONTROL_MAX_VELOCITY].value
+var air_friction: float:
+	get():
+		return attributes[Attribute.TYPE.AIR_FRICTION].value
+## Slide
 ## Applied to the sliding character at all times
-@export_range(0, 5, 0.1, "or_greater") var constant_slide_friction: float = 0.5
+var constant_slide_friction: float:
+	get():
+		return attributes[Attribute.TYPE.CONSTANT_SLIDE_FRICTION].value
 ## Slope angle above which the character is forced into slide
-@export_range(0, 90, 1, "radians_as_degrees") var force_slide_slope_angle: float = 0.5
-@export_category("Grappling Hook")
-@export_range(0, 100, 0.1, "or_greater") var grappling_hook_range: float = 20
-@export_range(0, 100, 0.1, "or_greater") var grappling_hook_speed: float = 20
-@export_category("Other")
+var force_slide_slope_angle: float:
+	get():
+		return attributes[Attribute.TYPE.FORCE_SLIDE_SLOPE_ANGLE].value
+## Grappling Hook
+var grappling_hook_range: float = 20:
+	get():
+		return attributes[Attribute.TYPE.GRAPPLING_HOOK_RANGE].value
+var grappling_hook_speed: float = 20:
+	get():
+		return attributes[Attribute.TYPE.GRAPPLING_HOOK_SPEED].value
 
 
 enum CHAR_ACTIONS {
@@ -36,6 +59,8 @@ enum CHAR_ACTIONS {
 	GRAPPLING_HOOK
 }
 
+var attributes: Array[Attribute]
+
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
 
@@ -44,6 +69,13 @@ var using_rocket_engine: bool = false
 
 func _ready() -> void:
 	CAMERAMAN.tracking = self
+	
+	## Create an attribute for each possible type of attribute
+	## They are accessed by their index using TYPE enum in Attribute class
+	for i in Attribute.TYPE.size():
+		attributes.append(Attribute.new())
+	
+	equip(preload("res://Resources/Equipment/Flesh.tres"))
 
 
 func _physics_process(delta: float) -> void:
@@ -60,6 +92,30 @@ func _physics_process(delta: float) -> void:
 
 func align_rotation_with_velocity():
 	rotation.y = deg_to_rad(-sign(velocity.z) * 90 + 90)
+
+
+#region Equipment and Attributes
+
+
+func equip(equipment: Equipment):
+	## Apply all attribute modifiers from the equipment
+	for attribute_modifier in equipment.attribute_modifiers:
+		## Pick the attribute whith index matching the modifiers' enum,
+		## and add the modifier to it.
+		attributes[attribute_modifier.attribute_type].add_modifier(attribute_modifier)
+		
+	## TODO Enable all abilities from the equipment
+
+
+func unequip(equipment: Equipment):
+	for attribute_modifier in equipment.attribute_modifiers:
+		## Analogous to the equip function
+		attributes[attribute_modifier.attribute_type].remove_modifier(attribute_modifier)
+
+
+
+
+#endregion Equipment and Attributes
 
 #region Character Actions
 
