@@ -1,15 +1,15 @@
 [gd_scene load_steps=42 format=3 uid="uid://bsvnhuwivwpc7"]
 
-[ext_resource type="PackedScene" uid="uid://ct86fo0jnrlo6" path="res://Assets/Import/CharacterPlaceholder.fbx" id="1_vonw3"]
-[ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/classes/Equipment/EqSlot.gd" id="2_1ainy"]
-[ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/classes/PlayerCharacter.gd" id="2_oi3di"]
-[ext_resource type="PackedScene" uid="uid://b3usd5ssxc6b1" path="res://Scenes/Components/equipment_gantry.tscn" id="3_oi3di"]
-[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="4_0b4ue"]
-[ext_resource type="Script" uid="uid://dv4lqq0lpfism" path="res://Scripts/ui/loadout_screen/loadout_screen.gd" id="4_f2txt"]
-[ext_resource type="Script" uid="uid://dwjvpun18y71n" path="res://Scripts/ui/loadout_screen/loadout_slot_button.gd" id="6_n6hdu"]
+[ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/GameObjects/PlayerCharacter.gd" id="1_8c0lf"]
+[ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="2_754fn"]
+[ext_resource type="PackedScene" uid="uid://ct86fo0jnrlo6" path="res://Assets/Import/CharacterPlaceholder.fbx" id="3_bvt00"]
+[ext_resource type="PackedScene" uid="uid://b3usd5ssxc6b1" path="res://Scenes/GameObjects/equipment_gantry.tscn" id="4_oqgf2"]
+[ext_resource type="Script" uid="uid://dv4lqq0lpfism" path="res://Scripts/Ui/loadout_screen/loadout_screen.gd" id="5_qxfql"]
+[ext_resource type="Script" uid="uid://dwjvpun18y71n" path="res://Scripts/Ui/loadout_screen/loadout_slot_button.gd" id="6_ha31o"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="7_pa6b8"]
 
 [sub_resource type="Resource" id="Resource_n6hdu"]
-script = ExtResource("2_1ainy")
+script = ExtResource("2_754fn")
 name = ""
 tags = Array[int]([0])
 metadata/_custom_type_script = "uid://d0ywsq5wq4xa7"
@@ -154,14 +154,14 @@ transform = Transform3D(0.961516, -0.00425925, 0.274715, -0.242362, -0.484104, 0
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 collision_layer = 2
 floor_snap_length = 0.3
-script = ExtResource("2_oi3di")
-eqslots = Array[ExtResource("2_1ainy")]([SubResource("Resource_n6hdu")])
+script = ExtResource("1_8c0lf")
+eqslots = Array[ExtResource("2_754fn")]([SubResource("Resource_n6hdu")])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856841, 0)
 shape = SubResource("BoxShape3D_vonw3")
 
-[node name="CharacterPlaceholder" parent="CharacterBody3D" instance=ExtResource("1_vonw3")]
+[node name="CharacterPlaceholder" parent="CharacterBody3D" instance=ExtResource("3_bvt00")]
 
 [node name="Armature" parent="CharacterBody3D/CharacterPlaceholder" index="0"]
 transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 0, 0)
@@ -296,7 +296,7 @@ transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 
 mesh = SubResource("CylinderMesh_1ainy")
 skeleton = NodePath("../CharacterBody3D")
 
-[node name="Equipment Gantry" parent="." instance=ExtResource("3_oi3di")]
+[node name="Equipment Gantry" parent="." instance=ExtResource("4_oqgf2")]
 transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, -1, 0, -2)
 
 [node name="geometry" type="Node3D" parent="."]
@@ -446,7 +446,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("4_f2txt")
+script = ExtResource("5_qxfql")
 
 [node name="StatsContainer" type="VBoxContainer" parent="Control/LoadoutScreen"]
 layout_mode = 2
@@ -497,7 +497,7 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-script = ExtResource("6_n6hdu")
+script = ExtResource("6_ha31o")
 
 [node name="InventoryContainer" type="VBoxContainer" parent="Control/LoadoutScreen"]
 layout_mode = 2
@@ -554,7 +554,7 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-icon = ExtResource("4_0b4ue")
+icon = ExtResource("7_pa6b8")
 
 [connection signal="pressed" from="Control/LoadoutScreen/InventoryContainer/CloseButtonContainer/CloseMenuButton" to="Control/LoadoutScreen" method="close"]
 

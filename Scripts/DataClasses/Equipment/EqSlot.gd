@@ -12,17 +12,20 @@ enum TAGS {
 @export var tags: Array[TAGS]
 @export var icon: Texture2D
 
+
 var current_equipment: Equipment:
 	set(new):
 		if current_equipment != new:
 			current_equipment = new
 			equipment_changed.emit()
 
+
 var current_stack_size: int:
 	set(new):
 		if current_stack_size != new:
 			current_stack_size = new
 			stack_size_changed.emit()
+
 
 ## Check if given equipment can be placed in the given slot at this precise moment
 func can_equip(tested_equipment: Equipment) -> bool:

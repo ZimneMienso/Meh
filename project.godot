@@ -11,16 +11,16 @@ config_version=5
 [application]
 
 config/name="meh"
-run/main_scene="res://level.tscn"
+run/main_scene="res://Scenes/level.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-HF="*res://Scripts/helper_functions.gd"
-CAMERAMAN="*res://Scripts/cameraman.gd"
-Draw3D="*res://LineDrawStuff/Draw3D.gd"
-INV="*res://Scripts/inventory.gd"
+HF="*res://Scripts/Singletons/helper_functions.gd"
+CAMERAMAN="*res://Scripts/Singletons/cameraman.gd"
+Draw3D="*res://Scripts/LineDrawStuff/Draw3D.gd"
+INV="*res://Scripts/Singletons/inventory.gd"
 
 [input]
 

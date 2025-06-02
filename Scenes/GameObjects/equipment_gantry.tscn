@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://b3usd5ssxc6b1"]
 
-[ext_resource type="Script" uid="uid://c3kt3ghbl25s5" path="res://Scripts/equipment_gantry.gd" id="1_vulyj"]
+[ext_resource type="Script" uid="uid://c3kt3ghbl25s5" path="res://Scripts/GameObjects/equipment_gantry.gd" id="1_vulyj"]
 [ext_resource type="PackedScene" uid="uid://4brsrhgpwyow" path="res://Assets/Import/Equipment Gantry.fbx" id="2_v0804"]
-[ext_resource type="PackedScene" uid="uid://20t7neqcdl64" path="res://Scenes/Components/interactable.tscn" id="3_fhm6x"]
+[ext_resource type="PackedScene" uid="uid://20t7neqcdl64" path="res://Scenes/GameObjects/interactable.tscn" id="3_fhm6x"]
 
 [node name="Equipment Gantry" type="Node3D"]
 script = ExtResource("1_vulyj")

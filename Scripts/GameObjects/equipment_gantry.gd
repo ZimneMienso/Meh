@@ -7,8 +7,8 @@ extends Node3D
 var player_position_before_interaction: Vector3
 var player: Player
 
+
 func _on_interaction() -> void:
-	
 	## Get interacting player
 	var overlaping_bodies: Array[Node3D] = interactable.get_overlapping_bodies()
 	if overlaping_bodies[0] is Player:
@@ -27,6 +27,7 @@ func _on_interaction() -> void:
 	## Open loadout UI and connect to exit from loadout
 	show_loadout_menu()
 
+
 ## When connecting a signal to this, also pass that signal as an argument
 ## so it can be disconnected
 func _on_exit_from_loadout_screen(close_menu_signal: Signal) -> void:
@@ -35,7 +36,6 @@ func _on_exit_from_loadout_screen(close_menu_signal: Signal) -> void:
 	player.set_physics_process(true)
 	close_menu_signal.disconnect(_on_exit_from_loadout_screen)
 	interactable.monitoring = true
-	
 
 
 ## The object only opens the menu, the menu handles closing itself
