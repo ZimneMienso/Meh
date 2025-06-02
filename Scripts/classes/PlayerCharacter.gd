@@ -3,6 +3,12 @@ class_name Player
 
 @onready var anim_player: AnimationPlayer = $CharacterPlaceholder/AnimationPlayer
 
+@export var eqslots: Array[EqSlot]
+
+# Just hide the region and go, nothing to see here, it's temporary, it's a
+# leftover from an incomplete refactor and will make your eyes bleed
+#region Attribute Declarations
+
 ## Run
 var run_max_speed: float:
 	get():
@@ -47,6 +53,7 @@ var grappling_hook_speed: float = 20:
 	get():
 		return attributes[Attribute.TYPE.GRAPPLING_HOOK_SPEED].value
 
+#endregion Attribute Declarations
 
 enum CHAR_ACTIONS {
 	GROUNDED_STOP,
@@ -74,8 +81,20 @@ func _ready() -> void:
 	## They are accessed by their index using TYPE enum in Attribute class
 	for i in Attribute.TYPE.size():
 		attributes.append(Attribute.new())
-	
-	equip(preload("res://Resources/Equipment/Flesh.tres"))
+
+	## Equipment representing lack of equipment.
+	## Benchmark for unassisted, but also unencumbered mobility.
+	# TODO special treatment so that it doesn't show up in the inventory
+	# and gets automatically equiped when taking off the exoskeleton
+	const flesh_equipment: Equipment = preload("res://Resources/Equipment/Flesh.tres")
+	INV.add_equipment(flesh_equipment)
+	INV.transfer_equipment_to_slot(
+		flesh_equipment, get_loadout_slots_matching_equipment(flesh_equipment)[0]
+		)
+
+	INV.add_equipment(preload("res://Resources/Equipment/LightExoskeleton.tres"))
+
+	apply_equipment_attributes()
 
 
 func _physics_process(delta: float) -> void:
@@ -97,22 +116,68 @@ func align_rotation_with_velocity():
 #region Equipment and Attributes
 
 
-func equip(equipment: Equipment):
+func apply_equipment_attributes():
+	for attribute in attributes:
+		attribute.attribute_modifiers.clear()
+		attribute.calculate_value()
+
+	var occupied_eq_slots: Array[EqSlot] = get_loadout_slots().filter(
+		func(slot: EqSlot): if slot.current_equipment: return true else: return false
+	)
+	for slot in occupied_eq_slots:
+		for attribute_modifier in slot.current_equipment.attribute_modifiers:
+			attributes[attribute_modifier.attribute_type].add_modifier(attribute_modifier)
+	# TODO Enable all abilities from the equipment
+
+
+# DEPRECATED
+func equip(new_equipment: Equipment):
 	## Apply all attribute modifiers from the equipment
-	for attribute_modifier in equipment.attribute_modifiers:
+	for attribute_modifier in new_equipment.attribute_modifiers:
 		## Pick the attribute whith index matching the modifiers' enum,
 		## and add the modifier to it.
 		attributes[attribute_modifier.attribute_type].add_modifier(attribute_modifier)
-		
-	## TODO Enable all abilities from the equipment
 
 
+
+# DEPRECATED
 func unequip(equipment: Equipment):
 	for attribute_modifier in equipment.attribute_modifiers:
 		## Analogous to the equip function
 		attributes[attribute_modifier.attribute_type].remove_modifier(attribute_modifier)
 
 
+## Recursively finds all slots on the character
+func get_loadout_slots() -> Array[EqSlot]:
+	var search: Array[EqSlot] = eqslots
+	for slot in search:
+		if slot.current_equipment and slot.current_equipment.eqslots:
+			search.append_array(slot.current_equipment.eqslots)
+
+	return search
+
+
+## Recursively find all slots that match the given tag
+func get_loadout_slots_matching_tag(tag: EqSlot.TAGS) -> Array[EqSlot]:
+	var matching_slots: Array[EqSlot] = []
+	var loadout_slots: Array[EqSlot] = get_loadout_slots()
+	for slot in loadout_slots:
+		## Check each slot for the searched tag
+		if slot.tags.has(tag):
+			matching_slots.append(slot)
+
+	return matching_slots
+
+
+func get_loadout_slots_matching_equipment(equipment: Equipment) -> Array[EqSlot]:
+	var result: Array[EqSlot] = []
+	for tag in equipment.tags:
+		var matching_slots: Array[EqSlot] = get_loadout_slots_matching_tag(tag)
+		for slot in matching_slots:
+			if not result.has(slot):
+				result.append(slot)
+
+	return result
 
 
 #endregion Equipment and Attributes
@@ -349,7 +414,3 @@ func debug_update_stats_label(player_actions: Array[int]):
 	var player_actions_text: Array[String] = player_action_text_converter.call()
 	
 	$StatsLabel.text = text % [velocity.round(), player_actions_text, ]
-
-
-func _on_tag_filter_button_pressed() -> void:
-	pass # Replace with function body.

@@ -1,86 +1,86 @@
-[gd_resource type="Resource" script_class="Equipment" load_steps=15 format=3 uid="uid://mr00fxy7d4p4"]
+[gd_resource type="Resource" script_class="Equipment" load_steps=15 format=3 uid="uid://de2oagphcrb70"]
 
-[ext_resource type="Script" uid="uid://cao24bdyja8u6" path="res://Scripts/classes/Equipment/AttributeModifier.gd" id="1_xoeev"]
-[ext_resource type="Script" uid="uid://bc53rwwxka3us" path="res://Scripts/classes/Equipment/Equipment.gd" id="2_asqv3"]
-[ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/classes/Equipment/EqSlot.gd" id="2_q33u6"]
-[ext_resource type="Texture2D" uid="uid://v0gbk4wx8mjy" path="res://Assets/Icons/FleshIcon.png" id="3_q33u6"]
+[ext_resource type="Script" uid="uid://cao24bdyja8u6" path="res://Scripts/classes/Equipment/AttributeModifier.gd" id="1_rfeyh"]
+[ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/classes/Equipment/EqSlot.gd" id="2_f2av0"]
+[ext_resource type="Script" uid="uid://bc53rwwxka3us" path="res://Scripts/classes/Equipment/Equipment.gd" id="3_bybev"]
+[ext_resource type="Texture2D" uid="uid://b06ps4ccxx0rb" path="res://Assets/Icons/ExoPlaceholder.png" id="3_f2av0"]
 
 [sub_resource type="Resource" id="Resource_q33u6"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 0
 bonus_type = 0
-value = 7.0
+value = 14.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_r2eff"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 1
 bonus_type = 0
 value = 100.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_shf82"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 2
 bonus_type = 0
 value = 300.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_jtkk0"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 3
 bonus_type = 0
 value = 14.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_xrwok"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 4
 bonus_type = 0
 value = 10.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_a6onj"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 5
 bonus_type = 0
 value = 4.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_iucrw"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 6
 bonus_type = 0
 value = 7.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_one5m"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 7
 bonus_type = 0
 value = 0.1
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_occse"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 8
 bonus_type = 0
 value = 0.5
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_6sx4u"]
-script = ExtResource("1_xoeev")
+script = ExtResource("1_rfeyh")
 attribute_type = 9
 bonus_type = 0
 value = 0.5
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [resource]
-script = ExtResource("2_asqv3")
-icon = ExtResource("3_q33u6")
-attribute_modifiers = Array[ExtResource("1_xoeev")]([SubResource("Resource_q33u6"), SubResource("Resource_r2eff"), SubResource("Resource_shf82"), SubResource("Resource_jtkk0"), SubResource("Resource_xrwok"), SubResource("Resource_a6onj"), SubResource("Resource_iucrw"), SubResource("Resource_one5m"), SubResource("Resource_occse"), SubResource("Resource_6sx4u")])
+script = ExtResource("3_bybev")
+icon = ExtResource("3_f2av0")
+attribute_modifiers = Array[ExtResource("1_rfeyh")]([SubResource("Resource_q33u6"), SubResource("Resource_r2eff"), SubResource("Resource_shf82"), SubResource("Resource_jtkk0"), SubResource("Resource_xrwok"), SubResource("Resource_a6onj"), SubResource("Resource_iucrw"), SubResource("Resource_one5m"), SubResource("Resource_occse"), SubResource("Resource_6sx4u")])
 ability_component = []
 tags = Array[int]([0])
-eqslots = Array[ExtResource("2_q33u6")]([])
+eqslots = Array[ExtResource("2_f2av0")]([])
 max_stack_size = 1
 metadata/_custom_type_script = "uid://bc53rwwxka3us"

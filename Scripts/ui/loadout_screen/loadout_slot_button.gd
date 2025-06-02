@@ -1,0 +1,4 @@
+extends Button
+class_name LoadoutScreenButton
+
+signal _request_button_update

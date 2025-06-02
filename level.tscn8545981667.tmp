@@ -149,7 +149,7 @@ points = PackedVector3Array(5, 3, 0.5, 5, 3, -0.5, -5, -3, 0.5, 5, -3, 0.5, 5, -
 [node name="level" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.961516, -0.00425925, 0.274715, -0.242362, -0.484104, 0.840776, 0.129409, -0.875, -0.466506, 0, 2.92702, 0)
+transform = Transform3D(1, 0, 0, 0, -0.258819, 0.965926, 0, -0.965926, -0.258819, 0, 2.92702, 0)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 collision_layer = 2
@@ -418,16 +418,6 @@ mesh = SubResource("PrismMesh_vonw3")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="geometry/ramp4"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
 shape = SubResource("ConvexPolygonShape3D_km5ld")
-
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.8, 1.7, -7.2)
-pixel_size = 0.0095
-text = "A/D - Move sideways
-Space - Jump
-Ctrl (hold) - Slide
-F - Interact 
-(the structure to the left is interactable)
-Shift (toggle) - Rocket Boost"
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

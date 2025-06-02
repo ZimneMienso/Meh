@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 HF="*res://Scripts/helper_functions.gd"
 CAMERAMAN="*res://Scripts/cameraman.gd"
 Draw3D="*res://LineDrawStuff/Draw3D.gd"
+INV="*res://Scripts/inventory.gd"
 
 [input]
 

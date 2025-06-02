@@ -1,18 +1,10 @@
-[gd_scene load_steps=42 format=3 uid="uid://bsvnhuwivwpc7"]
+[gd_scene load_steps=39 format=3 uid="uid://bsvnhuwivwpc7"]
 
 [ext_resource type="PackedScene" uid="uid://ct86fo0jnrlo6" path="res://Assets/Import/CharacterPlaceholder.fbx" id="1_vonw3"]
-[ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/classes/Equipment/EqSlot.gd" id="2_1ainy"]
 [ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/classes/PlayerCharacter.gd" id="2_oi3di"]
 [ext_resource type="PackedScene" uid="uid://b3usd5ssxc6b1" path="res://Scenes/Components/equipment_gantry.tscn" id="3_oi3di"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="4_0b4ue"]
-[ext_resource type="Script" uid="uid://dv4lqq0lpfism" path="res://Scripts/ui/loadout_screen/loadout_screen.gd" id="4_f2txt"]
-[ext_resource type="Script" uid="uid://dwjvpun18y71n" path="res://Scripts/ui/loadout_screen/loadout_slot_button.gd" id="6_n6hdu"]
-
-[sub_resource type="Resource" id="Resource_n6hdu"]
-script = ExtResource("2_1ainy")
-name = ""
-tags = Array[int]([0])
-metadata/_custom_type_script = "uid://d0ywsq5wq4xa7"
+[ext_resource type="Script" uid="uid://dv4lqq0lpfism" path="res://loadout_menu.gd" id="4_f2txt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vonw3"]
 size = Vector3(1, 1.711, 0.435)
@@ -149,13 +141,12 @@ points = PackedVector3Array(5, 3, 0.5, 5, 3, -0.5, -5, -3, 0.5, 5, -3, 0.5, 5, -
 [node name="level" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.961516, -0.00425925, 0.274715, -0.242362, -0.484104, 0.840776, 0.129409, -0.875, -0.466506, 0, 2.92702, 0)
+transform = Transform3D(1, 0, 0, 0, -0.258819, 0.965926, 0, -0.965926, -0.258819, 0, 2.92702, 0)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 collision_layer = 2
 floor_snap_length = 0.3
 script = ExtResource("2_oi3di")
-eqslots = Array[ExtResource("2_1ainy")]([SubResource("Resource_n6hdu")])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856841, 0)
@@ -419,16 +410,6 @@ mesh = SubResource("PrismMesh_vonw3")
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.76701, 9.25332)
 shape = SubResource("ConvexPolygonShape3D_km5ld")
 
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.8, 1.7, -7.2)
-pixel_size = 0.0095
-text = "A/D - Move sideways
-Space - Jump
-Ctrl (hold) - Slide
-F - Interact 
-(the structure to the left is interactable)
-Shift (toggle) - Rocket Boost"
-
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -437,9 +418,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LoadoutScreen" type="HBoxContainer" parent="Control"]
-unique_name_in_owner = true
-visible = false
+[node name="LoadoutMenu" type="HBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -448,114 +427,112 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_f2txt")
 
-[node name="StatsContainer" type="VBoxContainer" parent="Control/LoadoutScreen"]
+[node name="StatsContainer" type="VBoxContainer" parent="Control/LoadoutMenu"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="StatsLabelContainer" type="PanelContainer" parent="Control/LoadoutScreen/StatsContainer"]
+[node name="StatsLabelContainer" type="PanelContainer" parent="Control/LoadoutMenu/StatsContainer"]
 layout_mode = 2
 
-[node name="Stats Label" type="Label" parent="Control/LoadoutScreen/StatsContainer/StatsLabelContainer"]
+[node name="Stats Label" type="Label" parent="Control/LoadoutMenu/StatsContainer/StatsLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Stats"
 horizontal_alignment = 1
 
-[node name="Stats" type="PanelContainer" parent="Control/LoadoutScreen/StatsContainer"]
+[node name="Stats" type="PanelContainer" parent="Control/LoadoutMenu/StatsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Button" type="Button" parent="Control/LoadoutScreen/StatsContainer/Stats"]
+[node name="Button" type="Button" parent="Control/LoadoutMenu/StatsContainer/Stats"]
 layout_mode = 2
 text = "sraks"
 
-[node name="LoadoutContainer" type="VBoxContainer" parent="Control/LoadoutScreen"]
+[node name="LoadoutContainer" type="VBoxContainer" parent="Control/LoadoutMenu"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LoadoutLabelContainer" type="PanelContainer" parent="Control/LoadoutScreen/LoadoutContainer"]
+[node name="LoadoutLabelContainer" type="PanelContainer" parent="Control/LoadoutMenu/LoadoutContainer"]
 layout_mode = 2
 
-[node name="Loadout Label" type="Label" parent="Control/LoadoutScreen/LoadoutContainer/LoadoutLabelContainer"]
+[node name="Loadout Label" type="Label" parent="Control/LoadoutMenu/LoadoutContainer/LoadoutLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Loadout"
 horizontal_alignment = 1
 
-[node name="Loadout" type="PanelContainer" parent="Control/LoadoutScreen/LoadoutContainer"]
+[node name="Loadout" type="PanelContainer" parent="Control/LoadoutMenu/LoadoutContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LoadoutButtonsContainer" type="FlowContainer" parent="Control/LoadoutScreen/LoadoutContainer/Loadout"]
+[node name="LoadoutItemButtonContainer" type="FlowContainer" parent="Control/LoadoutMenu/LoadoutContainer/Loadout"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="LoadoutSlotButton" type="Button" parent="Control/LoadoutScreen/LoadoutContainer/Loadout/LoadoutButtonsContainer"]
+[node name="LoadoutItemButton" type="Button" parent="Control/LoadoutMenu/LoadoutContainer/Loadout/LoadoutItemButtonContainer"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-script = ExtResource("6_n6hdu")
 
-[node name="InventoryContainer" type="VBoxContainer" parent="Control/LoadoutScreen"]
+[node name="InventoryContainer" type="VBoxContainer" parent="Control/LoadoutMenu"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CloseButtonContainer" type="HBoxContainer" parent="Control/LoadoutScreen/InventoryContainer"]
+[node name="CloseButtonContainer" type="HBoxContainer" parent="Control/LoadoutMenu/InventoryContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="InventoryLabelContainer" type="PanelContainer" parent="Control/LoadoutScreen/InventoryContainer/CloseButtonContainer"]
+[node name="InventoryLabelContainer" type="PanelContainer" parent="Control/LoadoutMenu/InventoryContainer/CloseButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Inventory Label" type="Label" parent="Control/LoadoutScreen/InventoryContainer/CloseButtonContainer/InventoryLabelContainer"]
+[node name="Inventory Label" type="Label" parent="Control/LoadoutMenu/InventoryContainer/CloseButtonContainer/InventoryLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Inventory"
 horizontal_alignment = 1
 
-[node name="CloseMenuButton" type="Button" parent="Control/LoadoutScreen/InventoryContainer/CloseButtonContainer"]
+[node name="CloseMenuButton" type="Button" parent="Control/LoadoutMenu/InventoryContainer/CloseButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.09
 text = "X"
 
-[node name="InventorySearchOptions" type="HBoxContainer" parent="Control/LoadoutScreen/InventoryContainer"]
+[node name="InventorySearchOptions" type="HBoxContainer" parent="Control/LoadoutMenu/InventoryContainer"]
 layout_mode = 2
 
-[node name="TextSearch" type="LineEdit" parent="Control/LoadoutScreen/InventoryContainer/InventorySearchOptions"]
+[node name="TextSearch" type="LineEdit" parent="Control/LoadoutMenu/InventoryContainer/InventorySearchOptions"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Search items..."
 
-[node name="TagFilter" type="Button" parent="Control/LoadoutScreen/InventoryContainer/InventorySearchOptions"]
+[node name="TagFilter" type="Button" parent="Control/LoadoutMenu/InventoryContainer/InventorySearchOptions"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 text = "Tags"
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/LoadoutScreen/InventoryContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Control/LoadoutMenu/InventoryContainer"]
 layout_mode = 2
 
-[node name="Inventory" type="PanelContainer" parent="Control/LoadoutScreen/InventoryContainer"]
+[node name="Inventory" type="PanelContainer" parent="Control/LoadoutMenu/InventoryContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="InventoryButtonsContainer" type="FlowContainer" parent="Control/LoadoutScreen/InventoryContainer/Inventory"]
+[node name="InventoryButtonsContainer" type="FlowContainer" parent="Control/LoadoutMenu/InventoryContainer/Inventory"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="InventoryItemButton" type="Button" parent="Control/LoadoutScreen/InventoryContainer/Inventory/InventoryButtonsContainer"]
+[node name="InventoryItemButton" type="Button" parent="Control/LoadoutMenu/InventoryContainer/Inventory/InventoryButtonsContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 icon = ExtResource("4_0b4ue")
 
-[connection signal="pressed" from="Control/LoadoutScreen/InventoryContainer/CloseButtonContainer/CloseMenuButton" to="Control/LoadoutScreen" method="close"]
+[connection signal="pressed" from="Control/LoadoutMenu/InventoryContainer/CloseButtonContainer/CloseMenuButton" to="Control/LoadoutMenu" method="close"]
 
 [editable path="CharacterBody3D/CharacterPlaceholder"]
