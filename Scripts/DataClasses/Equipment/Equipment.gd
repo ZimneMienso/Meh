@@ -1,9 +1,10 @@
 extends Resource
 class_name Equipment
 
+@export var name: String
 @export var icon: Texture2D
 @export var attribute_modifiers: Array[AttributeModifier]
-@export var ability_component: Array
+@export var abilities: Array[CharacterAction]
 @export var tags: Array[EqSlot.TAGS]
 ## This is for equipment addons
 @export var eqslots: Array[EqSlot] = []

@@ -40,6 +40,7 @@ func create_buttons_from_inventory_data() -> void:
 			var new_button: Button = inventory_item_button_pattern.duplicate()
 			inventory_item_buttons.append(new_button)
 			new_button.show()
+			new_button.text = equipment.name
 			new_button.icon = equipment.icon
 			new_button.pressed.connect(
 				on_inventory_item_clicked.bind(equipment, new_button))
@@ -57,13 +58,14 @@ func create_buttons_from_loadout_data() -> void:
 		var new_button: LoadoutScreenButton = loadout_slot_button_pattern.duplicate()
 		loadout_slot_buttons.append(new_button)
 		new_button.show()
-		update_button(new_button, slot)
+		update_loadout_button(new_button, slot)
 
 		# Silly workaround for the fact that a direct connection to the
 		# update_button function would necessitate a way of tracking and
 		# disconnecting individual connections when freeing the buttons.
 		slot.equipment_changed.connect(new_button._request_button_update.emit)
-		new_button._request_button_update.connect(update_button.bind(new_button, slot))
+		new_button._request_button_update.connect(
+			update_loadout_button.bind(new_button, slot))
 
 		new_button.pressed.connect(on_loadout_slot_button_clicked.bind(slot))
 
@@ -101,8 +103,10 @@ func on_loadout_slot_button_clicked(slot: EqSlot) -> void:
 		create_buttons_from_inventory_data()
 
 
-func update_button(button: Button, slot: EqSlot):
+func update_loadout_button(button: Button, slot: EqSlot):
 	if slot.current_equipment:
 		button.icon = slot.current_equipment.icon
+		button.text = slot.current_equipment.name
 	else:
 		button.icon = slot.icon
+		button.text = slot.name

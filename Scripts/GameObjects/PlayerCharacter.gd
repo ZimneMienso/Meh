@@ -68,10 +68,13 @@ enum CHAR_ACTIONS {
 
 var attributes: Array[Attribute]
 
+var abilities: Array[CharacterAction]
+var blocked_actions: Array[CharacterAction.TYPES]
+
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
 
-var using_rocket_engine: bool = false
+#var using_rocket_engine: bool = false
 
 
 func _ready() -> void:
@@ -106,7 +109,11 @@ func _physics_process(delta: float) -> void:
 	apply_grappling_hook_swing()
 	move_and_slide()
 	align_rotation_with_velocity()
+
 	debug_update_stats_label(character_action_requests)
+
+	for ability in abilities:
+		ability.action_physics_process(delta)
 
 
 func align_rotation_with_velocity():
@@ -117,17 +124,33 @@ func align_rotation_with_velocity():
 
 
 func apply_equipment_attributes():
+	## Reset attributes
 	for attribute in attributes:
 		attribute.attribute_modifiers.clear()
 		attribute.calculate_value()
 
+	## Reset abilities
+	for ability in abilities:
+		ability.queue_free()
+	abilities.clear()
+
+
+	## Get all equiped equipment
 	var occupied_eq_slots: Array[EqSlot] = get_loadout_slots().filter(
 		func(slot: EqSlot): if slot.current_equipment: return true else: return false
 	)
+	
 	for slot in occupied_eq_slots:
+		## Apply attributes
 		for attribute_modifier in slot.current_equipment.attribute_modifiers:
 			attributes[attribute_modifier.attribute_type].add_modifier(attribute_modifier)
-	# TODO Enable all abilities from the equipment
+
+		## Enable abilities
+		for ability in slot.current_equipment.abilities:
+			ability.player = self
+			abilities.append(ability)
+			ability.ready()
+
 
 
 # DEPRECATED
@@ -187,10 +210,10 @@ func get_loadout_slots_matching_equipment(equipment: Equipment) -> Array[EqSlot]
 
 func get_player_action_requests(input_vector: Vector2) -> Array[int]:
 	var character_action_requests: Array[int]
-	if Input.is_action_just_pressed("Use Rocket Engine"):
-		using_rocket_engine = not using_rocket_engine
-	if using_rocket_engine:
-		character_action_requests.append(CHAR_ACTIONS.ROCKET_ENGINE)
+#	if Input.is_action_just_pressed("Use Rocket Engine"):
+#		using_rocket_engine = not using_rocket_engine
+#	if using_rocket_engine:
+#		character_action_requests.append(CHAR_ACTIONS.ROCKET_ENGINE)
 	
 	if Input.is_action_just_pressed("Use Grappling Hook"):
 		character_action_requests.append(CHAR_ACTIONS.GRAPPLING_HOOK)
@@ -199,7 +222,7 @@ func get_player_action_requests(input_vector: Vector2) -> Array[int]:
 		if Input.is_action_pressed("Jump"):
 			character_action_requests.append(CHAR_ACTIONS.JUMP)
 
-		if Input.is_action_pressed("Slide") or get_floor_angle() > force_slide_slope_angle or using_rocket_engine:
+		if Input.is_action_pressed("Slide") or get_floor_angle() > force_slide_slope_angle:
 			character_action_requests.append(CHAR_ACTIONS.SLIDE)
 			return character_action_requests ## Ignore run and other grounded movement
 
@@ -236,8 +259,8 @@ func manage_character_actions(delta: float, character_action_requests: Array[int
 				freefall(delta)
 			CHAR_ACTIONS.SLIDE:
 				slide(delta)
-			CHAR_ACTIONS.ROCKET_ENGINE:
-				use_rocket_engine(delta)
+			#CHAR_ACTIONS.ROCKET_ENGINE:
+				#use_rocket_engine(delta)
 			CHAR_ACTIONS.GRAPPLING_HOOK:
 				use_grappling_hook()
 
@@ -285,11 +308,6 @@ func slide(delta: float):
 	var floor_angle: float = slope_normal.angle_to(Vector3.UP)
 	var slope_gravity_acceleration_z: float = get_gravity().length() * floor_angle * delta * slope_direction
 	velocity.z += slope_gravity_acceleration_z
-
-
-func use_rocket_engine(delta: float):
-	velocity += velocity.normalized() * delta * 20
-	$RocketEngineParticles.emitting = true
 
 
 func use_grappling_hook():

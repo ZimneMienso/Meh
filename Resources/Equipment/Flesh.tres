@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="Equipment" load_steps=15 format=3 uid="uid://mr00fxy7d4p4"]
+[gd_resource type="Resource" script_class="Equipment" load_steps=16 format=3 uid="uid://mr00fxy7d4p4"]
 
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_r2eff"]
 [ext_resource type="Script" uid="uid://cao24bdyja8u6" path="res://Scripts/DataClasses/Equipment/AttributeModifier.gd" id="1_xoeev"]
 [ext_resource type="Script" uid="uid://bc53rwwxka3us" path="res://Scripts/DataClasses/Equipment/Equipment.gd" id="2_asqv3"]
 [ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="2_q33u6"]
@@ -77,9 +78,10 @@ metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [resource]
 script = ExtResource("2_asqv3")
+name = "Flesh"
 icon = ExtResource("3_q33u6")
 attribute_modifiers = Array[ExtResource("1_xoeev")]([SubResource("Resource_q33u6"), SubResource("Resource_r2eff"), SubResource("Resource_shf82"), SubResource("Resource_jtkk0"), SubResource("Resource_xrwok"), SubResource("Resource_a6onj"), SubResource("Resource_iucrw"), SubResource("Resource_one5m"), SubResource("Resource_occse"), SubResource("Resource_6sx4u")])
-ability_component = []
+abilities = Array[ExtResource("1_r2eff")]([])
 tags = Array[int]([0])
 eqslots = Array[ExtResource("2_q33u6")]([])
 max_stack_size = 1

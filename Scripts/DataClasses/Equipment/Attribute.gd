@@ -20,6 +20,7 @@ enum TYPE {
 var value: float = 0
 var attribute_modifiers: Array[AttributeModifier]
 
+
 func calculate_value():
 	var add: float = 0
 	var multiply: float = 0
@@ -34,9 +35,11 @@ func calculate_value():
 
 	value = (add * (1 + multiply))
 
+
 func add_modifier(modifier: AttributeModifier):
 	attribute_modifiers.append(modifier)
 	calculate_value()
+
 
 func remove_modifier(modifier: AttributeModifier):
 	attribute_modifiers.erase(modifier)

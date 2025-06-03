@@ -1,7 +1,9 @@
-[gd_resource type="Resource" script_class="Equipment" load_steps=15 format=3 uid="uid://de2oagphcrb70"]
+[gd_resource type="Resource" script_class="Equipment" load_steps=17 format=3 uid="uid://de2oagphcrb70"]
 
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_h6jta"]
 [ext_resource type="Script" uid="uid://cao24bdyja8u6" path="res://Scripts/DataClasses/Equipment/AttributeModifier.gd" id="1_rfeyh"]
 [ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="2_f2av0"]
+[ext_resource type="Resource" uid="uid://ck4ykx6mlcn" path="res://Resources/Abilities/RocketBoost.tres" id="2_ywffs"]
 [ext_resource type="Script" uid="uid://bc53rwwxka3us" path="res://Scripts/DataClasses/Equipment/Equipment.gd" id="3_bybev"]
 [ext_resource type="Texture2D" uid="uid://b06ps4ccxx0rb" path="res://Assets/Icons/ExoPlaceholder.png" id="3_f2av0"]
 
@@ -77,9 +79,10 @@ metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [resource]
 script = ExtResource("3_bybev")
+name = "Light Exoskeleton"
 icon = ExtResource("3_f2av0")
 attribute_modifiers = Array[ExtResource("1_rfeyh")]([SubResource("Resource_q33u6"), SubResource("Resource_r2eff"), SubResource("Resource_shf82"), SubResource("Resource_jtkk0"), SubResource("Resource_xrwok"), SubResource("Resource_a6onj"), SubResource("Resource_iucrw"), SubResource("Resource_one5m"), SubResource("Resource_occse"), SubResource("Resource_6sx4u")])
-ability_component = []
+abilities = Array[ExtResource("1_h6jta")]([ExtResource("2_ywffs")])
 tags = Array[int]([0])
 eqslots = Array[ExtResource("2_f2av0")]([])
 max_stack_size = 1
