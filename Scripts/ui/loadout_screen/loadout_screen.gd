@@ -90,7 +90,8 @@ func on_inventory_item_clicked(button_equipment_data: Equipment, button: Button)
 	for slot in viable_slots:
 		if slot.can_equip(button_equipment_data):
 			INV.transfer_equipment_to_slot(button_equipment_data, slot)
-			player.apply_equipment_attributes()
+			# TODO maybe don't nuke everything every time the player clicks something
+			player.initialize_equipment()
 			button.queue_free()
 			inventory_item_buttons.erase(button)
 			break
@@ -99,7 +100,8 @@ func on_inventory_item_clicked(button_equipment_data: Equipment, button: Button)
 func on_loadout_slot_button_clicked(slot: EqSlot) -> void:
 	if slot.current_equipment:
 		INV.transfer_equipment_to_inventory(slot)
-		player.apply_equipment_attributes()
+		# TODO maybe don't nuke everything every time the player clicks something
+		player.initialize_equipment()
 		create_buttons_from_inventory_data()
 
 

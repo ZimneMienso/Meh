@@ -10,3 +10,6 @@ class_name Equipment
 @export var eqslots: Array[EqSlot] = []
 ## The maximum number of copies of that equipment you can have in a single slot
 @export var max_stack_size: int = 1
+## Dictionary of scenes that will be instantiated and added as children of the
+## nodes identified by the string value in the player tree reference.
+@export var equipment_nodes: Dictionary[PackedScene, String]

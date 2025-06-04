@@ -3,6 +3,7 @@ class_name Player
 
 @onready var anim_player: AnimationPlayer = $CharacterPlaceholder/AnimationPlayer
 
+## Equipment slots present on the character itself
 @export var eqslots: Array[EqSlot]
 
 # Just hide the region and go, nothing to see here, it's temporary, it's a
@@ -71,6 +72,10 @@ var attributes: Array[Attribute]
 var abilities: Array[CharacterAction]
 var blocked_actions: Array[CharacterAction.TYPES]
 
+## A dictionary of references to the player node tree. Used by equipment and
+## abilities to add their relevant meshes, particle emitters etc.
+var player_tree_reference: Dictionary[String, Node]
+
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
 
@@ -97,7 +102,7 @@ func _ready() -> void:
 
 	INV.add_equipment(preload("res://Resources/Equipment/LightExoskeleton.tres"))
 
-	apply_equipment_attributes()
+	initialize_equipment()
 
 
 func _physics_process(delta: float) -> void:
@@ -123,7 +128,7 @@ func align_rotation_with_velocity():
 #region Equipment and Attributes
 
 
-func apply_equipment_attributes():
+func initialize_equipment():
 	## Reset attributes
 	for attribute in attributes:
 		attribute.attribute_modifiers.clear()
@@ -141,33 +146,41 @@ func apply_equipment_attributes():
 	)
 	
 	for slot in occupied_eq_slots:
-		## Apply attributes
-		for attribute_modifier in slot.current_equipment.attribute_modifiers:
-			attributes[attribute_modifier.attribute_type].add_modifier(attribute_modifier)
+		apply_equipment_properties(slot.current_equipment)
+		
 
-		## Enable abilities
-		for ability in slot.current_equipment.abilities:
-			ability.player = self
-			abilities.append(ability)
-			ability.ready()
-
-
-
-# DEPRECATED
-func equip(new_equipment: Equipment):
-	## Apply all attribute modifiers from the equipment
-	for attribute_modifier in new_equipment.attribute_modifiers:
-		## Pick the attribute whith index matching the modifiers' enum,
-		## and add the modifier to it.
-		attributes[attribute_modifier.attribute_type].add_modifier(attribute_modifier)
-
-
-
-# DEPRECATED
-func unequip(equipment: Equipment):
+## Applies all the effects given equipment should have on the player
+## Does not interact with EqSlots in any way, look for INV for that
+func apply_equipment_properties(equipment: Equipment):
+	## Equpment nodes
+	
+	
+	## Attributes
 	for attribute_modifier in equipment.attribute_modifiers:
-		## Analogous to the equip function
+		attributes[attribute_modifier.attribute_type].add_modifier(attribute_modifier)
+		
+	## Abilities
+	for ability in equipment.abilities:
+		ability.player = self
+		abilities.append(ability)
+		ability.ready()
+
+
+
+## Removes all the effects given equipment has on the player
+## Does not interact with EqSlots in any way, look for INV for that
+func remove_equipment_properties(equipment: Equipment):
+	## Equpment nodes
+	
+	
+	## Attributes
+	for attribute_modifier in equipment.attribute_modifiers:
 		attributes[attribute_modifier.attribute_type].remove_modifier(attribute_modifier)
+		
+	## Abilities
+	for ability in equipment.abilities:
+		abilities.erase(ability)
+
 
 
 ## Recursively finds all slots on the character
@@ -210,10 +223,7 @@ func get_loadout_slots_matching_equipment(equipment: Equipment) -> Array[EqSlot]
 
 func get_player_action_requests(input_vector: Vector2) -> Array[int]:
 	var character_action_requests: Array[int]
-#	if Input.is_action_just_pressed("Use Rocket Engine"):
-#		using_rocket_engine = not using_rocket_engine
-#	if using_rocket_engine:
-#		character_action_requests.append(CHAR_ACTIONS.ROCKET_ENGINE)
+
 	
 	if Input.is_action_just_pressed("Use Grappling Hook"):
 		character_action_requests.append(CHAR_ACTIONS.GRAPPLING_HOOK)
@@ -259,8 +269,6 @@ func manage_character_actions(delta: float, character_action_requests: Array[int
 				freefall(delta)
 			CHAR_ACTIONS.SLIDE:
 				slide(delta)
-			#CHAR_ACTIONS.ROCKET_ENGINE:
-				#use_rocket_engine(delta)
 			CHAR_ACTIONS.GRAPPLING_HOOK:
 				use_grappling_hook()
 
@@ -314,7 +322,7 @@ func use_grappling_hook():
 	if not hook_attachments.is_empty():
 		hook_attachments.clear()
 	
-	# Curson projector on world 3000
+	# Cursor projector on world 3000
 	var viewport: Viewport = get_viewport()
 	var camera: Camera3D = viewport.get_camera_3d()
 	var mouse_pos: Vector2 = viewport.get_mouse_position()

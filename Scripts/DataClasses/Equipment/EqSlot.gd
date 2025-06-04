@@ -1,7 +1,9 @@
 extends Resource
 class_name EqSlot
 
+## For UI update
 signal equipment_changed
+## For UI update
 signal stack_size_changed
 
 enum TAGS {
