@@ -6,6 +6,10 @@ class_name Player
 ## Equipment slots present on the character itself
 @export var eqslots: Array[EqSlot]
 
+## A dictionary of references to the player node tree. Used by equipment and
+## abilities to add their relevant meshes, particle emitters etc.
+@export var player_tree_reference: Dictionary[String, Node]
+
 # Just hide the region and go, nothing to see here, it's temporary, it's a
 # leftover from an incomplete refactor and will make your eyes bleed
 #region Attribute Declarations
@@ -72,14 +76,13 @@ var attributes: Array[Attribute]
 var abilities: Array[CharacterAction]
 var blocked_actions: Array[CharacterAction.TYPES]
 
-## A dictionary of references to the player node tree. Used by equipment and
-## abilities to add their relevant meshes, particle emitters etc.
-var player_tree_reference: Dictionary[String, Node]
+
+## A dictionary that holds arrays of nodes created from equipment data on equip/
+## Used to free them on unequip
+var equipment_nodes: Dictionary[Equipment, Array]
 
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
-
-#var using_rocket_engine: bool = false
 
 
 func _ready() -> void:
@@ -153,7 +156,13 @@ func initialize_equipment():
 ## Does not interact with EqSlots in any way, look for INV for that
 func apply_equipment_properties(equipment: Equipment):
 	## Equpment nodes
-	
+	## Get the scenes, instantiate, find the corresponding parent, if no such
+	## throw an error, add child, assign the objects as an array with the 
+	## equipment as the key
+	for scene in equipment.equipment_nodes:
+		print(scene)
+		var node: Node = scene.instantiate()
+		player_tree_reference.get(equipment.equipment_nodes.get(node))
 	
 	## Attributes
 	for attribute_modifier in equipment.attribute_modifiers:
