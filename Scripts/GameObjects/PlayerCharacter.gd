@@ -8,7 +8,8 @@ class_name Player
 
 ## A dictionary of references to the player node tree. Used by equipment and
 ## abilities to add their relevant meshes, particle emitters etc.
-@export var player_tree_reference: Dictionary[String, Node]
+@export var bone_attachments: Dictionary[String, BoneAttachment3D]
+@export var skeleton: Skeleton3D
 
 # Just hide the region and go, nothing to see here, it's temporary, it's a
 # leftover from an incomplete refactor and will make your eyes bleed
@@ -87,7 +88,7 @@ const anim_name_run: String = "Armature|Run"
 
 func _ready() -> void:
 	CAMERAMAN.tracking = self
-	
+
 	## Create an attribute for each possible type of attribute
 	## They are accessed by their index using TYPE enum in Attribute class
 	for i in Attribute.TYPE.size():
@@ -132,14 +133,22 @@ func align_rotation_with_velocity():
 
 
 func initialize_equipment():
+	## Reset equipment nodes
+	for equipment in equipment_nodes:
+		for node in equipment_nodes[equipment]:
+			node.queue_free()
+	equipment_nodes.clear()
+
+
 	## Reset attributes
 	for attribute in attributes:
 		attribute.attribute_modifiers.clear()
 		attribute.calculate_value()
 
 	## Reset abilities
-	for ability in abilities:
-		ability.queue_free()
+	# Might be useful to be able to tell abilities when they are being freed
+	#for ability in abilities:
+		#ability.queue_free()
 	abilities.clear()
 
 
@@ -147,27 +156,37 @@ func initialize_equipment():
 	var occupied_eq_slots: Array[EqSlot] = get_loadout_slots().filter(
 		func(slot: EqSlot): if slot.current_equipment: return true else: return false
 	)
-	
+
 	for slot in occupied_eq_slots:
 		apply_equipment_properties(slot.current_equipment)
-		
+
 
 ## Applies all the effects given equipment should have on the player
 ## Does not interact with EqSlots in any way, look for INV for that
 func apply_equipment_properties(equipment: Equipment):
 	## Equpment nodes
-	## Get the scenes, instantiate, find the corresponding parent, if no such
-	## throw an error, add child, assign the objects as an array with the 
-	## equipment as the key
+	## Get the scenes, instantiate, find attachment, if no attachment, create
+	## one and append to bone_attachments, add child to the attachment
 	for scene in equipment.equipment_nodes:
-		print(scene)
 		var node: Node = scene.instantiate()
-		player_tree_reference.get(equipment.equipment_nodes.get(node))
-	
+		var bone_name: String = equipment.equipment_nodes.get(scene)
+		
+		if not bone_attachments.has(bone_name):
+			assert(skeleton.find_bone(bone_name) != -1)
+			var new_attachment: BoneAttachment3D = BoneAttachment3D.new()
+			new_attachment.name = bone_name
+			new_attachment.bone_name = bone_name
+			skeleton.add_child(new_attachment)
+			bone_attachments.set(bone_name, new_attachment)
+
+		bone_attachments[bone_name].add_child(node)
+		equipment_nodes.set(equipment,[])
+		equipment_nodes[equipment].append(node)
+
 	## Attributes
 	for attribute_modifier in equipment.attribute_modifiers:
 		attributes[attribute_modifier.attribute_type].add_modifier(attribute_modifier)
-		
+
 	## Abilities
 	for ability in equipment.abilities:
 		ability.player = self
@@ -175,17 +194,18 @@ func apply_equipment_properties(equipment: Equipment):
 		ability.ready()
 
 
-
 ## Removes all the effects given equipment has on the player
 ## Does not interact with EqSlots in any way, look for INV for that
 func remove_equipment_properties(equipment: Equipment):
 	## Equpment nodes
-	
-	
+	for node in equipment_nodes[equipment]:
+		node.queue_free()
+	equipment_nodes.erase(equipment)
+
 	## Attributes
 	for attribute_modifier in equipment.attribute_modifiers:
 		attributes[attribute_modifier.attribute_type].remove_modifier(attribute_modifier)
-		
+
 	## Abilities
 	for ability in equipment.abilities:
 		abilities.erase(ability)

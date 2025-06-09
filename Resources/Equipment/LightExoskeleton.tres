@@ -88,6 +88,6 @@ tags = Array[int]([0])
 eqslots = Array[ExtResource("2_f2av0")]([])
 max_stack_size = 1
 equipment_nodes = Dictionary[PackedScene, String]({
-ExtResource("5_ywffs"): "torso"
+ExtResource("5_ywffs"): "Torso"
 })
 metadata/_custom_type_script = "uid://bc53rwwxka3us"

@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="2_754fn"]
 [ext_resource type="PackedScene" uid="uid://ct86fo0jnrlo6" path="res://Assets/Import/CharacterPlaceholder.fbx" id="3_bvt00"]
 [ext_resource type="PackedScene" uid="uid://b3usd5ssxc6b1" path="res://Scenes/GameObjects/equipment_gantry.tscn" id="4_oqgf2"]
-[ext_resource type="Script" uid="uid://dv4lqq0lpfism" path="res://Scripts/ui/loadout_screen/loadout_screen.gd" id="5_qxfql"]
-[ext_resource type="Script" uid="uid://dwjvpun18y71n" path="res://Scripts/ui/loadout_screen/loadout_slot_button.gd" id="6_ha31o"]
+[ext_resource type="Script" uid="uid://dv4lqq0lpfism" path="res://Scripts/Ui/loadout_screen/loadout_screen.gd" id="5_qxfql"]
+[ext_resource type="Script" uid="uid://dwjvpun18y71n" path="res://Scripts/Ui/loadout_screen/loadout_slot_button.gd" id="6_ha31o"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="7_pa6b8"]
 
 [sub_resource type="Resource" id="Resource_n6hdu"]
@@ -87,11 +87,12 @@ points = PackedVector3Array(5, 3, 0.5, 5, 3, -0.5, -5, -3, 0.5, 5, -3, 0.5, 5, -
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.961516, -0.00425925, 0.274715, -0.242362, -0.484104, 0.840776, 0.129409, -0.875, -0.466506, 0, 2.92702, 0)
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("skeleton")]
 collision_layer = 2
 floor_snap_length = 0.3
 script = ExtResource("1_8c0lf")
 eqslots = Array[ExtResource("2_754fn")]([SubResource("Resource_n6hdu")])
+skeleton = NodePath("CharacterPlaceholder/Armature/Skeleton3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856841, 0)

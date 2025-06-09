@@ -18,9 +18,9 @@ config/icon="res://icon.svg"
 [autoload]
 
 HF="*res://Scripts/Singletons/helper_functions.gd"
-CAMERAMAN="*res://Scripts/Singletons/cameraman.gd"
 Draw3D="*res://Scripts/LineDrawStuff/Draw3D.gd"
 INV="*res://Scripts/Singletons/inventory.gd"
+CAMERAMAN="*res://Scenes/GameObjects/Cameraman.tscn"
 
 [input]
 
