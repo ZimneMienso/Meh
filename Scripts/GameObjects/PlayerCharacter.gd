@@ -5,61 +5,15 @@ class_name Player
 
 ## Equipment slots present on the character itself
 @export var eqslots: Array[EqSlot]
+## Modifiers present on character at all times
+@export var initial_attribute_modifiers: Array[AttributeModifier]
+@export var inherent_abilities: Array[CharacterAction]
 
 ## A dictionary of references to the player node tree. Used by equipment and
 ## abilities to add their relevant meshes, particle emitters etc.
 @export var bone_attachments: Dictionary[String, BoneAttachment3D]
 @export var skeleton: Skeleton3D
 
-# Just hide the region and go, nothing to see here, it's temporary, it's a
-# leftover from an incomplete refactor and will make your eyes bleed
-#region Attribute Declarations
-
-## Run
-var run_max_speed: float:
-	get():
-		return attributes[Attribute.TYPE.RUN_MAX_SPEED].value
-var run_acceleration: float:
-	get():
-		return attributes[Attribute.TYPE.RUN_ACCELERATION].value
-var ground_stop_friction: float:
-	get():
-		return attributes[Attribute.TYPE.GROUND_STOP_FRICTION].value
-## Jump
-var jump_impulse: float:
-	get():
-		return attributes[Attribute.TYPE.JUMP_IMPULSE].value
-var max_jump_velocity: float:
-	get():
-		return attributes[Attribute.TYPE.MAX_JUMP_VELOCITY].value
-## Air Control
-var air_acceleration: float:
-	get():
-		return attributes[Attribute.TYPE.AIR_ACCELERATION].value
-var air_control_max_velocity: float:
-	get():
-		return attributes[Attribute.TYPE.AIR_CONTROL_MAX_VELOCITY].value
-var air_friction: float:
-	get():
-		return attributes[Attribute.TYPE.AIR_FRICTION].value
-## Slide
-## Applied to the sliding character at all times
-var constant_slide_friction: float:
-	get():
-		return attributes[Attribute.TYPE.CONSTANT_SLIDE_FRICTION].value
-## Slope angle above which the character is forced into slide
-var force_slide_slope_angle: float:
-	get():
-		return attributes[Attribute.TYPE.FORCE_SLIDE_SLOPE_ANGLE].value
-## Grappling Hook
-var grappling_hook_range: float = 20:
-	get():
-		return attributes[Attribute.TYPE.GRAPPLING_HOOK_RANGE].value
-var grappling_hook_speed: float = 20:
-	get():
-		return attributes[Attribute.TYPE.GRAPPLING_HOOK_SPEED].value
-
-#endregion Attribute Declarations
 
 enum CHAR_ACTIONS {
 	GROUNDED_STOP,
@@ -75,7 +29,8 @@ enum CHAR_ACTIONS {
 var attributes: Array[Attribute]
 
 var abilities: Array[CharacterAction]
-var blocked_actions: Array[CharacterAction.TYPES]
+var active_abilities: Array[CharacterAction]
+var blocked_actions: Array[CharacterAction]
 
 
 ## A dictionary that holds arrays of nodes created from equipment data on equip/
@@ -94,35 +49,29 @@ func _ready() -> void:
 	for i in Attribute.TYPE.size():
 		attributes.append(Attribute.new())
 
-	## Equipment representing lack of equipment.
-	## Benchmark for unassisted, but also unencumbered mobility.
-	# TODO special treatment so that it doesn't show up in the inventory
-	# and gets automatically equiped when taking off the exoskeleton
-	const flesh_equipment: Equipment = preload("res://Resources/Equipment/Flesh.tres")
-	INV.add_equipment(flesh_equipment)
-	INV.transfer_equipment_to_slot(
-		flesh_equipment, get_loadout_slots_matching_equipment(flesh_equipment)[0]
-		)
+	initialize_equipment()
 
 	INV.add_equipment(preload("res://Resources/Equipment/LightExoskeleton.tres"))
 
-	initialize_equipment()
-
 
 func _physics_process(delta: float) -> void:
-	var input_vector = Input.get_vector("Move Right","Move Left","Move Down","Move Up")
-	var character_action_requests: Array[int] = get_player_action_requests(input_vector)
-	manage_character_actions(delta, character_action_requests, input_vector)
 
 	velocity += delta * get_gravity()
-	apply_grappling_hook_swing()
 	move_and_slide()
 	align_rotation_with_velocity()
 
-	debug_update_stats_label(character_action_requests)
+	debug_update_stats_label()
 
+	active_abilities.clear()
 	for ability in abilities:
 		ability.action_physics_process(delta)
+		if ability.performing:
+			active_abilities.append(ability)
+
+
+func _process(delta: float) -> void:
+	for ability in abilities:
+		ability.action_process(delta)
 
 
 func align_rotation_with_velocity():
@@ -130,6 +79,10 @@ func align_rotation_with_velocity():
 
 
 #region Equipment and Attributes
+
+
+func get_attribute(type: Attribute.TYPE) -> float:
+	return attributes[type].value
 
 
 func initialize_equipment():
@@ -144,12 +97,21 @@ func initialize_equipment():
 	for attribute in attributes:
 		attribute.attribute_modifiers.clear()
 		attribute.calculate_value()
+	
+	## Apply initial modifiers
+	for attribute_modifier in initial_attribute_modifiers:
+		apply_attribute_modifier(attribute_modifier)
+
 
 	## Reset abilities
 	# Might be useful to be able to tell abilities when they are being freed
 	#for ability in abilities:
 		#ability.queue_free()
 	abilities.clear()
+	
+	## Enable inherent abilities
+	for ability in inherent_abilities:
+		enable_ability(ability)
 
 
 	## Get all equiped equipment
@@ -184,14 +146,18 @@ func apply_equipment_properties(equipment: Equipment):
 		equipment_nodes[equipment].append(node)
 
 	## Attributes
+	print("Equiped ", equipment.name)
 	for attribute_modifier in equipment.attribute_modifiers:
-		attributes[attribute_modifier.attribute_type].add_modifier(attribute_modifier)
+		apply_attribute_modifier(attribute_modifier)
+		
+		print("Increased attribute ",
+		Attribute.TYPE.find_key(attribute_modifier.attribute_type),
+		" by ",
+		attribute_modifier.value)
 
 	## Abilities
 	for ability in equipment.abilities:
-		ability.player = self
-		abilities.append(ability)
-		ability.ready()
+		enable_ability(ability)
 
 
 ## Removes all the effects given equipment has on the player
@@ -211,8 +177,19 @@ func remove_equipment_properties(equipment: Equipment):
 		abilities.erase(ability)
 
 
+## Apply the given modifier to the relevant attribute
+func apply_attribute_modifier(modifier: AttributeModifier):
+	attributes[modifier.attribute_type].add_modifier(modifier)
 
-## Recursively finds all slots on the character
+
+## Registers and enables the given ability for the player
+func enable_ability(ability: CharacterAction):
+	ability.player = self
+	abilities.append(ability)
+	ability.ready()
+
+
+## Recursively finds all EqSlots on the character
 func get_loadout_slots() -> Array[EqSlot]:
 	var search: Array[EqSlot] = eqslots
 	for slot in search:
@@ -234,6 +211,8 @@ func get_loadout_slots_matching_tag(tag: EqSlot.TAGS) -> Array[EqSlot]:
 	return matching_slots
 
 
+## Returns all EqSlots that can fit the given equipment, regardless if the
+## slots are full or not
 func get_loadout_slots_matching_equipment(equipment: Equipment) -> Array[EqSlot]:
 	var result: Array[EqSlot] = []
 	for tag in equipment.tags:
@@ -247,225 +226,121 @@ func get_loadout_slots_matching_equipment(equipment: Equipment) -> Array[EqSlot]
 
 #endregion Equipment and Attributes
 
-#region Character Actions
 
 
-func get_player_action_requests(input_vector: Vector2) -> Array[int]:
-	var character_action_requests: Array[int]
-
-	
-	if Input.is_action_just_pressed("Use Grappling Hook"):
-		character_action_requests.append(CHAR_ACTIONS.GRAPPLING_HOOK)
-
-	if is_on_floor():
-		if Input.is_action_pressed("Jump"):
-			character_action_requests.append(CHAR_ACTIONS.JUMP)
-
-		if Input.is_action_pressed("Slide") or get_floor_angle() > force_slide_slope_angle:
-			character_action_requests.append(CHAR_ACTIONS.SLIDE)
-			return character_action_requests ## Ignore run and other grounded movement
-
-		## Everything after is ignored if sliding
-		if input_vector.x != 0:
-			character_action_requests.append(CHAR_ACTIONS.RUN)
-
-		if input_vector.x == 0:
-			character_action_requests.append(CHAR_ACTIONS.GROUNDED_STOP)
-
-	else:
-		if input_vector.x != 0:
-			character_action_requests.append(CHAR_ACTIONS.AIR_CONTROL)
-			return character_action_requests ## Ignore freefall check
-
-		if character_action_requests == []:
-			character_action_requests.append(CHAR_ACTIONS.FREEFALL)
-
-	return character_action_requests
-
-
-func manage_character_actions(delta: float, character_action_requests: Array[int], input_vector: Vector2):
-	for character_action in character_action_requests:
-		match character_action:
-			CHAR_ACTIONS.GROUNDED_STOP:
-				grounded_stop(delta)
-			CHAR_ACTIONS.RUN:
-				run(delta, input_vector.x)
-			CHAR_ACTIONS.JUMP:
-				jump()
-			CHAR_ACTIONS.AIR_CONTROL:
-				air_control(delta, input_vector.x)
-			CHAR_ACTIONS.FREEFALL:
-				freefall(delta)
-			CHAR_ACTIONS.SLIDE:
-				slide(delta)
-			CHAR_ACTIONS.GRAPPLING_HOOK:
-				use_grappling_hook()
-
-
-func run(delta: float, input_vector_x: float):
-	if abs(velocity.z) <= run_max_speed or sign(velocity.z) != sign(input_vector_x):
-		velocity.z += run_acceleration * input_vector_x * delta
-	anim_player.play(anim_name_run)
-
-
-func grounded_stop(delta):
-	velocity.z = apply_constant_friction(delta, velocity.z, ground_stop_friction)
-	anim_player.play(anim_name_idle)
-
-
-func jump():
-	velocity.y += jump_impulse
-
-
-func air_control(delta: float, input_vector_x: float):
-	if abs(velocity.z) <= air_control_max_velocity or sign(velocity.z) != sign(input_vector_x):
-		velocity.z += air_acceleration * input_vector_x  * delta
-	if abs(velocity.z) > air_control_max_velocity:
-		velocity.z = apply_constant_friction(delta, velocity.z, air_friction)
-
-
-func freefall(delta: float):
-	anim_player.play("Armature|BasePose")
-	velocity.z = apply_constant_friction(delta, velocity.z, air_friction)
-
-
-func slide(delta: float):
-	if velocity.z != 0:
-		anim_player.play("Armature|BasePose")
-		
-	if abs(velocity.z) > run_max_speed:
-		velocity.z = apply_constant_friction(delta, velocity.z, constant_slide_friction)
-
-	var slope_normal: Vector3 = get_floor_normal()
-	var slope_direction: float = sign(slope_normal.z)
-
-	if slope_normal == -get_gravity().normalized():
-		return ## Don't accelerate if on a flat surface
-	
-	var floor_angle: float = slope_normal.angle_to(Vector3.UP)
-	var slope_gravity_acceleration_z: float = get_gravity().length() * floor_angle * delta * slope_direction
-	velocity.z += slope_gravity_acceleration_z
-
-
-func use_grappling_hook():
-	if not hook_attachments.is_empty():
-		hook_attachments.clear()
-	
-	# Cursor projector on world 3000
-	var viewport: Viewport = get_viewport()
-	var camera: Camera3D = viewport.get_camera_3d()
-	var mouse_pos: Vector2 = viewport.get_mouse_position()
-	var projection_origin: Vector3 = camera.project_ray_origin(mouse_pos)
-	var projection_direction: Vector3 = camera.project_ray_normal(mouse_pos)
-	var projection_distance: float = -projection_origin.x / projection_direction.x
-	var mouse_projection: Vector3 = projection_origin + projection_direction * projection_distance
-	
-	var hook_lifetime: float = grappling_hook_range / grappling_hook_speed
-
-	var hook_placeholder: RigidBody3D = RigidBody3D.new()
-	hook_placeholder.gravity_scale = 0
-	hook_placeholder.collision_layer = 0
-	hook_placeholder.contact_monitor = true
-	hook_placeholder.max_contacts_reported = 1
-	var hook_placeholder_mesh_instance: MeshInstance3D = MeshInstance3D.new()
-	var hook_placeholder_mesh: SphereMesh = SphereMesh.new()
-	hook_placeholder_mesh.height = 0.25
-	hook_placeholder_mesh.radius = 0.125
-	var hook_placeholder_mesh_material: StandardMaterial3D = StandardMaterial3D.new()
-	hook_placeholder_mesh_material.albedo_color = Color(1,0,0)
-	hook_placeholder_mesh_instance.mesh = hook_placeholder_mesh
-	var hook_paceholder_collision_shape: CollisionShape3D = CollisionShape3D.new()
-	var hook_placeholder_collision_shape_shape: SphereShape3D = SphereShape3D.new()
-	hook_placeholder_collision_shape_shape.radius = 0.125
-	hook_paceholder_collision_shape.shape = hook_placeholder_collision_shape_shape
-	
-	
-	hook_placeholder.body_entered.connect(on_hook_projectile_collision.bind(hook_placeholder))
-	hook_placeholder.body_entered.connect(hook_placeholder.queue_free.unbind(1))
-	
-	get_parent().add_child(hook_placeholder)
-	
-	var timer: Timer = Timer.new()
-	hook_placeholder.add_child(timer)
-	timer.timeout.connect(hook_placeholder.queue_free)
-	timer.start(hook_lifetime)
-	
-	hook_placeholder.global_position = global_position + Vector3.UP
-	hook_placeholder.add_child(hook_placeholder_mesh_instance)
-	hook_placeholder.add_child(hook_paceholder_collision_shape)
-	hook_placeholder.linear_velocity = (mouse_projection - Vector3.UP - global_position).normalized() * grappling_hook_speed
-
-#endregion Character Actions
-
-#region Grappling Hook
-var hook_attach_point_debug: MeshInstance3D
-
-class HookAttachment:
-	extends Node3D
-	var hook_distance: float
-
-var hook_attachments: Array[HookAttachment]
-
-
-func on_hook_projectile_collision(hit_collider: Node3D, hook_placeholder: RigidBody3D):
-	attach_grappling_hook(hit_collider, hook_placeholder.global_position)
-
-
-func attach_grappling_hook(attach_to: Node3D, hook_position: Vector3):
-	hook_attach_point_debug = MeshInstance3D.new()
-	hook_attach_point_debug.mesh = SphereMesh.new()
-	hook_attach_point_debug.mesh.radius = 0.2
-	hook_attach_point_debug.mesh.height = 0.4
-	
-	var new_hook_attachment: HookAttachment = HookAttachment.new()
-	hook_attachments.append(new_hook_attachment)
-	attach_to.add_child(new_hook_attachment)
-	new_hook_attachment.global_position = hook_position
-	new_hook_attachment.global_position.x = 0
-	new_hook_attachment.hook_distance = (global_position - hook_position).length()
-	
-	new_hook_attachment.add_child(hook_attach_point_debug)
-
-
-func apply_grappling_hook_swing():
-	
-
-	if hook_attachments.is_empty():
-		return
-
-	var last_attachment: HookAttachment = hook_attachments[-1]
-
-	#if global_position.distance_to(last_attachment.global_position) <= last_attachment.hook_distance:
-	#	return
-	
-	var nearest_point_on_circle: Vector3 = \
-	last_attachment.global_position.direction_to(global_position) * \
-	last_attachment.hook_distance + last_attachment.global_position
-
-	var tangent_left: Vector3 = (last_attachment.to_local(nearest_point_on_circle)).cross(Vector3.LEFT).normalized()
-	var tangent_right: Vector3 = (last_attachment.to_local(nearest_point_on_circle)).cross(Vector3.RIGHT).normalized()
-
-
-	
-#endregion Grappling Hook
+# DEPRECATED grappling hook stuff
+#func use_grappling_hook():
+	#if not hook_attachments.is_empty():
+		#hook_attachments.clear()
+	#
+	## Cursor projector on world 3000
+	#var viewport: Viewport = get_viewport()
+	#var camera: Camera3D = viewport.get_camera_3d()
+	#var mouse_pos: Vector2 = viewport.get_mouse_position()
+	#var projection_origin: Vector3 = camera.project_ray_origin(mouse_pos)
+	#var projection_direction: Vector3 = camera.project_ray_normal(mouse_pos)
+	#var projection_distance: float = -projection_origin.x / projection_direction.x
+	#var mouse_projection: Vector3 = projection_origin + projection_direction * projection_distance
+	#
+	#var hook_lifetime: float = grappling_hook_range / grappling_hook_speed
+#
+	#var hook_placeholder: RigidBody3D = RigidBody3D.new()
+	#hook_placeholder.gravity_scale = 0
+	#hook_placeholder.collision_layer = 0
+	#hook_placeholder.contact_monitor = true
+	#hook_placeholder.max_contacts_reported = 1
+	#var hook_placeholder_mesh_instance: MeshInstance3D = MeshInstance3D.new()
+	#var hook_placeholder_mesh: SphereMesh = SphereMesh.new()
+	#hook_placeholder_mesh.height = 0.25
+	#hook_placeholder_mesh.radius = 0.125
+	#var hook_placeholder_mesh_material: StandardMaterial3D = StandardMaterial3D.new()
+	#hook_placeholder_mesh_material.albedo_color = Color(1,0,0)
+	#hook_placeholder_mesh_instance.mesh = hook_placeholder_mesh
+	#var hook_paceholder_collision_shape: CollisionShape3D = CollisionShape3D.new()
+	#var hook_placeholder_collision_shape_shape: SphereShape3D = SphereShape3D.new()
+	#hook_placeholder_collision_shape_shape.radius = 0.125
+	#hook_paceholder_collision_shape.shape = hook_placeholder_collision_shape_shape
+	#
+	#
+	#hook_placeholder.body_entered.connect(on_hook_projectile_collision.bind(hook_placeholder))
+	#hook_placeholder.body_entered.connect(hook_placeholder.queue_free.unbind(1))
+	#
+	#get_parent().add_child(hook_placeholder)
+	#
+	#var timer: Timer = Timer.new()
+	#hook_placeholder.add_child(timer)
+	#timer.timeout.connect(hook_placeholder.queue_free)
+	#timer.start(hook_lifetime)
+	#
+	#hook_placeholder.global_position = global_position + Vector3.UP
+	#hook_placeholder.add_child(hook_placeholder_mesh_instance)
+	#hook_placeholder.add_child(hook_paceholder_collision_shape)
+	#hook_placeholder.linear_velocity = (mouse_projection - Vector3.UP - global_position).normalized() * grappling_hook_speed
+#
+#
+#
+#var hook_attach_point_debug: MeshInstance3D
+#
+#class HookAttachment:
+	#extends Node3D
+	#var hook_distance: float
+#
+#var hook_attachments: Array[HookAttachment]
+#
+#
+#func on_hook_projectile_collision(hit_collider: Node3D, hook_placeholder: RigidBody3D):
+	#attach_grappling_hook(hit_collider, hook_placeholder.global_position)
+#
+#
+#func attach_grappling_hook(attach_to: Node3D, hook_position: Vector3):
+	#hook_attach_point_debug = MeshInstance3D.new()
+	#hook_attach_point_debug.mesh = SphereMesh.new()
+	#hook_attach_point_debug.mesh.radius = 0.2
+	#hook_attach_point_debug.mesh.height = 0.4
+	#
+	#var new_hook_attachment: HookAttachment = HookAttachment.new()
+	#hook_attachments.append(new_hook_attachment)
+	#attach_to.add_child(new_hook_attachment)
+	#new_hook_attachment.global_position = hook_position
+	#new_hook_attachment.global_position.x = 0
+	#new_hook_attachment.hook_distance = (global_position - hook_position).length()
+	#
+	#new_hook_attachment.add_child(hook_attach_point_debug)
+#
+#
+#func apply_grappling_hook_swing():
+	#
+#
+	#if hook_attachments.is_empty():
+		#return
+#
+	#var last_attachment: HookAttachment = hook_attachments[-1]
+#
+	##if global_position.distance_to(last_attachment.global_position) <= last_attachment.hook_distance:
+	##	return
+	#
+	#var nearest_point_on_circle: Vector3 = \
+	#last_attachment.global_position.direction_to(global_position) * \
+	#last_attachment.hook_distance + last_attachment.global_position
+#
+	#var tangent_left: Vector3 = (last_attachment.to_local(nearest_point_on_circle)).cross(Vector3.LEFT).normalized()
+	#var tangent_right: Vector3 = (last_attachment.to_local(nearest_point_on_circle)).cross(Vector3.RIGHT).normalized()
 
 
 static func apply_constant_friction(delta: float, value: float, friction: float) -> float:
 	return move_toward(value, 0, friction * delta)
 
 
-func debug_update_stats_label(player_actions: Array[int]):
+func debug_update_stats_label():
 	var text: String = \
 	"
 	Velocity = %s
 	Actions = %s
 	"
-	var player_action_text_converter = func() -> Array[String]:
-		var result: Array[String]
-		for i in player_actions.size():
-			result.append(CHAR_ACTIONS.find_key(player_actions[i]))
-		return result
+
 	
-	var player_actions_text: Array[String] = player_action_text_converter.call()
+	var player_actions_text: Array[String]
+	for ability in active_abilities:
+		player_actions_text.append(CharacterAction.TYPES.find_key(ability.type))
 	
 	$StatsLabel.text = text % [velocity.round(), player_actions_text, ]

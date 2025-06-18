@@ -12,7 +12,7 @@ func _on_body_exited() -> void:
 	player_in_range = false
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not player_in_range:
 		return
 	if Input.is_action_just_pressed("Interact"):

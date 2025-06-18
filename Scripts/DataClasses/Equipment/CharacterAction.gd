@@ -2,10 +2,12 @@ extends Resource
 class_name CharacterAction
 
 
-@export var type: TYPES
-@export var blocks_actions: Array[TYPES]
+@export var blocks_actions: Array[CharacterAction]
+var type: TYPES = TYPES.NULL
+
 
 enum TYPES {
+	NULL,
 	GROUNDED_STOP,
 	RUN,
 	JUMP,
@@ -24,39 +26,49 @@ var ability_objects: Array[Node]
 
 # Look at me ma! I've created resources with node functions!
 ## Called every _process tick of the player
-func action_process(delta: float) -> void:
+func action_process(_delta: float) -> void:
 	pass
 
 
 ## Called every _physics_process tick of the player
-func action_physics_process(delta: float) -> void:
+func action_physics_process(_delta: float) -> void:
 	pass
 
 
+## Called on equiping
 func ready() -> void:
-	pass
+	assert(type != TYPES.NULL, "Called ready on a CharacterAction with no type")
 
 
 ## Check if the action is not blocked and start performing it if true
-## Ignore the attempt if the action is currently being attempted
+## Ignore the attempt if the action is currently being performed.
 func attempt_action() -> void:
 	if performing:
 		return
-	if not player.blocked_actions.has(type):
-		start_performing_action()
+	if player.blocked_actions.has(self):
+		return
+	start_performing_action()
 
 
 ## Inform the action it is supposed to be active and block conflicting actions
+## but only if the action is not currently performed
 func start_performing_action() -> void:
-	performing = true
-	player.blocked_actions.append_array(blocks_actions)
+	#assert(performing == false, "Called start_performing_action on an already perfomed action")
+	if not performing:
+		performing = true
+		## Stop performing actions that just have been blocked
+		for blocked_action in blocks_actions:
+			blocked_action.stop_performing_action()
+			player.blocked_actions.append(blocked_action)
 
 
-## Inform the action it is no longer active and unlock conflicting actions
+## Inform the action it is no longer active and unlock conflicting actions,
+## but only if the action is currently performed
 func stop_performing_action() -> void:
-	performing = false
-	for action_type in blocks_actions:
-		player.blocked_actions.erase(action_type)
+	if performing:
+		performing = false
+		for blocked_action in blocks_actions:
+			player.blocked_actions.erase(blocked_action)
 
 
 func add_ability_object(object: Node, parent: Node) -> void:

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="GroundStop" load_steps=3 format=3 uid="uid://c2ehr58lrbxe6"]
+
+[ext_resource type="Script" uid="uid://b3rkd3i2kmf52" path="res://Scripts/Abilities/GroundStop.gd" id="1_7mfsn"]
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_c0n4u"]
+
+[resource]
+script = ExtResource("1_7mfsn")
+blocks_actions = Array[ExtResource("1_c0n4u")]([])
+metadata/_custom_type_script = "uid://b3rkd3i2kmf52"

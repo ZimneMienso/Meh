@@ -16,8 +16,7 @@ func subtract_equipment(equipment: Equipment, amount: int = 1) -> void:
 	or equipment_in_inventory[equipment] < amount:
 		printerr("Attempted to remove equipment that is not in inventory")
 		return
-	else:
-		equipment_in_inventory[equipment] -= amount
+	equipment_in_inventory[equipment] -= amount
 
 
 func transfer_equipment_to_slot(equipment: Equipment, slot: EqSlot):

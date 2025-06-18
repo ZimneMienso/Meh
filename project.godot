@@ -22,6 +22,16 @@ Draw3D="*res://Scripts/LineDrawStuff/Draw3D.gd"
 INV="*res://Scripts/Singletons/inventory.gd"
 CAMERAMAN="*res://Scenes/GameObjects/Cameraman.tscn"
 
+[file_customization]
+
+folder_colors={
+"res://Assets/": "blue",
+"res://Resources/": "orange",
+"res://Scenes/": "teal",
+"res://Scripts/": "yellow",
+"res://script_templates/": "yellow"
+}
+
 [input]
 
 "Move Left"={

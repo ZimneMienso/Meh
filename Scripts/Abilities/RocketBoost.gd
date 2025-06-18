@@ -6,6 +6,9 @@ var particle_emitter: GPUParticles3D
 
 
 func ready():
+	type = TYPES.ROCKET_ENGINE
+	super()
+
 	particle_emitter = particle_emitter_scene.instantiate()
 	player.add_child(particle_emitter)
 

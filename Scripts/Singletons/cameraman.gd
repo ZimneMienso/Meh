@@ -9,7 +9,7 @@ func _ready() -> void:
 	camera = get_node("Camera3D")
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if tracking:
 		global_position = tracking.global_position
 

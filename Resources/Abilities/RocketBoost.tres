@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="RocketBoost" load_steps=3 format=3 uid="uid://ck4ykx6mlcn"]
+[gd_resource type="Resource" script_class="RocketBoost" load_steps=4 format=3 uid="uid://ck4ykx6mlcn"]
 
 [ext_resource type="Script" uid="uid://bux404fi2dpoy" path="res://Scripts/Abilities/RocketBoost.gd" id="1_dunto"]
 [ext_resource type="PackedScene" uid="uid://cnlh8si4gv7rv" path="res://Scenes/Abilities/rocket_engine_particles.tscn" id="1_yehfd"]
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_yyp5c"]
 
 [resource]
 script = ExtResource("1_dunto")
 particle_emitter_scene = ExtResource("1_yehfd")
-type = 6
-blocks_actions = Array[int]([0])
+blocks_actions = Array[ExtResource("1_yyp5c")]([])
 metadata/_custom_type_script = "uid://bux404fi2dpoy"
