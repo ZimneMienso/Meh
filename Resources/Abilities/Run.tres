@@ -6,5 +6,7 @@
 
 [resource]
 script = ExtResource("1_2aod1")
+precision_mode_max_velocity = 3.0
+precision_mode_bonus_acceleration = 30.0
 blocks_actions = Array[ExtResource("1_gptd4")]([ExtResource("2_40oev")])
 metadata/_custom_type_script = "uid://jl0dvr7yrq6l"
