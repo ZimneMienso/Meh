@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://bsvnhuwivwpc7"]
+[gd_scene load_steps=42 format=3 uid="uid://bsvnhuwivwpc7"]
 
 [ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/GameObjects/PlayerCharacter.gd" id="1_8c0lf"]
 [ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="2_754fn"]
@@ -39,13 +39,6 @@ script = ExtResource("3_754fn")
 attribute_type = 3
 bonus_type = 0
 value = 5.0
-metadata/_custom_type_script = "uid://cao24bdyja8u6"
-
-[sub_resource type="Resource" id="Resource_2klc5"]
-script = ExtResource("3_754fn")
-attribute_type = 4
-bonus_type = 0
-value = 30.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_ha31o"]
@@ -154,7 +147,7 @@ collision_layer = 2
 floor_snap_length = 0.3
 script = ExtResource("1_8c0lf")
 eqslots = Array[ExtResource("2_754fn")]([SubResource("Resource_n6hdu")])
-initial_attribute_modifiers = Array[ExtResource("3_754fn")]([SubResource("Resource_bvt00"), SubResource("Resource_oqgf2"), SubResource("Resource_qxfql"), SubResource("Resource_2klc5"), SubResource("Resource_ha31o"), SubResource("Resource_pa6b8"), SubResource("Resource_crh0w"), SubResource("Resource_c7le1")])
+initial_attribute_modifiers = Array[ExtResource("3_754fn")]([SubResource("Resource_bvt00"), SubResource("Resource_oqgf2"), SubResource("Resource_qxfql"), SubResource("Resource_ha31o"), SubResource("Resource_pa6b8"), SubResource("Resource_crh0w"), SubResource("Resource_c7le1")])
 inherent_abilities = Array[ExtResource("4_bvt00")]([ExtResource("5_pa6b8"), ExtResource("6_crh0w"), ExtResource("7_c7le1"), ExtResource("8_2klc5")])
 skeleton = NodePath("CharacterPlaceholder/Armature/Skeleton3D")
 

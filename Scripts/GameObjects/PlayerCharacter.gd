@@ -15,18 +15,7 @@ class_name Player
 @export var skeleton: Skeleton3D
 
 
-enum CHAR_ACTIONS {
-	GROUNDED_STOP,
-	RUN,
-	JUMP,
-	AIR_CONTROL,
-	FREEFALL,
-	SLIDE,
-	ROCKET_ENGINE,
-	GRAPPLING_HOOK
-}
-
-var attributes: Array[Attribute]
+var attributes: Dictionary[int, Attribute]
 
 var abilities: Array[CharacterAction]
 var active_abilities: Array[CharacterAction]
@@ -46,8 +35,10 @@ func _ready() -> void:
 
 	## Create an attribute for each possible type of attribute
 	## They are accessed by their index using TYPE enum in Attribute class
-	for i in Attribute.TYPE.size():
-		attributes.append(Attribute.new())
+	for attribute_type in Attribute.TYPE:
+		if Attribute.TYPE[attribute_type] == Attribute.TYPE.NULL:
+			continue
+		attributes.set(Attribute.TYPE[attribute_type], Attribute.new())
 
 	initialize_equipment()
 
@@ -94,7 +85,8 @@ func initialize_equipment():
 
 
 	## Reset attributes
-	for attribute in attributes:
+	for attribute_index in attributes:
+		var attribute: Attribute = attributes[attribute_index]
 		attribute.attribute_modifiers.clear()
 		attribute.calculate_value()
 	
