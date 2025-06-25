@@ -53,13 +53,12 @@ func attempt_action() -> void:
 ## Inform the action it is supposed to be active and block conflicting actions
 ## but only if the action is not currently performed
 func start_performing_action() -> void:
-	#assert(performing == false, "Called start_performing_action on an already perfomed action")
-	if not performing:
-		performing = true
-		## Stop performing actions that just have been blocked
-		for blocked_action in blocks_actions:
-			blocked_action.stop_performing_action()
-			player.blocked_actions.append(blocked_action)
+	assert(performing == false, "Called start_performing_action on an already perfomed action")
+	performing = true
+	## Stop performing actions that just have been blocked
+	for blocked_action in blocks_actions:
+		blocked_action.stop_performing_action()
+		player.blocked_actions.append(blocked_action)
 
 
 ## Inform the action it is no longer active and unlock conflicting actions,

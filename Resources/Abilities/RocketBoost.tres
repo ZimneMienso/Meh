@@ -7,5 +7,10 @@
 [resource]
 script = ExtResource("1_dunto")
 particle_emitter_scene = ExtResource("1_yehfd")
+max_fuel = 1000.0
+fuel = 1000.0
+fuel_regen = 100.0
+fuel_usage = 150.0
+fuel_to_start = 200.0
 blocks_actions = Array[ExtResource("1_yyp5c")]([])
 metadata/_custom_type_script = "uid://bux404fi2dpoy"

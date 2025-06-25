@@ -42,7 +42,10 @@ func _on_exit_from_loadout_screen(close_menu_signal: Signal) -> void:
 ## and sends a signal when it does so player can be returned to normal state
 func show_loadout_menu():
 	## Get the node
-	var inventory_menu: LoadoutScreen = %LoadoutScreen
+	# TODO This might be a highly unreasonable way of doing things
+	# but it might not. Requires investigation
+	#var inventory_menu: LoadoutScreen = %LoadoutScreen
+	var inventory_menu: LoadoutScreen = $"../External/UI/LoadoutScreen"
 	
 	## Open the menu
 	inventory_menu.open(player)

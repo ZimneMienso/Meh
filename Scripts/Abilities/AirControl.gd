@@ -1,15 +1,19 @@
 class_name AirControl
 extends CharacterAction
 
-var input_axis: float
+## Acceleration multiplier when trying to move
+## in the opposite direction to velocity.
+@export var deceleration_bonus_acceleration: float
+@export var precision_mode_max_velocity: float
+@export var precision_mode_bonus_acceleration: float
+
+var input_vector: Vector2
 
 
 ## Called every _process tick of the player
 func action_process(delta: float) -> void:
-	if player.is_on_floor():
-		return
-	input_axis = Input.get_axis("Move Left", "Move Right")
-	if input_axis != 0:
+	input_vector = player.input_vector
+	if not player.is_on_floor() and (input_vector.x != 0 or input_vector.y < 0):
 		attempt_action()
 	else:
 		stop_performing_action()
@@ -24,16 +28,28 @@ func action_physics_process(delta: float) -> void:
 		player.get_attribute(Attribute.TYPE.AIR_CONTROL_MAX_VELOCITY)
 		var air_acceleration: float = \
 		player.get_attribute(Attribute.TYPE.AIR_ACCELERATION)
-		var air_friciton: float = \
-		player.get_attribute(Attribute.TYPE.AIR_FRICTION)
 
 		## Do the thing
-		if abs(player.velocity.z) <= air_control_max_velocity or sign(player.velocity.z) != sign(input_axis):
+		## Moving in the opposite direction to velocity
+		if sign(player.velocity.z) != sign(input_vector.x) and player.velocity.z != 0:
 			player.velocity.z += \
-			air_acceleration * input_axis  * delta
-		if abs(player.velocity.z) > air_control_max_velocity:
-			player.velocity.z = \
-			player.apply_constant_friction(delta, player.velocity.z, air_friciton)
+			(air_acceleration + deceleration_bonus_acceleration) * \
+			input_vector.x * delta
+		## Moving in the same direction as velocity below precision mode limit
+		elif abs(player.velocity.z) <= precision_mode_max_velocity:
+			player.velocity.z += \
+			(air_acceleration + precision_mode_bonus_acceleration) * \
+			input_vector.x  * delta
+		## Moving in the same direction as velocity while below max speed
+		elif abs(player.velocity.z) <= air_control_max_velocity:
+			player.velocity.z += \
+			air_acceleration * input_vector.x  * delta
+
+		## Fast fall
+		if input_vector.y < 0:
+			player.velocity.y -= delta * \
+			(air_acceleration + precision_mode_bonus_acceleration)
+
 
 
 ## Called on equiping

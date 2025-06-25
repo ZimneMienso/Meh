@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://plt2wegrgk4g"
-path="res://.godot/imported/CharacterPlaceholder.fbx-f4dbd084e66e76f500782501c15ef91a.scn"
+uid="uid://30cfoh51n2be"
+path="res://.godot/imported/TestMap1.fbx-a933cdf0e484e07e69759ae87bdfbf26.scn"
 
 [deps]
 
-source_file="res://Assets/Import/CharacterPlaceholder.fbx"
-dest_files=["res://.godot/imported/CharacterPlaceholder.fbx-f4dbd084e66e76f500782501c15ef91a.scn"]
+source_file="res://Assets/Import/TestMap1.fbx"
+dest_files=["res://.godot/imported/TestMap1.fbx-a933cdf0e484e07e69759ae87bdfbf26.scn"]
 
 [params]
 
@@ -32,14 +32,7 @@ animation/trimming=true
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"materials": {
-"Material": {
-"use_external/enabled": true,
-"use_external/path": "uid://cbvwe05d71pqa"
-}
-}
-}
+_subresources={}
 fbx/importer=0
 fbx/allow_geometry_helper_nodes=false
 fbx/embedded_image_handling=1

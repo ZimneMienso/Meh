@@ -5,5 +5,8 @@
 
 [resource]
 script = ExtResource("1_vcmga")
+deceleration_bonus_acceleration = 24.0
+precision_mode_max_velocity = 5.0
+precision_mode_bonus_acceleration = 15.0
 blocks_actions = Array[ExtResource("1_w6vw5")]([])
 metadata/_custom_type_script = "uid://c60wgja21bc55"

@@ -1,72 +1,72 @@
 [gd_resource type="Resource" script_class="Equipment" load_steps=15 format=3 uid="uid://ciqlqa3g553ks"]
 
-[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_b4av2"]
-[ext_resource type="Resource" uid="uid://ck4ykx6mlcn" path="res://Resources/Abilities/RocketBoost.tres" id="2_4f3s2"]
-[ext_resource type="Script" uid="uid://cao24bdyja8u6" path="res://Scripts/DataClasses/Equipment/AttributeModifier.gd" id="3_04b1g"]
-[ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="4_k3536"]
-[ext_resource type="PackedScene" uid="uid://dgpkse2ectaio" path="res://Assets/Import/Rocket Engine.fbx" id="5_3r56i"]
-[ext_resource type="Texture2D" uid="uid://b06ps4ccxx0rb" path="res://Assets/Icons/ExoPlaceholder.png" id="6_ugc4w"]
-[ext_resource type="Script" uid="uid://bc53rwwxka3us" path="res://Scripts/DataClasses/Equipment/Equipment.gd" id="7_c6byw"]
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_vvqx2"]
+[ext_resource type="Resource" uid="uid://ck4ykx6mlcn" path="res://Resources/Abilities/RocketBoost.tres" id="2_vv1uv"]
+[ext_resource type="Script" uid="uid://cao24bdyja8u6" path="res://Scripts/DataClasses/Equipment/AttributeModifier.gd" id="3_3a7kl"]
+[ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="4_73see"]
+[ext_resource type="PackedScene" uid="uid://dgpkse2ectaio" path="res://Assets/Import/Rocket Engine.fbx" id="5_8lnn2"]
+[ext_resource type="Texture2D" uid="uid://b06ps4ccxx0rb" path="res://Assets/Icons/ExoPlaceholder.png" id="6_1li0a"]
+[ext_resource type="Script" uid="uid://bc53rwwxka3us" path="res://Scripts/DataClasses/Equipment/Equipment.gd" id="7_jduov"]
 
 [sub_resource type="Resource" id="Resource_q33u6"]
-script = ExtResource("3_04b1g")
+script = ExtResource("3_3a7kl")
 attribute_type = 1
 bonus_type = 0
 value = 4.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_r2eff"]
-script = ExtResource("3_04b1g")
+script = ExtResource("3_3a7kl")
 attribute_type = 2
 bonus_type = 0
 value = 100.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_shf82"]
-script = ExtResource("3_04b1g")
+script = ExtResource("3_3a7kl")
 attribute_type = 3
 bonus_type = 0
 value = 300.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_jtkk0"]
-script = ExtResource("3_04b1g")
+script = ExtResource("3_3a7kl")
 attribute_type = 30
 bonus_type = 0
 value = 6.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_xrwok"]
-script = ExtResource("3_04b1g")
+script = ExtResource("3_3a7kl")
 attribute_type = 31
 bonus_type = 0
 value = 10.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_a6onj"]
-script = ExtResource("3_04b1g")
+script = ExtResource("3_3a7kl")
 attribute_type = 50
 bonus_type = 0
 value = 4.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_iucrw"]
-script = ExtResource("3_04b1g")
+script = ExtResource("3_3a7kl")
 attribute_type = 51
 bonus_type = 0
 value = 7.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [resource]
-script = ExtResource("7_c6byw")
+script = ExtResource("7_jduov")
 name = "Light Exoskeleton"
-icon = ExtResource("6_ugc4w")
-attribute_modifiers = Array[ExtResource("3_04b1g")]([SubResource("Resource_q33u6"), SubResource("Resource_r2eff"), SubResource("Resource_shf82"), SubResource("Resource_jtkk0"), SubResource("Resource_xrwok"), SubResource("Resource_a6onj"), SubResource("Resource_iucrw")])
-abilities = Array[ExtResource("1_b4av2")]([ExtResource("2_4f3s2")])
+icon = ExtResource("6_1li0a")
+attribute_modifiers = Array[ExtResource("3_3a7kl")]([SubResource("Resource_q33u6"), SubResource("Resource_r2eff"), SubResource("Resource_shf82"), SubResource("Resource_jtkk0"), SubResource("Resource_xrwok"), SubResource("Resource_a6onj"), SubResource("Resource_iucrw")])
+abilities = Array[ExtResource("1_vvqx2")]([ExtResource("2_vv1uv")])
 tags = Array[int]([0])
-eqslots = Array[ExtResource("4_k3536")]([])
+eqslots = Array[ExtResource("4_73see")]([])
 max_stack_size = 1
 equipment_nodes = Dictionary[PackedScene, String]({
-ExtResource("5_3r56i"): "Torso"
+ExtResource("5_8lnn2"): "Torso"
 })
 metadata/_custom_type_script = "uid://bc53rwwxka3us"

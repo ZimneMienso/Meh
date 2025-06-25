@@ -10,11 +10,6 @@ func action_process(_delta: float) -> void:
 ## Called every _physics_process tick of the player
 func action_physics_process(delta: float) -> void:
 
-	## Ignore manual input for sliding if not on the floor
-	if not player.is_on_floor():
-		stop_performing_action()
-		return
-
 	## Get relevant attributes
 	var force_slide_slope_angle: float = \
 	player.get_attribute(Attribute.TYPE.FORCE_SLIDE_SLOPE_ANGLE)
@@ -22,9 +17,14 @@ func action_physics_process(delta: float) -> void:
 	player.get_attribute(Attribute.TYPE.CONSTANT_SLIDE_FRICTION)
 	
 	## Attempt if keybind pressed and moving, or if slide is forced, otherwise
-	## stop performing
-	if Input.is_action_pressed("Slide") and player.velocity.z != 0 or \
-	player.get_floor_angle() > force_slide_slope_angle:
+	## stop performing.
+	
+	## Must be on the floor
+	if player.is_on_floor() and \
+	## Is player forced to slide?
+	(player.get_floor_angle() > force_slide_slope_angle or \
+	## Manual sliding input
+	(Input.is_action_pressed("Slide") and player.velocity.z != 0)):
 		attempt_action()
 	else:
 		stop_performing_action()

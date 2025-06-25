@@ -26,6 +26,8 @@ var blocked_actions: Array[CharacterAction]
 ## Used to free them on unequip
 var equipment_nodes: Dictionary[Equipment, Array]
 
+var input_vector: Vector2
+
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
 
@@ -47,7 +49,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 
+
 	velocity += delta * get_gravity()
+	velocity.x = 0
 	move_and_slide()
 	align_rotation_with_velocity()
 
@@ -59,8 +63,17 @@ func _physics_process(delta: float) -> void:
 		if ability.performing:
 			active_abilities.append(ability)
 
+	## Air friction
+	var air_friction: float = get_attribute(Attribute.TYPE.AIR_FRICTION)
+	if not is_on_floor() and velocity.length() > 2:
+		velocity -= velocity.normalized() * air_friction * delta
+		
+
 
 func _process(delta: float) -> void:
+
+	input_vector = Input.get_vector("Move Right", "Move Left", "Move Down", "Move Up")
+
 	for ability in abilities:
 		ability.action_process(delta)
 

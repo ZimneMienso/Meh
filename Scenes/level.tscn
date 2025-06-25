@@ -1,83 +1,8 @@
-[gd_scene load_steps=43 format=3 uid="uid://bsvnhuwivwpc7"]
+[gd_scene load_steps=23 format=3 uid="uid://bsvnhuwivwpc7"]
 
-[ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/GameObjects/PlayerCharacter.gd" id="1_8c0lf"]
-[ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="2_754fn"]
-[ext_resource type="Script" uid="uid://cao24bdyja8u6" path="res://Scripts/DataClasses/Equipment/AttributeModifier.gd" id="3_754fn"]
-[ext_resource type="PackedScene" uid="uid://ct86fo0jnrlo6" path="res://Assets/Import/CharacterPlaceholder.fbx" id="3_bvt00"]
-[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="4_bvt00"]
+[ext_resource type="PackedScene" uid="uid://5nhb10aid85s" path="res://Scenes/Player.tscn" id="1_6phgx"]
+[ext_resource type="PackedScene" uid="uid://cs63jt85mqf8n" path="res://Scenes/Ui.tscn" id="3_81xng"]
 [ext_resource type="PackedScene" uid="uid://b3usd5ssxc6b1" path="res://Scenes/GameObjects/equipment_gantry.tscn" id="4_oqgf2"]
-[ext_resource type="Resource" uid="uid://cs3ltp0b3itav" path="res://Resources/Abilities/Run.tres" id="5_pa6b8"]
-[ext_resource type="Script" uid="uid://dv4lqq0lpfism" path="res://Scripts/Ui/loadout_screen/loadout_screen.gd" id="5_qxfql"]
-[ext_resource type="Resource" uid="uid://b5gvsspniux1" path="res://Resources/Abilities/Jump.tres" id="6_crh0w"]
-[ext_resource type="Script" uid="uid://dwjvpun18y71n" path="res://Scripts/Ui/loadout_screen/loadout_slot_button.gd" id="6_ha31o"]
-[ext_resource type="Resource" uid="uid://c2ehr58lrbxe6" path="res://Resources/Abilities/GroundStop.tres" id="7_c7le1"]
-[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="7_pa6b8"]
-[ext_resource type="Resource" uid="uid://bq1r8tmsely48" path="res://Resources/Abilities/Slide.tres" id="8_2klc5"]
-
-[sub_resource type="Resource" id="Resource_n6hdu"]
-script = ExtResource("2_754fn")
-name = "Exoskeleton"
-tags = Array[int]([0])
-metadata/_custom_type_script = "uid://d0ywsq5wq4xa7"
-
-[sub_resource type="Resource" id="Resource_bvt00"]
-script = ExtResource("3_754fn")
-attribute_type = 1
-bonus_type = 0
-value = 10.0
-metadata/_custom_type_script = "uid://cao24bdyja8u6"
-
-[sub_resource type="Resource" id="Resource_oqgf2"]
-script = ExtResource("3_754fn")
-attribute_type = 2
-bonus_type = 0
-value = 3.0
-metadata/_custom_type_script = "uid://cao24bdyja8u6"
-
-[sub_resource type="Resource" id="Resource_qxfql"]
-script = ExtResource("3_754fn")
-attribute_type = 3
-bonus_type = 0
-value = 10.0
-metadata/_custom_type_script = "uid://cao24bdyja8u6"
-
-[sub_resource type="Resource" id="Resource_2klc5"]
-script = ExtResource("3_754fn")
-attribute_type = 4
-bonus_type = 0
-value = 30.0
-metadata/_custom_type_script = "uid://cao24bdyja8u6"
-
-[sub_resource type="Resource" id="Resource_ha31o"]
-script = ExtResource("3_754fn")
-attribute_type = 30
-bonus_type = 0
-value = 8.0
-metadata/_custom_type_script = "uid://cao24bdyja8u6"
-
-[sub_resource type="Resource" id="Resource_pa6b8"]
-script = ExtResource("3_754fn")
-attribute_type = 31
-bonus_type = 0
-value = 10.0
-metadata/_custom_type_script = "uid://cao24bdyja8u6"
-
-[sub_resource type="Resource" id="Resource_crh0w"]
-script = ExtResource("3_754fn")
-attribute_type = 70
-bonus_type = 0
-value = 1.0
-metadata/_custom_type_script = "uid://cao24bdyja8u6"
-
-[sub_resource type="Resource" id="Resource_c7le1"]
-script = ExtResource("3_754fn")
-attribute_type = 71
-bonus_type = 0
-value = 50.0
-metadata/_custom_type_script = "uid://cao24bdyja8u6"
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_vonw3"]
-size = Vector3(1, 1.711, 0.435)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vonw3"]
 albedo_color = Color(1, 0, 0, 1)
@@ -149,141 +74,27 @@ points = PackedVector3Array(5, 3, 0.5, 5, 3, -0.5, -5, -3, 0.5, 5, -3, 0.5, 5, -
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.961516, -0.00425925, 0.274715, -0.242362, -0.484104, 0.840776, 0.129409, -0.875, -0.466506, 0, 2.92702, 0)
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("skeleton")]
-collision_layer = 2
-floor_snap_length = 0.3
-script = ExtResource("1_8c0lf")
-eqslots = Array[ExtResource("2_754fn")]([SubResource("Resource_n6hdu")])
-initial_attribute_modifiers = Array[ExtResource("3_754fn")]([SubResource("Resource_bvt00"), SubResource("Resource_oqgf2"), SubResource("Resource_qxfql"), SubResource("Resource_2klc5"), SubResource("Resource_ha31o"), SubResource("Resource_pa6b8"), SubResource("Resource_crh0w"), SubResource("Resource_c7le1")])
-inherent_abilities = Array[ExtResource("4_bvt00")]([ExtResource("5_pa6b8"), ExtResource("6_crh0w"), ExtResource("7_c7le1"), ExtResource("8_2klc5")])
-skeleton = NodePath("CharacterPlaceholder/Armature/Skeleton3D")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856841, 0)
-shape = SubResource("BoxShape3D_vonw3")
-
-[node name="CharacterPlaceholder" parent="CharacterBody3D" instance=ExtResource("3_bvt00")]
-
-[node name="Armature" parent="CharacterBody3D/CharacterPlaceholder" index="0"]
-transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 0, 0)
-
-[node name="Skeleton3D" parent="CharacterBody3D/CharacterPlaceholder/Armature" index="0"]
-bones/1/rotation = Quaternion(4.21608e-09, -3.51247e-08, 0.707107, 0.707107)
-bones/1/scale = Vector3(1, 1, 1)
-bones/2/position = Vector3(-6.08865e-12, 0.00389541, -3.06453e-18)
-bones/2/rotation = Quaternion(-0.707107, 1.96704e-08, 1.96704e-08, 0.707107)
-bones/2/scale = Vector3(1, 1, 1)
-bones/3/position = Vector3(9.87016e-18, 0.00274309, 1.73472e-18)
-bones/3/scale = Vector3(1, 1, 1)
-bones/4/position = Vector3(1.89444e-17, 0.00213525, -4.33681e-19)
-bones/4/rotation = Quaternion(-2.51463e-22, 2.11758e-22, 1.33227e-15, 1)
-bones/5/position = Vector3(-2.27374e-17, 0.00317312, -4.33681e-19)
-bones/5/rotation = Quaternion(3.77489e-08, 1.78814e-07, 5.96244e-09, 1)
-bones/6/position = Vector3(0.000521685, 0.000417749, 7.23348e-05)
-bones/6/rotation = Quaternion(-0.0275183, 0.000710158, -0.220712, 0.97495)
-bones/7/position = Vector3(-1.70208e-11, 0.000549528, -3.22665e-10)
-bones/7/rotation = Quaternion(-0.147333, -0.0111648, 0.0392369, 0.988245)
-bones/8/position = Vector3(0.00046873, 0.00117042, 5.29678e-05)
-bones/8/rotation = Quaternion(-0.0337562, -6.19969e-08, 2.09397e-09, 0.99943)
-bones/8/scale = Vector3(1, 1, 1)
-bones/9/position = Vector3(1.17937e-11, 0.000619535, 3.19894e-10)
-bones/9/rotation = Quaternion(-0.0070847, 8.13087e-08, -1.12089e-08, 0.999975)
-bones/10/position = Vector3(-0.000456231, 0.00117042, 5.29675e-05)
-bones/10/rotation = Quaternion(-0.0337562, -6.19969e-08, 2.09397e-09, 0.99943)
-bones/10/scale = Vector3(1, 1, 1)
-bones/11/position = Vector3(5.94775e-11, 0.000619535, 1.29594e-10)
-bones/11/rotation = Quaternion(-0.0070847, 8.13087e-08, -1.12089e-08, 0.999975)
-bones/12/position = Vector3(-1.55754e-11, 0.00117042, 5.29676e-05)
-bones/12/rotation = Quaternion(-0.0337562, -1.37124e-08, -9.46303e-09, 0.99943)
-bones/12/scale = Vector3(1, 1, 1)
-bones/13/position = Vector3(4.72351e-17, 0.000619536, 1.45703e-10)
-bones/13/rotation = Quaternion(-0.00708612, -2.48312e-08, -1.7133e-09, 0.999975)
-bones/14/position = Vector3(0.000350534, 0.00389541, -1.53223e-11)
-bones/14/rotation = Quaternion(-2.06243e-08, -2.59043e-07, -3.46361e-07, 1)
-bones/15/position = Vector3(5.10028e-11, 0.00172088, -5.54238e-17)
-bones/15/scale = Vector3(1, 1, 1)
-bones/16/position = Vector3(-4.76475e-12, -0.000246493, -0.000863965)
-bones/16/rotation = Quaternion(0.99955, 0.0289087, -0.000232296, -0.00798615)
-bones/16/scale = Vector3(1, 1, 1)
-bones/17/position = Vector3(-3.58543e-12, 0.00400195, -4.26036e-12)
-bones/17/rotation = Quaternion(0.000323348, -4.24449e-07, 0.0589688, 0.99826)
-bones/17/scale = Vector3(1, 1, 1)
-bones/18/position = Vector3(-1.34345e-10, 0.0038467, 1.65142e-11)
-bones/18/rotation = Quaternion(-0.0616394, 0.00253862, -0.0451463, 0.997074)
-bones/18/scale = Vector3(1, 1, 1)
-bones/19/position = Vector3(5.1602e-11, 0.00119532, -1.99353e-10)
-bones/19/rotation = Quaternion(0.0407103, 0.0345691, -0.646329, 0.761187)
-bones/19/scale = Vector3(1, 1, 1)
-bones/20/position = Vector3(-6.08865e-12, 0.00389541, -3.06453e-18)
-bones/20/rotation = Quaternion(7.58615e-08, 0.707107, 0.707107, 5.33851e-08)
-bones/20/scale = Vector3(1, 1, 1)
-bones/21/position = Vector3(-3.85944e-16, 0.00274309, 1.73472e-18)
-bones/21/rotation = Quaternion(-0.707107, 6.91275e-08, 6.91275e-08, 0.707107)
-bones/21/scale = Vector3(1, 1, 1)
-bones/22/position = Vector3(3.79011e-16, 0.00213525, -4.33681e-19)
-bones/23/position = Vector3(0, 0.00317312, -4.33681e-19)
-bones/23/rotation = Quaternion(-2.41645e-09, -1.19209e-07, -6.59233e-10, 1)
-bones/24/position = Vector3(-0.000521685, 0.000417749, 7.23348e-05)
-bones/24/rotation = Quaternion(-0.0275183, -0.000710158, 0.220712, 0.97495)
-bones/24/scale = Vector3(1, 1, 1)
-bones/25/position = Vector3(1.70208e-11, 0.000549528, -3.22665e-10)
-bones/25/rotation = Quaternion(-0.147333, 0.0111648, -0.0392369, 0.988245)
-bones/25/scale = Vector3(1, 1, 1)
-bones/26/position = Vector3(-0.00046873, 0.00117042, 5.29678e-05)
-bones/26/rotation = Quaternion(-0.0337562, 6.19969e-08, -2.09397e-09, 0.99943)
-bones/26/scale = Vector3(1, 1, 1)
-bones/27/position = Vector3(-1.17937e-11, 0.000619535, 3.19894e-10)
-bones/27/rotation = Quaternion(-0.0070847, -8.13087e-08, 1.12089e-08, 0.999975)
-bones/28/position = Vector3(0.000456231, 0.00117042, 5.29675e-05)
-bones/28/rotation = Quaternion(-0.0337562, 6.19969e-08, -2.09397e-09, 0.99943)
-bones/28/scale = Vector3(1, 1, 1)
-bones/29/position = Vector3(-5.94775e-11, 0.000619535, 1.29594e-10)
-bones/29/rotation = Quaternion(-0.0070847, -8.13087e-08, 1.12089e-08, 0.999975)
-bones/30/position = Vector3(1.55754e-11, 0.00117042, 5.29676e-05)
-bones/30/rotation = Quaternion(-0.0337562, 1.37124e-08, 9.46303e-09, 0.99943)
-bones/30/scale = Vector3(1, 1, 1)
-bones/31/position = Vector3(3.23457e-17, 0.000619536, 1.45703e-10)
-bones/31/rotation = Quaternion(-0.00708612, 2.48312e-08, 1.7133e-09, 0.999975)
-bones/32/position = Vector3(0.000231337, -0.000246493, 0.000863965)
-bones/32/rotation = Quaternion(-2.11294e-07, 0.00797818, 0.999968, -3.31557e-05)
-bones/32/scale = Vector3(1, 1, 1)
-bones/33/position = Vector3(1.06713e-11, 0.00399526, -3.53451e-11)
-bones/33/rotation = Quaternion(0.000322948, 7.04502e-06, -0.0301426, 0.999546)
-bones/33/scale = Vector3(1, 1, 1)
-bones/34/position = Vector3(-4.99284e-11, 0.00384669, -8.4293e-11)
-bones/34/rotation = Quaternion(-0.0616394, -0.00253854, 0.0451465, 0.997074)
-bones/34/scale = Vector3(1, 1, 1)
-bones/35/position = Vector3(6.45628e-11, 0.00119532, 5.87136e-11)
-bones/35/rotation = Quaternion(0.0407111, -0.0345683, 0.646329, 0.761187)
-bones/35/scale = Vector3(1, 1, 1)
-bones/36/rotation = Quaternion(0.0528444, 0.998602, 4.2818e-05, -0.000809135)
-
-[node name="AnimationPlayer" parent="CharacterBody3D/CharacterPlaceholder" index="1"]
-blend_times = [&"Armature|BasePose", &"Armature|BasePose", 1.0, &"Armature|BasePose", &"Armature|Idle", 1.0, &"Armature|BasePose", &"Armature|Run", 1.0]
-
-[node name="StatsLabel" type="Label3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.97114, 0)
-billboard = 2
+[node name="Player" parent="." instance=ExtResource("1_6phgx")]
 
 [node name="DebugProp" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("CylinderMesh_oi3di")
-skeleton = NodePath("../CharacterBody3D")
+skeleton = NodePath("../Player")
 
 [node name="DebugProp2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("CylinderMesh_f2txt")
-skeleton = NodePath("../CharacterBody3D")
+skeleton = NodePath("../Player")
 
 [node name="DebugProp3" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("CylinderMesh_0b4ue")
-skeleton = NodePath("../CharacterBody3D")
+skeleton = NodePath("../Player")
 
 [node name="DebugProp4" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("CylinderMesh_1ainy")
-skeleton = NodePath("../CharacterBody3D")
+skeleton = NodePath("../Player")
 
 [node name="Equipment Gantry" parent="." instance=ExtResource("4_oqgf2")]
 transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, -1, 0, -2)
@@ -418,143 +229,4 @@ F - Interact
 (the structure to the left is interactable)
 Shift (toggle) - Rocket Boost"
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="LoadoutScreen" type="HBoxContainer" parent="Control"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("5_qxfql")
-
-[node name="StatsContainer" type="VBoxContainer" parent="Control/LoadoutScreen"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="StatsLabelContainer" type="PanelContainer" parent="Control/LoadoutScreen/StatsContainer"]
-layout_mode = 2
-
-[node name="Stats Label" type="Label" parent="Control/LoadoutScreen/StatsContainer/StatsLabelContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Stats"
-horizontal_alignment = 1
-
-[node name="Stats" type="PanelContainer" parent="Control/LoadoutScreen/StatsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Button" type="Button" parent="Control/LoadoutScreen/StatsContainer/Stats"]
-layout_mode = 2
-text = "sraks"
-
-[node name="LoadoutContainer" type="VBoxContainer" parent="Control/LoadoutScreen"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="LoadoutLabelContainer" type="PanelContainer" parent="Control/LoadoutScreen/LoadoutContainer"]
-layout_mode = 2
-
-[node name="Loadout Label" type="Label" parent="Control/LoadoutScreen/LoadoutContainer/LoadoutLabelContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Loadout"
-horizontal_alignment = 1
-
-[node name="Loadout" type="PanelContainer" parent="Control/LoadoutScreen/LoadoutContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="LoadoutButtonsContainer" type="FlowContainer" parent="Control/LoadoutScreen/LoadoutContainer/Loadout"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="LoadoutSlotButton" type="Button" parent="Control/LoadoutScreen/LoadoutContainer/Loadout/LoadoutButtonsContainer"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-text = "test"
-icon = ExtResource("7_pa6b8")
-icon_alignment = 1
-vertical_icon_alignment = 0
-expand_icon = true
-script = ExtResource("6_ha31o")
-
-[node name="InventoryContainer" type="VBoxContainer" parent="Control/LoadoutScreen"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CloseButtonContainer" type="HBoxContainer" parent="Control/LoadoutScreen/InventoryContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="InventoryLabelContainer" type="PanelContainer" parent="Control/LoadoutScreen/InventoryContainer/CloseButtonContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Inventory Label" type="Label" parent="Control/LoadoutScreen/InventoryContainer/CloseButtonContainer/InventoryLabelContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Inventory"
-horizontal_alignment = 1
-
-[node name="CloseMenuButton" type="Button" parent="Control/LoadoutScreen/InventoryContainer/CloseButtonContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-size_flags_stretch_ratio = 0.09
-text = "X"
-
-[node name="InventorySearchOptions" type="HBoxContainer" parent="Control/LoadoutScreen/InventoryContainer"]
-layout_mode = 2
-
-[node name="TextSearch" type="LineEdit" parent="Control/LoadoutScreen/InventoryContainer/InventorySearchOptions"]
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Search items..."
-
-[node name="TagFilter" type="Button" parent="Control/LoadoutScreen/InventoryContainer/InventorySearchOptions"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-text = "Tags"
-
-[node name="PanelContainer" type="PanelContainer" parent="Control/LoadoutScreen/InventoryContainer"]
-layout_mode = 2
-
-[node name="Inventory" type="PanelContainer" parent="Control/LoadoutScreen/InventoryContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="InventoryButtonsContainer" type="FlowContainer" parent="Control/LoadoutScreen/InventoryContainer/Inventory"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="InventoryItemButton" type="Button" parent="Control/LoadoutScreen/InventoryContainer/Inventory/InventoryButtonsContainer"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-text = "test"
-icon = ExtResource("7_pa6b8")
-icon_alignment = 1
-vertical_icon_alignment = 0
-expand_icon = true
-
-[connection signal="pressed" from="Control/LoadoutScreen/InventoryContainer/CloseButtonContainer/CloseMenuButton" to="Control/LoadoutScreen" method="close"]
-
-[editable path="CharacterBody3D/CharacterPlaceholder"]
+[node name="UI" parent="." instance=ExtResource("3_81xng")]

@@ -3,10 +3,7 @@ extends CharacterAction
 
 ## Called every _process tick of the player
 func action_process(_delta: float) -> void:
-	if not player.is_on_floor():
-		stop_performing_action()
-		return
-	if Input.is_action_pressed("Jump"):
+	if Input.is_action_pressed("Jump") and player.is_on_floor():
 		attempt_action()
 
 
