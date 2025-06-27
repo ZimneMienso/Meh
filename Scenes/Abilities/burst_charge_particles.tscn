@@ -1,0 +1,70 @@
+[gd_scene load_steps=12 format=3 uid="uid://jucbthbyikw2"]
+
+[sub_resource type="Gradient" id="Gradient_vonw3"]
+offsets = PackedFloat32Array(0, 0.481818, 1)
+colors = PackedColorArray(0.918182, 0.918182, 0.918182, 1, 0.442911, 0.442911, 0.442911, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_glx4g"]
+gradient = SubResource("Gradient_vonw3")
+
+[sub_resource type="Curve" id="Curve_miouo"]
+_limits = [0.0, 17.6398, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 87.3846, 0, 1, Vector2(0.201863, 17.6398), 81.4148, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_o3h8g"]
+curve = SubResource("Curve_miouo")
+
+[sub_resource type="Curve" id="Curve_48t8r"]
+_limits = [0.0, 4.0, 0.0, 1.0]
+_data = [Vector2(0, 4), 0.0, 0.0, 0, 0, Vector2(0.503106, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ffvo3"]
+curve = SubResource("Curve_48t8r")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lslt6"]
+lifetime_randomness = 0.34
+particle_flag_align_y = true
+particle_flag_damping_as_friction = true
+direction = Vector3(0, 0, -1)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, -15, 0)
+damping_min = 1.0
+damping_max = 1.0
+damping_curve = SubResource("CurveTexture_o3h8g")
+scale_max = 1.3
+color = Color(0.82, 0.683333, 0, 1)
+color_ramp = SubResource("GradientTexture1D_glx4g")
+emission_curve = SubResource("CurveTexture_ffvo3")
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.2
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2orkt"]
+noise_type = 0
+frequency = 0.0106
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_aicyk"]
+normalize = false
+noise = SubResource("FastNoiseLite_2orkt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ulo2v"]
+transparency = 1
+vertex_color_use_as_albedo = true
+metallic = 1.0
+metallic_texture = SubResource("NoiseTexture2D_aicyk")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_p3j5p"]
+material = SubResource("StandardMaterial3D_ulo2v")
+radius = 0.018
+height = 0.143
+
+[node name="BurstChargeParticles" type="GPUParticles3D"]
+emitting = false
+amount = 32
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_lslt6")
+draw_pass_1 = SubResource("CapsuleMesh_p3j5p")

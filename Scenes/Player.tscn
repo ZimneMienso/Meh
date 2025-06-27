@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://5nhb10aid85s"]
+[gd_scene load_steps=26 format=3 uid="uid://5nhb10aid85s"]
 
 [ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/GameObjects/PlayerCharacter.gd" id="1_megsn"]
 [ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="2_yoq75"]
@@ -10,6 +10,8 @@
 [ext_resource type="Resource" uid="uid://bq1r8tmsely48" path="res://Resources/Abilities/Slide.tres" id="8_arntx"]
 [ext_resource type="PackedScene" uid="uid://plt2wegrgk4g" path="res://Assets/Import/CharacterPlaceholder.fbx" id="9_lslt6"]
 [ext_resource type="Resource" uid="uid://ba6u7yucpnqbp" path="res://Resources/Abilities/AirControl.tres" id="9_yoq75"]
+[ext_resource type="Resource" uid="uid://cnsyv2fm0erio" path="res://Resources/Abilities/BurstCharges.tres" id="10_ksbbd"]
+[ext_resource type="Resource" uid="uid://ck4ykx6mlcn" path="res://Resources/Abilities/RocketBoost.tres" id="11_glx4g"]
 
 [sub_resource type="Resource" id="Resource_n6hdu"]
 script = ExtResource("2_yoq75")
@@ -97,14 +99,16 @@ metadata/_custom_type_script = "uid://cao24bdyja8u6"
 [sub_resource type="BoxShape3D" id="BoxShape3D_vonw3"]
 size = Vector3(1, 1.711, 0.435)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("skeleton")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("anim_player", "visual_only_body", "skeleton")]
 collision_layer = 2
 floor_max_angle = 1.39626
 floor_snap_length = 0.3
 script = ExtResource("1_megsn")
+anim_player = NodePath("CharacterPlaceholder/AnimationPlayer")
+visual_only_body = NodePath("CharacterPlaceholder")
 eqslots = Array[ExtResource("2_yoq75")]([SubResource("Resource_n6hdu")])
 initial_attribute_modifiers = Array[ExtResource("3_ksbbd")]([SubResource("Resource_bvt00"), SubResource("Resource_oqgf2"), SubResource("Resource_qxfql"), SubResource("Resource_2klc5"), SubResource("Resource_ha31o"), SubResource("Resource_glx4g"), SubResource("Resource_pa6b8"), SubResource("Resource_crh0w"), SubResource("Resource_c7le1"), SubResource("Resource_yoq75"), SubResource("Resource_ksbbd")])
-inherent_abilities = Array[ExtResource("4_glx4g")]([ExtResource("5_miouo"), ExtResource("6_o3h8g"), ExtResource("7_1e7my"), ExtResource("8_arntx"), ExtResource("9_yoq75")])
+inherent_abilities = Array[ExtResource("4_glx4g")]([ExtResource("5_miouo"), ExtResource("6_o3h8g"), ExtResource("7_1e7my"), ExtResource("8_arntx"), ExtResource("9_yoq75"), ExtResource("10_ksbbd"), ExtResource("11_glx4g")])
 skeleton = NodePath("CharacterPlaceholder/Armature/Skeleton3D")
 
 [node name="CharacterPlaceholder" parent="." instance=ExtResource("9_lslt6")]

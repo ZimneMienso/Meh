@@ -1,7 +1,8 @@
 extends CharacterBody3D
 class_name Player
 
-@onready var anim_player: AnimationPlayer = $CharacterPlaceholder/AnimationPlayer
+@export var anim_player: AnimationPlayer
+@export var visual_only_body: Node3D
 
 ## Equipment slots present on the character itself
 @export var eqslots: Array[EqSlot]
@@ -14,6 +15,8 @@ class_name Player
 @export var bone_attachments: Dictionary[String, BoneAttachment3D]
 @export var skeleton: Skeleton3D
 
+@export var temp_debug1: Node3D
+@export var temp_debug2: Node3D
 
 var attributes: Dictionary[int, Attribute]
 
@@ -27,6 +30,7 @@ var blocked_actions: Array[CharacterAction]
 var equipment_nodes: Dictionary[Equipment, Array]
 
 var input_vector: Vector2
+var input_vector3: Vector3
 
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
@@ -73,13 +77,14 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 
 	input_vector = Input.get_vector("Move Right", "Move Left", "Move Down", "Move Up")
+	input_vector3 = Vector3(0, input_vector.y, input_vector.x)
 
 	for ability in abilities:
 		ability.action_process(delta)
 
 
 func align_rotation_with_velocity():
-	rotation.y = deg_to_rad(-sign(velocity.z) * 90 + 90)
+	visual_only_body.rotation.y = deg_to_rad(-sign(velocity.z) * 90 + 90)
 
 
 #region Equipment and Attributes
@@ -109,9 +114,9 @@ func initialize_equipment():
 
 
 	## Reset abilities
-	# Might be useful to be able to tell abilities when they are being freed
-	#for ability in abilities:
-		#ability.queue_free()
+	for ability in abilities:
+		for ability_object in ability.ability_objects:
+			ability.remove_ability_object(ability_object)
 	abilities.clear()
 	
 	## Enable inherent abilities

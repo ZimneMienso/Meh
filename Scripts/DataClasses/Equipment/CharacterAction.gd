@@ -15,7 +15,8 @@ enum TYPES {
 	FREEFALL,
 	SLIDE,
 	ROCKET_ENGINE,
-	GRAPPLING_HOOK
+	GRAPPLING_HOOK,
+	BURST_CHARGES
 }
 
 var player: Player
@@ -76,8 +77,6 @@ func add_ability_object(object: Node, parent: Node) -> void:
 
 
 func remove_ability_object(object: Node) -> void:
-	if not ability_objects.has(object):
-		printerr("Attempted to remove ability object that is not on the abilities list")
-		return
+	assert(ability_objects.has(object), "Attempted to remove ability object that is not on the abilities list")
 	ability_objects.erase(object)
 	object.queue_free()

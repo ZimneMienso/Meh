@@ -6,7 +6,7 @@ var particle_emitter: GPUParticles3D
 
 @export_category("Fuel")
 @export var max_fuel: float = 1000
-@export var fuel: float = 1000
+var fuel: float
 ## fuel/s, only regenerates while off
 @export var fuel_regen: float = 100
 ## fuel/s
@@ -47,6 +47,7 @@ func stop_performing_action() -> void:
 func ready():
 	type = TYPES.ROCKET_ENGINE
 	super()
+	fuel = max_fuel
 
 	particle_emitter = particle_emitter_scene.instantiate()
-	player.add_child(particle_emitter)
+	add_ability_object(particle_emitter, player)
