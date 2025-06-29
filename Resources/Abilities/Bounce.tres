@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Bounce" load_steps=9 format=3 uid="uid://dixmti5mhtgfp"]
+
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_kuy3o"]
+[ext_resource type="PackedScene" uid="uid://jgq2h8ta2gx8" path="res://Scenes/Abilities/bounce.tscn" id="2_fwca7"]
+[ext_resource type="Resource" uid="uid://ba6u7yucpnqbp" path="res://Resources/Abilities/AirControl.tres" id="2_jx35m"]
+[ext_resource type="Script" uid="uid://b1v34rgmu7q7" path="res://Scripts/Abilities/Bounce.gd" id="2_kimca"]
+[ext_resource type="Resource" uid="uid://cs3ltp0b3itav" path="res://Resources/Abilities/Run.tres" id="3_cjjeu"]
+[ext_resource type="Resource" uid="uid://bq1r8tmsely48" path="res://Resources/Abilities/Slide.tres" id="4_kmtm0"]
+[ext_resource type="Resource" uid="uid://b5gvsspniux1" path="res://Resources/Abilities/Jump.tres" id="5_n6mok"]
+[ext_resource type="Resource" uid="uid://c2ehr58lrbxe6" path="res://Resources/Abilities/GroundStop.tres" id="6_4s0da"]
+
+[resource]
+script = ExtResource("2_kimca")
+delay_between_uses = 0.0
+goo_ball_scene = ExtResource("2_fwca7")
+blocks_actions = Array[ExtResource("1_kuy3o")]([ExtResource("2_jx35m"), ExtResource("3_cjjeu"), ExtResource("4_kmtm0"), ExtResource("5_n6mok"), ExtResource("6_4s0da")])
+metadata/_custom_type_script = "uid://b1v34rgmu7q7"
