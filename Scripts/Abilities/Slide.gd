@@ -18,11 +18,11 @@ func action_physics_process(delta: float) -> void:
 	
 	## Attempt if keybind pressed and moving, or if slide is forced, otherwise
 	## stop performing.
-	
+
 	## Must be on the floor
 	if player.is_on_floor() and \
 	## Is player forced to slide?
-	(player.get_floor_angle() > force_slide_slope_angle or \
+	(player.get_floor_angle() > deg_to_rad(force_slide_slope_angle) or \
 	## Manual sliding input
 	(Input.is_action_pressed("Slide") and player.velocity.z != 0)):
 		attempt_action()

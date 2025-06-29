@@ -1,4 +1,5 @@
 extends Resource
+## An abstract class that defines something the player character can do.
 class_name CharacterAction
 
 
@@ -27,7 +28,9 @@ var ability_objects: Array[Node]
 
 
 # Look at me ma! I've created resources with node functions!
+
 ## Called every _process tick of the player
+## Should be overriden with logic for handling input.
 func action_process(_delta: float) -> void:
 	pass
 
@@ -38,6 +41,7 @@ func action_physics_process(_delta: float) -> void:
 
 
 ## Called on equiping
+## Should be overriden to define the type variable
 func ready() -> void:
 	assert(type != TYPES.NULL, "Called ready on a CharacterAction with no type")
 
@@ -53,7 +57,6 @@ func attempt_action() -> void:
 
 
 ## Inform the action it is supposed to be active and block conflicting actions
-## but only if the action is not currently performed
 func start_performing_action() -> void:
 	assert(performing == false, "Called start_performing_action on an already perfomed action")
 	performing = true
@@ -72,11 +75,13 @@ func stop_performing_action() -> void:
 			player.blocked_actions.erase(blocked_action)
 
 
+## Basically add_child() but registers the child as belonging to this ability
 func add_ability_object(object: Node, parent: Node) -> void:
 	ability_objects.append(object)
-	parent.add_child(object)
+	parent.add_child.call_deferred(object)
 
 
+## Basically queue_free() but unregisters the child from this ability
 func remove_ability_object(object: Node) -> void:
 	assert(ability_objects.has(object), "Attempted to remove ability object that is not on the abilities list")
 	ability_objects.erase(object)

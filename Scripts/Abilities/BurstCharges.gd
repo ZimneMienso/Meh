@@ -81,12 +81,14 @@ func start_performing_action():
 	## Create new emitter and schedule it's death
 	var particle_emitter: GPUParticles3D = particle_emitter_scene.instantiate()
 	add_ability_object(particle_emitter, player)
+	await particle_emitter.ready
 	var emitter_timer: SceneTreeTimer = \
-	player.get_tree().create_timer(1, false, true)
+	player.get_tree().create_timer(1.0, false, true)
 	emitter_timer.timeout.connect(remove_ability_object.bind(particle_emitter))
 
 	## Fire the particles
-	particle_emitter.look_at(player.global_position + opposite_direction3)
+	particle_emitter.look_at(
+		player.global_position + opposite_direction3, Vector3.RIGHT)
 	
 	particle_emitter.emitting = true
 	stop_performing_action()
