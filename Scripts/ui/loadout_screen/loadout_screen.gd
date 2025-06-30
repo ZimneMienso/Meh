@@ -3,11 +3,11 @@ class_name LoadoutScreen
 
 signal loadout_menu_closed
 
-@onready var inventory_item_button_pattern: Button = %InventoryItemButton
-@onready var inventory_buttons_container: FlowContainer = %InventoryButtonsContainer
+@export var inventory_item_button_pattern: Button
+@export var inventory_buttons_container: Container
 
-@onready var loadout_slot_button_pattern: LoadoutScreenButton = %LoadoutSlotButton
-@onready var loadout_buttons_container: FlowContainer = %LoadoutButtonsContainer
+@export var loadout_slot_button_pattern: Button
+@export var loadout_buttons_container: Container
 
 var inventory_item_buttons: Array[Button]
 var loadout_slot_buttons: Array[Button]
@@ -55,17 +55,30 @@ func create_buttons_from_loadout_data() -> void:
 	clear_loadout_slot_buttons()
 	var loadout_slots: Array[EqSlot] = player.get_loadout_slots()
 	for slot in loadout_slots:
-		var new_button: LoadoutScreenButton = loadout_slot_button_pattern.duplicate()
+		var new_button: Button = loadout_slot_button_pattern.duplicate()
 		loadout_slot_buttons.append(new_button)
 		new_button.show()
 		update_loadout_button(new_button, slot)
 
-		# Silly workaround for the fact that a direct connection to the
+		# Workaround for the fact that a direct connection to the
 		# update_button function would necessitate a way of tracking and
 		# disconnecting individual connections when freeing the buttons.
-		slot.equipment_changed.connect(new_button._request_button_update.emit)
-		new_button._request_button_update.connect(
-			update_loadout_button.bind(new_button, slot))
+		## Define a new user signal and add it to the button
+		const request_button_update_signal_name: StringName = \
+		"request_button_update"
+		new_button.add_user_signal(request_button_update_signal_name)
+
+		## Connect the origin of the request chain to the middle-man (button)
+		slot.equipment_changed.connect(
+			new_button.emit_signal.bind(request_button_update_signal_name))
+
+		## Connect the middle-man (button) to the button update
+		## This way when the button is freed,
+		## the signals disconnect automatically
+		new_button.connect(
+			request_button_update_signal_name,
+			update_loadout_button.bind(new_button,slot))
+
 
 		new_button.pressed.connect(on_loadout_slot_button_clicked.bind(slot))
 

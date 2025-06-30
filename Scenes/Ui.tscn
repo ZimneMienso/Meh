@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cs63jt85mqf8n"]
+[gd_scene load_steps=3 format=3 uid="uid://cs63jt85mqf8n"]
 
 [ext_resource type="Script" uid="uid://dv4lqq0lpfism" path="res://Scripts/Ui/loadout_screen/loadout_screen.gd" id="1_01iap"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_5cc6k"]
-[ext_resource type="Script" uid="uid://dwjvpun18y71n" path="res://Scripts/Ui/loadout_screen/loadout_slot_button.gd" id="3_jft1q"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -12,8 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LoadoutScreen" type="HBoxContainer" parent="."]
-unique_name_in_owner = true
+[node name="LoadoutScreen" type="HBoxContainer" parent="." node_paths=PackedStringArray("inventory_item_button_pattern", "inventory_buttons_container", "loadout_slot_button_pattern", "loadout_buttons_container")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -22,6 +20,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_01iap")
+inventory_item_button_pattern = NodePath("InventoryContainer/Inventory/InventoryButtonsContainer/InventoryItemButton")
+inventory_buttons_container = NodePath("InventoryContainer/Inventory/InventoryButtonsContainer")
+loadout_slot_button_pattern = NodePath("LoadoutContainer/Loadout/LoadoutButtonsContainer/LoadoutSlotButton")
+loadout_buttons_container = NodePath("LoadoutContainer/Loadout/LoadoutButtonsContainer")
 
 [node name="StatsContainer" type="VBoxContainer" parent="LoadoutScreen"]
 layout_mode = 2
@@ -64,11 +66,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="LoadoutButtonsContainer" type="FlowContainer" parent="LoadoutScreen/LoadoutContainer/Loadout"]
-unique_name_in_owner = true
 layout_mode = 2
 
 [node name="LoadoutSlotButton" type="Button" parent="LoadoutScreen/LoadoutContainer/Loadout/LoadoutButtonsContainer"]
-unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
@@ -77,7 +77,6 @@ icon = ExtResource("2_5cc6k")
 icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
-script = ExtResource("3_jft1q")
 
 [node name="InventoryContainer" type="VBoxContainer" parent="LoadoutScreen"]
 layout_mode = 2
@@ -127,11 +126,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="InventoryButtonsContainer" type="FlowContainer" parent="LoadoutScreen/InventoryContainer/Inventory"]
-unique_name_in_owner = true
 layout_mode = 2
 
 [node name="InventoryItemButton" type="Button" parent="LoadoutScreen/InventoryContainer/Inventory/InventoryButtonsContainer"]
-unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
