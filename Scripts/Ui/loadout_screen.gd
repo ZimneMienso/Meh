@@ -6,7 +6,7 @@ signal loadout_menu_closed
 @export var inventory_item_button_pattern: Button
 @export var inventory_buttons_container: Container
 
-@export var loadout_slot_button_pattern: button
+@export var loadout_slot_button_pattern: Button
 @export var loadout_buttons_container: Container
 
 @export var ability_keybind_panel: AbilityKeybindsPanel
