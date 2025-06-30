@@ -6,7 +6,7 @@ signal loadout_menu_closed
 @export var inventory_item_button_pattern: Button
 @export var inventory_buttons_container: Container
 
-@export var loadout_slot_button_pattern: LoadoutScreenButton
+@export var loadout_slot_button_pattern: button
 @export var loadout_buttons_container: Container
 
 @export var ability_keybind_panel: AbilityKeybindsPanel
@@ -61,7 +61,7 @@ func create_buttons_from_loadout_data() -> void:
 	clear_loadout_slot_buttons()
 	var loadout_slots: Array[EqSlot] = player.get_loadout_slots()
 	for slot in loadout_slots:
-		var new_button: LoadoutScreenButton = loadout_slot_button_pattern.duplicate()
+		var new_button: Button = loadout_slot_button_pattern.duplicate()
 		loadout_slot_buttons.append(new_button)
 		new_button.show()
 		update_loadout_button(new_button, slot)

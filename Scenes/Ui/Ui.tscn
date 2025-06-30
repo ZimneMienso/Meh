@@ -87,7 +87,6 @@ icon = ExtResource("2_5cc6k")
 icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
-script = ExtResource("3_jft1q")
 
 [node name="InventoryContainer" type="VBoxContainer" parent="LoadoutScreen"]
 layout_mode = 2
