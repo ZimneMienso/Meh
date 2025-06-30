@@ -1,12 +1,15 @@
-[gd_resource type="Resource" script_class="Run" load_steps=4 format=3 uid="uid://cs3ltp0b3itav"]
+[gd_resource type="Resource" script_class="Run" load_steps=5 format=3 uid="uid://cs3ltp0b3itav"]
 
 [ext_resource type="Script" uid="uid://jl0dvr7yrq6l" path="res://Scripts/Abilities/Run.gd" id="1_2aod1"]
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_gptd4"]
 [ext_resource type="Resource" uid="uid://c2ehr58lrbxe6" path="res://Resources/Abilities/GroundStop.tres" id="2_40oev"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="3_40oev"]
 
 [resource]
 script = ExtResource("1_2aod1")
 precision_mode_max_velocity = 3.0
 precision_mode_bonus_acceleration = 30.0
 blocks_actions = Array[ExtResource("1_gptd4")]([ExtResource("2_40oev")])
+create_input_action = false
+icon = ExtResource("3_40oev")
 metadata/_custom_type_script = "uid://jl0dvr7yrq6l"

@@ -6,6 +6,11 @@ class_name CharacterAction
 @export var blocks_actions: Array[CharacterAction]
 var type: TYPES = TYPES.NULL
 
+@export var create_input_action: bool = false
+## Also the name of the action that triggers it if create_input_action is true
+var ability_name: String
+
+@export var icon: Texture2D = preload("res://Assets/Icons/Placeholder Icon.png")
 
 enum TYPES {
 	NULL,
@@ -44,6 +49,10 @@ func action_physics_process(_delta: float) -> void:
 ## Should be overriden to define the type variable
 func ready() -> void:
 	assert(type != TYPES.NULL, "Called ready on a CharacterAction with no type")
+
+	ability_name = TYPES.find_key(type)
+	if create_input_action and not InputMap.has_action(ability_name):
+		InputMap.add_action(ability_name)
 
 
 ## Check if the action is not blocked and start performing it if true

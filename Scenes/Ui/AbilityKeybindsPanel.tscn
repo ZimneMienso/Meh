@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://i8ym81oyfo05"]
+
+[ext_resource type="Script" uid="uid://d8engktuj2t5" path="res://Scripts/Ui/ability_keybinds_panel.gd" id="1_dg67t"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="1_rbcj7"]
+[ext_resource type="PackedScene" uid="uid://b1xm3xi2bouej" path="res://Scenes/Ui/InputListenerPopup.tscn" id="2_vy418"]
+
+[node name="AbilityKeybindsPanel" type="PanelContainer" node_paths=PackedStringArray("keybind_list_item", "list_item_icon", "list_item_label", "list_item_button")]
+offset_right = 653.0
+offset_bottom = 350.0
+size_flags_vertical = 3
+script = ExtResource("1_dg67t")
+keybind_list_item = NodePath("ScrollContainer/KeybindButtonList/KeybindListItem")
+list_item_icon = NodePath("ScrollContainer/KeybindButtonList/KeybindListItem/AbilityIcon")
+list_item_label = NodePath("ScrollContainer/KeybindButtonList/KeybindListItem/AbilityNameLabel")
+list_item_button = NodePath("ScrollContainer/KeybindButtonList/KeybindListItem/ChangeKeybindButton")
+input_listener_scene = ExtResource("2_vy418")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+
+[node name="KeybindButtonList" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="KeybindListTopRow" type="HBoxContainer" parent="ScrollContainer/KeybindButtonList"]
+layout_mode = 2
+
+[node name="NameColumnLabel" type="Label" parent="ScrollContainer/KeybindButtonList/KeybindListTopRow"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Ability"
+horizontal_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="ScrollContainer/KeybindButtonList/KeybindListTopRow"]
+layout_mode = 2
+
+[node name="KeybindColumnLabel" type="Label" parent="ScrollContainer/KeybindButtonList/KeybindListTopRow"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Keybind"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/KeybindButtonList"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="KeybindListItem" type="HBoxContainer" parent="ScrollContainer/KeybindButtonList"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="AbilityIcon" type="TextureRect" parent="ScrollContainer/KeybindButtonList/KeybindListItem"]
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("1_rbcj7")
+
+[node name="AbilityNameLabel" type="Label" parent="ScrollContainer/KeybindButtonList/KeybindListItem"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ability Name"
+horizontal_alignment = 1
+
+[node name="ChangeKeybindButton" type="Button" parent="ScrollContainer/KeybindButtonList/KeybindListItem"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+text = "B"
+autowrap_mode = 3

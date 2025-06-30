@@ -3,11 +3,13 @@ class_name LoadoutScreen
 
 signal loadout_menu_closed
 
-@onready var inventory_item_button_pattern: Button = %InventoryItemButton
-@onready var inventory_buttons_container: FlowContainer = %InventoryButtonsContainer
+@export var inventory_item_button_pattern: Button
+@export var inventory_buttons_container: Container
 
-@onready var loadout_slot_button_pattern: LoadoutScreenButton = %LoadoutSlotButton
-@onready var loadout_buttons_container: FlowContainer = %LoadoutButtonsContainer
+@export var loadout_slot_button_pattern: LoadoutScreenButton
+@export var loadout_buttons_container: Container
+
+@export var ability_keybind_panel: AbilityKeybindsPanel
 
 var inventory_item_buttons: Array[Button]
 var loadout_slot_buttons: Array[Button]
@@ -19,14 +21,18 @@ var player: Player
 
 func open(opening_player: Player) -> void:
 	player = opening_player
+	ability_keybind_panel.player = player
 	create_buttons_from_inventory_data()
 	create_buttons_from_loadout_data()
 	show()
+
+	ability_keybind_panel.populate_list_with_current_abilities()
 
 
 func close() -> void:
 	hide()
 	loadout_menu_closed.emit()
+	ability_keybind_panel.clear_list()
 
 
 ## This removes all buttons in the loadout window and creates new ones based on
@@ -60,12 +66,23 @@ func create_buttons_from_loadout_data() -> void:
 		new_button.show()
 		update_loadout_button(new_button, slot)
 
-		# Silly workaround for the fact that a direct connection to the
+		# Workaround for the fact that a direct connection to the
 		# update_button function would necessitate a way of tracking and
 		# disconnecting individual connections when freeing the buttons.
-		slot.equipment_changed.connect(new_button._request_button_update.emit)
-		new_button._request_button_update.connect(
-			update_loadout_button.bind(new_button, slot))
+		## Define a new user signal and add it to the button
+		const button_update_signal_name: StringName = "request_button_update"
+		new_button.add_user_signal(button_update_signal_name)
+		## Connect the origin of the signal chain to the middle-man (button)
+		slot.equipment_changed.connect(
+			new_button.emit_signal.bind(button_update_signal_name))
+		## Connect the middle-man (button) to the button update
+		## This way when the button is freed,
+		## the signals disconnect automatically
+		new_button.connect(
+			button_update_signal_name,
+			update_loadout_button.bind(new_button, slot)
+		)
+
 
 		new_button.pressed.connect(on_loadout_slot_button_clicked.bind(slot))
 

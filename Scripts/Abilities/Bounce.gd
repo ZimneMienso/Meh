@@ -11,10 +11,10 @@ var goo_ball_mesh: MeshInstance3D
 
 ## Called every _process tick of the player
 func action_process(_delta: float) -> void:
-	if Input.is_action_just_pressed("Use Bounce") and \
+	if Input.is_action_just_pressed(ability_name) and \
 	use_delay_progress == 0 and not performing:
 		attempt_action()
-	elif Input.is_action_just_pressed("Use Bounce") and performing:
+	elif Input.is_action_just_pressed(ability_name) and performing:
 		stop_performing_action()
 
 

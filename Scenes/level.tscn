@@ -1,7 +1,7 @@
 [gd_scene load_steps=23 format=3 uid="uid://bsvnhuwivwpc7"]
 
 [ext_resource type="PackedScene" uid="uid://5nhb10aid85s" path="res://Scenes/Player.tscn" id="1_6phgx"]
-[ext_resource type="PackedScene" uid="uid://cs63jt85mqf8n" path="res://Scenes/Ui.tscn" id="3_81xng"]
+[ext_resource type="PackedScene" uid="uid://cs63jt85mqf8n" path="res://Scenes/Ui/Ui.tscn" id="3_81xng"]
 [ext_resource type="PackedScene" uid="uid://b3usd5ssxc6b1" path="res://Scenes/GameObjects/equipment_gantry.tscn" id="4_oqgf2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vonw3"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dtfgprfwd0vmx"]
 
-[ext_resource type="PackedScene" uid="uid://cs63jt85mqf8n" path="res://Scenes/Ui.tscn" id="1_58jnd"]
+[ext_resource type="PackedScene" uid="uid://cs63jt85mqf8n" path="res://Scenes/Ui/Ui.tscn" id="1_58jnd"]
 [ext_resource type="PackedScene" uid="uid://30cfoh51n2be" path="res://Assets/Import/TestMap1.fbx" id="1_qaqcg"]
 [ext_resource type="PackedScene" uid="uid://b3usd5ssxc6b1" path="res://Scenes/GameObjects/equipment_gantry.tscn" id="2_58jnd"]
 [ext_resource type="PackedScene" uid="uid://5nhb10aid85s" path="res://Scenes/Player.tscn" id="4_58jnd"]
@@ -37,6 +37,9 @@ transform = Transform3D(-1.74846e-07, 0, 4, 0, 4, 0, -4, 0, -1.74846e-07, -1, 0,
 [node name="External" type="Node3D" parent="."]
 
 [node name="UI" parent="External" instance=ExtResource("1_58jnd")]
+
+[node name="LoadoutScreen" parent="External/UI" index="0"]
+visible = false
 
 [node name="Player" parent="External" node_paths=PackedStringArray("temp_debug1", "temp_debug2") instance=ExtResource("4_58jnd")]
 temp_debug1 = NodePath("DebugThingy1")

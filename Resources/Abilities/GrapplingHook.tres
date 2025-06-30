@@ -1,11 +1,14 @@
-[gd_resource type="Resource" script_class="GrapplingHook" load_steps=3 format=3 uid="uid://custveo0wacsu"]
+[gd_resource type="Resource" script_class="GrapplingHook" load_steps=4 format=3 uid="uid://custveo0wacsu"]
 
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_osud1"]
 [ext_resource type="Script" uid="uid://d3as7hjaneikk" path="res://Scripts/Abilities/GrapplingHook.gd" id="2_k5cb8"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_krku2"]
 
 [resource]
 script = ExtResource("2_k5cb8")
 hook_range = 30.0
 hook_speed = 50.0
 blocks_actions = Array[ExtResource("1_osud1")]([])
+create_input_action = true
+icon = ExtResource("2_krku2")
 metadata/_custom_type_script = "uid://d3as7hjaneikk"

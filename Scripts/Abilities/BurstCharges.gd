@@ -22,7 +22,7 @@ var use_cooldown_progress: float
 func action_process(_delta: float) -> void:
 	var intput_vector: Vector2 = player.input_vector
 	
-	if Input.is_action_just_pressed("Use Burst Charge") and intput_vector and \
+	if Input.is_action_just_pressed(ability_name) and intput_vector and \
 	charges and use_cooldown_progress == 0:
 		attempt_action()
 

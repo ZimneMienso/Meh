@@ -16,7 +16,7 @@ var fuel: float
 
 
 func action_process(_delta: float) -> void:
-	if Input.is_action_just_pressed("Use Rocket Engine") and fuel > fuel_to_start:
+	if Input.is_action_just_pressed(ability_name) and fuel > fuel_to_start:
 		if performing:
 			stop_performing_action()
 		else:

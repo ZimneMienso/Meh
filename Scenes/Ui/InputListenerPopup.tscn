@@ -1,0 +1,119 @@
+[gd_scene load_steps=8 format=3 uid="uid://b1xm3xi2bouej"]
+
+[ext_resource type="Script" uid="uid://cetjk35uojr7y" path="res://Scripts/Ui/input_listener_popup.gd" id="1_kfdsy"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_kfdsy"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_wfi0c"]
+events = [SubResource("InputEventKey_kfdsy")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_wfi0c"]
+device = -1
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_ew4s7"]
+events = [SubResource("InputEventKey_wfi0c")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_pnetd"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_hclrd"]
+events = [SubResource("InputEventKey_pnetd")]
+
+[node name="InputListenerPopup" type="PanelContainer" node_paths=PackedStringArray("instruction_label", "status_label", "confirm_button", "cancel_button", "close_button")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -218.5
+offset_top = -107.0
+offset_right = 218.5
+offset_bottom = 107.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+script = ExtResource("1_kfdsy")
+instruction_label = NodePath("MarginContainer/VBoxContainer/InstructionLabel")
+status_label = NodePath("MarginContainer/VBoxContainer/MarginContainer/PanelContainer/StatusLabel")
+confirm_button = NodePath("MarginContainer/VBoxContainer/ConfirmButtons/ConfirmButton")
+cancel_button = NodePath("MarginContainer/VBoxContainer/ConfirmButtons/CancelButton")
+close_button = NodePath("CloseButton")
+
+[node name="CloseButton" type="Button" parent="." node_paths=PackedStringArray("shortcut_context")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+shortcut_context = NodePath(".")
+shortcut = SubResource("Shortcut_wfi0c")
+text = "X"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="InstructionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Press key to assign"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Listening..."
+horizontal_alignment = 1
+
+[node name="ConfirmButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="LeftSeparator" type="Control" parent="MarginContainer/VBoxContainer/ConfirmButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="ConfirmButton" type="Button" parent="MarginContainer/VBoxContainer/ConfirmButtons" node_paths=PackedStringArray("shortcut_context")]
+layout_mode = 2
+size_flags_horizontal = 3
+shortcut_context = NodePath("../../../..")
+shortcut = SubResource("Shortcut_ew4s7")
+text = "Confirm"
+
+[node name="MiddleSeparator" type="Control" parent="MarginContainer/VBoxContainer/ConfirmButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/ConfirmButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+shortcut = SubResource("Shortcut_hclrd")
+text = "Cancel"
+
+[node name="RightSeparator" type="Control" parent="MarginContainer/VBoxContainer/ConfirmButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
