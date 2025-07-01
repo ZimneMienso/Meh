@@ -7,6 +7,7 @@ var tracking: Node3D
 
 func _ready() -> void:
 	camera = get_node("Camera3D")
+	default_mode()
 
 
 func _process(_delta: float) -> void:
@@ -15,7 +16,7 @@ func _process(_delta: float) -> void:
 
 
 func default_mode() -> void:
-	camera.position = Vector3(7.776, 0.108, 0)
+	camera.position = Vector3(10.776, 0.108, 0)
 	camera.rotation = Vector3(deg_to_rad(-6.8), deg_to_rad(90), deg_to_rad(0))
 
 

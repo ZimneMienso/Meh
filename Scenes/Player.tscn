@@ -121,6 +121,7 @@ shape = SubResource("BoxShape3D_vonw3")
 
 [node name="StatsLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.97114, 0)
+pixel_size = 0.007
 billboard = 2
 
 [editable path="CharacterPlaceholder"]
