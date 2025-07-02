@@ -6,6 +6,7 @@ extends CharacterAction
 # meta-space-indent: 4
 ## Called every _process tick of the player
 func action_process(_delta: float) -> void:
+#	if Input.is_action_just_pressed(ability_name):
 #	if trigger:
 #		attempt_action()
 #	else:
