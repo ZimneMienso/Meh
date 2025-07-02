@@ -3,7 +3,8 @@ extends Control
 
 # TODO make the input handling clean and predictable
 
-signal keybind_changed
+## Notifies the keybinds panel to refresh
+signal keybind_changed(new_input_event: InputEvent)
 
 @export var instruction_label: Label
 @export var status_label: Label
@@ -81,15 +82,16 @@ func catch(event: InputEvent = null):
 func apply():
 	assert(InputMap.has_action(
 		ability.ability_name), "Missing action for " + ability.ability_name)
+	## If no event is bound to the given action, add the candidate event
 	if InputMap.action_get_events(ability.ability_name).size() == 0:
 		InputMap.action_add_event(ability.ability_name, keybind_candidate)
-		keybind_changed.emit()
-		queue_free()
-		return
-	if InputMap.action_get_events(ability.ability_name)[0] != keybind_candidate:
+		keybind_changed.emit(ability.ability_name, keybind_candidate)
+		
+	## If the current event is not the candidate, change it
+	elif InputMap.action_get_events(ability.ability_name)[0] != keybind_candidate:
 		InputMap.action_erase_events(ability.ability_name)
 		InputMap.action_add_event(ability.ability_name, keybind_candidate)
-		keybind_changed.emit()
+		keybind_changed.emit(ability.ability_name, keybind_candidate)
 	## Last case being: there is more than zero events and 
 	## the first one is equal to the current candidate
 	queue_free()

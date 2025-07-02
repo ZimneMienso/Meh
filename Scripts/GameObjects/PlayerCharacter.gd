@@ -24,9 +24,8 @@ var abilities: Array[CharacterAction]
 var active_abilities: Array[CharacterAction]
 var blocked_actions: Array[CharacterAction]
 
-
-## A dictionary that holds arrays of nodes created from equipment data on equip/
-## Used to free them on unequip
+## A dictionary that holds arrays of nodes created from equipment data on equip.
+## Used to free them on unequip.
 var equipment_nodes: Dictionary[Equipment, Array]
 
 var input_vector: Vector2
@@ -37,6 +36,9 @@ var last_frame_velocity: Vector3
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
 
+# TODO This is jank, move it somewhere less moronic when you do game saving or
+# loadout handling
+const ability_keybind_cfg_path: String = "user://AbilityKeybinds.cfg"
 
 func _ready() -> void:
 	CAMERAMAN.tracking = self
@@ -51,6 +53,20 @@ func _ready() -> void:
 	initialize_equipment()
 
 	INV.add_equipment(preload("res://Resources/Equipment/LightExoskeleton.tres"))
+
+	## Load ability keybinds
+	if not FileAccess.file_exists(ability_keybind_cfg_path):
+		return
+	var ability_keybind_cfg: ConfigFile = ConfigFile.new()
+	ability_keybind_cfg.load(ability_keybind_cfg_path)
+
+	var section: String = ability_keybind_cfg.get_sections()[0]
+	for ability_name in ability_keybind_cfg.get_section_keys(section):
+		var key: InputEvent = \
+		ability_keybind_cfg.get_value(section, ability_name)
+		if not InputMap.has_action(ability_name):
+			InputMap.add_action(ability_name)
+		InputMap.action_add_event(ability_name, key)
 
 
 func _physics_process(delta: float) -> void:

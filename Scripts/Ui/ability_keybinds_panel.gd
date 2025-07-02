@@ -47,8 +47,18 @@ func add_keybind_list_item(ability: CharacterAction) -> void:
 func open_input_listener_popup(ability: CharacterAction) -> void:
 	var new_popup: InputListenerPopup = input_listener_scene.instantiate()
 	new_popup.ability = ability
-	new_popup.keybind_changed.connect(refresh_list)
+	new_popup.keybind_changed.connect(refresh_list.unbind(2))
+	new_popup.keybind_changed.connect(save_keybind)
 	get_tree().get_root().add_child.call_deferred(new_popup)
+
+
+func save_keybind(ability_name: String, key: InputEvent):
+	var config_path: String = player.ability_keybind_cfg_path
+	var config: ConfigFile = ConfigFile.new()
+	if FileAccess.file_exists(player.ability_keybind_cfg_path):
+		config.load(config_path)
+	config.set_value("AbilityKeybinds", ability_name, key)
+	config.save(config_path)
 
 
 func populate_list_with_current_abilities() -> void:
