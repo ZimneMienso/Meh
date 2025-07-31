@@ -4,13 +4,26 @@ extends CharacterAction
 # meta-name: Ability
 # meta-default: true
 # meta-space-indent: 4
-## Called every _process tick of the player
-func action_process(_delta: float) -> void:
+
+
+## Input events passed from the player
+func action_input(event: InputEvent) -> void:
+	if not event.is_action(ability_name):
+		return
 #	if Input.is_action_just_pressed(ability_name):
+#
 #	if trigger:
 #		attempt_action()
 #	else:
 #		stop_performing_action()
+
+#	uncomment and keep this if it's a repair mode ability
+#	player.get_viewport().set_input_as_handled()
+	pass
+
+
+## Called every _process tick of the player
+func action_process(_delta: float) -> void:
 	pass
 
 

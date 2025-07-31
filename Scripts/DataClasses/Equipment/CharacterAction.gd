@@ -11,6 +11,9 @@ var type: TYPES = TYPES.NULL
 var ability_name: String
 
 @export var icon: Texture2D = preload("res://Assets/Icons/Placeholder Icon.png")
+## Repair mode abilities only work when repair mode is active,
+## receive inputs first and consume them.
+@export var repair_mode: bool = false
 
 enum TYPES {
 	NULL,
@@ -24,7 +27,8 @@ enum TYPES {
 	GRAPPLING_HOOK,
 	BURST_CHARGES,
 	BOUNCE,
-	SLOW_MOTION
+	SLOW_MOTION,
+	REPAIR_MODE
 }
 
 var player: Player
@@ -46,6 +50,10 @@ func action_physics_process(_delta: float) -> void:
 	pass
 
 
+func action_input(event: InputEvent) -> void:
+	pass
+
+
 ## Called on equiping
 ## Should be overriden to define the type variable
 func ready() -> void:
@@ -61,7 +69,7 @@ func ready() -> void:
 func attempt_action() -> void:
 	if performing:
 		return
-	if player.blocked_actions.has(self):
+	if player.blocked_actions.has(type):
 		return
 	start_performing_action()
 
@@ -72,8 +80,9 @@ func start_performing_action() -> void:
 	performing = true
 	## Stop performing actions that just have been blocked
 	for blocked_action in blocks_actions:
+		# TODO This should work on a TYPES tag basis or something else that is less problematic
 		blocked_action.stop_performing_action()
-		player.blocked_actions.append(blocked_action)
+		player.blocked_actions.append(blocked_action.type)
 
 
 ## Inform the action it is no longer active and unlock conflicting actions,
@@ -82,7 +91,7 @@ func stop_performing_action() -> void:
 	if performing:
 		performing = false
 		for blocked_action in blocks_actions:
-			player.blocked_actions.erase(blocked_action)
+			player.blocked_actions.erase(blocked_action.type)
 
 
 ## Basically add_child() but registers the child as belonging to this ability

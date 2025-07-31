@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="AirControl" load_steps=4 format=3 uid="uid://ba6u7yucpnqbp"]
 
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_dmkv6"]
 [ext_resource type="Script" uid="uid://c60wgja21bc55" path="res://Scripts/Abilities/AirControl.gd" id="1_vcmga"]
-[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_w6vw5"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_dmkv6"]
 
 [resource]
@@ -9,7 +9,8 @@ script = ExtResource("1_vcmga")
 deceleration_bonus_acceleration = 24.0
 precision_mode_max_velocity = 5.0
 precision_mode_bonus_acceleration = 15.0
-blocks_actions = Array[ExtResource("1_w6vw5")]([])
+blocks_actions = Array[ExtResource("1_dmkv6")]([])
 create_input_action = false
 icon = ExtResource("2_dmkv6")
+repair_mode = false
 metadata/_custom_type_script = "uid://c60wgja21bc55"

@@ -21,8 +21,9 @@ class_name Player
 var attributes: Dictionary[int, Attribute]
 
 var abilities: Array[CharacterAction]
-var active_abilities: Array[CharacterAction]
-var blocked_actions: Array[CharacterAction]
+var repair_mode_abilities: Array[CharacterAction]
+var active_abilities: Array[int]
+var blocked_actions: Array[int]
 
 ## A dictionary that holds arrays of nodes created from equipment data on equip.
 ## Used to free them on unequip.
@@ -80,10 +81,15 @@ func _physics_process(delta: float) -> void:
 	align_rotation_with_velocity()
 
 	active_abilities.clear()
+	## Ability physics process
 	for ability in abilities:
 		ability.action_physics_process(delta)
 		if ability.performing:
-			active_abilities.append(ability)
+			active_abilities.append(ability.type)
+	for ability in repair_mode_abilities:
+		ability.action_physics_process(delta)
+		if ability.performing:
+			active_abilities.append(ability.type)
 
 	## Air friction
 	var air_friction: float = get_attribute(Attribute.TYPE.AIR_FRICTION)
@@ -100,6 +106,20 @@ func _process(delta: float) -> void:
 
 	for ability in abilities:
 		ability.action_process(delta)
+	for ability in repair_mode_abilities:
+		ability.action_process(delta)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		return
+	#if active_abilities.has()
+	for ability in repair_mode_abilities:
+		ability.action_input(event)
+	if get_viewport().is_input_handled():
+		return
+	for ability in abilities:
+		ability.action_input(event)
 
 
 func align_rotation_with_velocity():
@@ -136,8 +156,12 @@ func initialize_equipment():
 	for ability in abilities:
 		for ability_object in ability.ability_objects:
 			ability.remove_ability_object(ability_object)
+	for ability in repair_mode_abilities:
+		for ability_object in ability.ability_objects:
+			ability.remove_ability_object(ability_object)
 	abilities.clear()
-	
+	repair_mode_abilities.clear()
+
 	## Enable inherent abilities
 	for ability in inherent_abilities:
 		enable_ability(ability)
@@ -203,7 +227,10 @@ func remove_equipment_properties(equipment: Equipment):
 
 	## Abilities
 	for ability in equipment.abilities:
-		abilities.erase(ability)
+		if ability.repair_mode:
+			repair_mode_abilities.erase(ability)
+		else:
+			abilities.erase(ability)
 
 
 ## Apply the given modifier to the relevant attribute
@@ -214,7 +241,10 @@ func apply_attribute_modifier(modifier: AttributeModifier):
 ## Registers and enables the given ability for the player
 func enable_ability(ability: CharacterAction):
 	ability.player = self
-	abilities.append(ability)
+	if ability.repair_mode:
+		repair_mode_abilities.append(ability)
+	else:
+		abilities.append(ability)
 	ability.ready()
 
 
@@ -270,6 +300,6 @@ func debug_update_stats_label():
 	
 	var player_actions_text: Array[String]
 	for ability in active_abilities:
-		player_actions_text.append(CharacterAction.TYPES.find_key(ability.type))
+		player_actions_text.append(CharacterAction.TYPES.find_key(ability))
 	
 	$StatsLabel.text = text % [velocity.round(), player_actions_text, ]

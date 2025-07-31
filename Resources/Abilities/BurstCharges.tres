@@ -16,4 +16,5 @@ particle_emitter_scene = ExtResource("2_u4q1h")
 blocks_actions = Array[ExtResource("1_3vccn")]([])
 create_input_action = true
 icon = ExtResource("2_kppcl")
+repair_mode = false
 metadata/_custom_type_script = "uid://ctmkc2ot4y556"

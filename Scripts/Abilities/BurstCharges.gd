@@ -19,7 +19,9 @@ var use_cooldown_progress: float
 
 
 ## Called every _process tick of the player
-func action_process(_delta: float) -> void:
+func action_input(event: InputEvent) -> void:
+	if not event.is_action(ability_name):
+		return
 	var intput_vector: Vector2 = player.input_vector
 	
 	if Input.is_action_just_pressed(ability_name) and intput_vector and \

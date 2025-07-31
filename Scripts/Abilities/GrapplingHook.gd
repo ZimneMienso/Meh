@@ -24,6 +24,18 @@ class HookAttachment:
 var hook_attachments: Array[HookAttachment]
 
 
+func action_input(event: InputEvent) -> void:
+	if event.is_action(ability_name):
+		if Input.is_action_just_pressed(ability_name):
+			if performing:
+				stop_performing_action()
+			else:
+				attempt_action()
+
+	if event.is_action("Jump") and hook_attachments.size() > 0: 
+			stop_performing_action()
+
+
 ## Called every _process tick of the player
 func action_process(_delta: float) -> void:
 	## Drawing the "rope"
@@ -45,16 +57,6 @@ func action_process(_delta: float) -> void:
 		rope_immediate_mesh.mesh.surface_add_vertex(
 			player.global_position + player_pos_offset)
 		rope_immediate_mesh.mesh.surface_end()
-		
-
-	## Input
-	if performing: 
-		if Input.is_action_just_pressed(ability_name):
-			stop_performing_action()
-		if hook_attachments.size() > 0 and Input.is_action_just_pressed("Jump"):
-			stop_performing_action()
-	elif Input.is_action_just_pressed(ability_name):
-			attempt_action()
 
 
 ## Called every _physics_process tick of the player

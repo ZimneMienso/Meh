@@ -15,11 +15,13 @@ var fuel: float
 @export var fuel_to_start: float = 200
 
 
-func action_process(_delta: float) -> void:
-	if Input.is_action_just_pressed(ability_name) and fuel > fuel_to_start:
+func action_input(event: InputEvent) -> void:
+	if not event.is_action(ability_name):
+		return
+	if Input.is_action_just_pressed(ability_name):
 		if performing:
 			stop_performing_action()
-		else:
+		elif fuel > fuel_to_start:
 			attempt_action()
 
 

@@ -12,14 +12,15 @@ var stored_slow: float
 ## By how much the game slows during the ability
 @export_range(0, 0.9, 0.01) var slow: float
 
-## Called every _process tick of the player
-func action_process(_delta: float) -> void:
-	if not Input.is_action_just_pressed(ability_name) or stored_slow < 0.1:
+
+func action_input(event: InputEvent) -> void:
+	if not event.is_action(ability_name):
 		return
-	if performing:
-		stop_performing_action()
-	else:
-		start_performing_action()
+	if Input.is_action_just_pressed(ability_name):
+		if performing:
+			stop_performing_action()
+		elif stored_slow > 0.1:
+			start_performing_action()
 
 
 ## Called every _physics_process tick of the player

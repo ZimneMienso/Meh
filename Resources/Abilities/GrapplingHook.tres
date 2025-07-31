@@ -11,4 +11,5 @@ hook_speed = 50.0
 blocks_actions = Array[ExtResource("1_osud1")]([])
 create_input_action = true
 icon = ExtResource("2_krku2")
+repair_mode = false
 metadata/_custom_type_script = "uid://d3as7hjaneikk"

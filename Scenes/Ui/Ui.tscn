@@ -11,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="LoadoutScreen" type="HBoxContainer" parent="." node_paths=PackedStringArray("inventory_item_button_pattern", "inventory_buttons_container", "loadout_slot_button_pattern", "loadout_buttons_container", "ability_keybind_panel")]
 layout_mode = 1

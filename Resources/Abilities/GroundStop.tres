@@ -1,12 +1,13 @@
 [gd_resource type="Resource" script_class="GroundStop" load_steps=4 format=3 uid="uid://c2ehr58lrbxe6"]
 
 [ext_resource type="Script" uid="uid://b3rkd3i2kmf52" path="res://Scripts/Abilities/GroundStop.gd" id="1_7mfsn"]
-[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_c0n4u"]
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_wu410"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_wu410"]
 
 [resource]
 script = ExtResource("1_7mfsn")
-blocks_actions = Array[ExtResource("1_c0n4u")]([])
+blocks_actions = Array[ExtResource("1_wu410")]([])
 create_input_action = false
 icon = ExtResource("2_wu410")
+repair_mode = false
 metadata/_custom_type_script = "uid://b3rkd3i2kmf52"

@@ -1,12 +1,13 @@
 [gd_resource type="Resource" script_class="Jump" load_steps=4 format=3 uid="uid://b5gvsspniux1"]
 
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_dioex"]
 [ext_resource type="Script" uid="uid://bhodwaf24whjh" path="res://Scripts/Abilities/Jump.gd" id="1_moj8w"]
-[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_s3dbm"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_dioex"]
 
 [resource]
 script = ExtResource("1_moj8w")
-blocks_actions = Array[ExtResource("1_s3dbm")]([])
+blocks_actions = Array[ExtResource("1_dioex")]([])
 create_input_action = false
 icon = ExtResource("2_dioex")
+repair_mode = false
 metadata/_custom_type_script = "uid://bhodwaf24whjh"
