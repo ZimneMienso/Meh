@@ -7,6 +7,8 @@ signal struct_repaired
 ## The scenes that will be shown for each particular stage of damage.
 ## Stage 0 is intact, stages[max_stage] is completely destroyed.
 @export var stages: Array[PackedScene]
+## Standardized amount of work needed to repair a stage. A equals to 1 second
+## of work with a standard tool.
 @export_range(0, 5, 0.1, "or_greater") var repair_time: float = 1
 
 @onready var max_stage: int = stages.size() - 1

@@ -9,9 +9,9 @@ func action_input(event: InputEvent):
 		return
 	if Input.is_action_just_pressed(ability_name):
 		if performing:
-			start_performing_action()
-		else:
 			stop_performing_action()
+		else:
+			start_performing_action()
 	
 
 

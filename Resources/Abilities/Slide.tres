@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Slide" load_steps=6 format=3 uid="uid://bq1r8tmsely48"]
 
-[ext_resource type="Script" uid="uid://d22kk565fmqgr" path="res://Scripts/Abilities/Slide.gd" id="1_bcg04"]
+[ext_resource type="Script" uid="uid://d22kk565fmqgr" path="res://Scripts/Abilities/Abilities/Slide.gd" id="1_bcg04"]
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_svfg3"]
 [ext_resource type="Resource" uid="uid://cs3ltp0b3itav" path="res://Resources/Abilities/Run.tres" id="2_vthng"]
 [ext_resource type="Resource" uid="uid://c2ehr58lrbxe6" path="res://Resources/Abilities/GroundStop.tres" id="3_svfg3"]

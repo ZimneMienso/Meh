@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_46602"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_w3jdg"]
-[ext_resource type="Script" uid="uid://dtphp3f2ayh1n" path="res://Scripts/Abilities/SlowMotion.gd" id="3_eci5s"]
+[ext_resource type="Script" uid="uid://dtphp3f2ayh1n" path="res://Scripts/Abilities/Abilities/SlowMotion.gd" id="3_eci5s"]
 
 [resource]
 script = ExtResource("3_eci5s")

@@ -27,7 +27,7 @@ var chip_damage: float = 0
 
 
 func _ready() -> void:
-	pass
+	perforate()
 
 
 ## Take a hit. If the region is perforable, accumulate the damage and affect

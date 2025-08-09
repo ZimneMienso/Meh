@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="FixfoamCannon" load_steps=7 format=3 uid="uid://d0vx344prgtsn"]
+
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_g1oc3"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_0f2jc"]
+[ext_resource type="Script" uid="uid://dk76dkxiof803" path="res://Scripts/GameObjects/Projectiles/RayProjectileEmitter.gd" id="3_0f2jc"]
+[ext_resource type="Script" uid="uid://cxlrslhj3dttk" path="res://Scripts/Abilities/Repair Abilities/FixfoamCannon.gd" id="3_r2dfa"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0f2jc"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.4
+radial_segments = 16
+
+[sub_resource type="Resource" id="Resource_r2dfa"]
+script = ExtResource("3_0f2jc")
+instantaneous = false
+create_fake_projectile = true
+fire_on_miss = true
+overshoot = true
+projectile_speed = 15.0
+projectile_range = 15.001
+max_hits = 1
+mesh = SubResource("CylinderMesh_0f2jc")
+mesh_x_rotation = 4.71239
+rotate_to_velocity = true
+target_collision_mask = 4
+terrain_collision_mask = 1
+die_on_terrain = true
+trigger_on_terrain = false
+reduce_hits_on_terrain = true
+metadata/_custom_type_script = "uid://dk76dkxiof803"
+
+[resource]
+script = ExtResource("3_r2dfa")
+projectile = SubResource("Resource_r2dfa")
+firing_period = 0.5
+repair_value = 0.5
+blocks_actions = Array[ExtResource("1_g1oc3")]([])
+create_input_action = true
+icon = ExtResource("2_0f2jc")
+repair_mode = true
+metadata/_custom_type_script = "uid://cxlrslhj3dttk"

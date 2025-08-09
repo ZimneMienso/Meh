@@ -111,13 +111,19 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	## Ignore mouse motion
 	if event is InputEventMouseMotion:
 		return
-	#if active_abilities.has()
-	for ability in repair_mode_abilities:
-		ability.action_input(event)
-	if get_viewport().is_input_handled():
-		return
+	## Process repair mode abilities first if in repair mode or not at all otherwise
+	if active_abilities.has(CharacterAction.TYPES.REPAIR_MODE):
+		for ability in repair_mode_abilities:
+			ability.action_input(event)
+	## Don't process non repair mode abilities if any repair mode ability
+	## consumed the input. Has to be manually checked because stopping input
+	## propagation doesn't do anything if it's all handled from this method.
+		if get_viewport().is_input_handled():
+			return
+	## Process non repair mode abilities
 	for ability in abilities:
 		ability.action_input(event)
 

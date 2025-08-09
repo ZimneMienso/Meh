@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_cjjeu"]
 [ext_resource type="PackedScene" uid="uid://jgq2h8ta2gx8" path="res://Scenes/Abilities/bounce.tscn" id="2_fwca7"]
 [ext_resource type="Resource" uid="uid://ba6u7yucpnqbp" path="res://Resources/Abilities/AirControl.tres" id="2_jx35m"]
-[ext_resource type="Script" uid="uid://b1v34rgmu7q7" path="res://Scripts/Abilities/Bounce.gd" id="2_kimca"]
+[ext_resource type="Script" uid="uid://b1v34rgmu7q7" path="res://Scripts/Abilities/Abilities/Bounce.gd" id="2_kimca"]
 [ext_resource type="Resource" uid="uid://cs3ltp0b3itav" path="res://Resources/Abilities/Run.tres" id="3_cjjeu"]
 [ext_resource type="Resource" uid="uid://bq1r8tmsely48" path="res://Resources/Abilities/Slide.tres" id="4_kmtm0"]
 [ext_resource type="Resource" uid="uid://b5gvsspniux1" path="res://Resources/Abilities/Jump.tres" id="5_n6mok"]

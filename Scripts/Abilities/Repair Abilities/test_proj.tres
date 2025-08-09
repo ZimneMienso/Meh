@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="RayProjectileEmitter" load_steps=2 format=3 uid="uid://bn2so4o7ujwfd"]
+
+[ext_resource type="Script" uid="uid://dk76dkxiof803" path="res://Scripts/GameObjects/Projectiles/RayProjectileEmitter.gd" id="1_swiif"]
+
+[resource]
+script = ExtResource("1_swiif")
+instantaneous = false
+fake_projectile = true
+fire_on_miss = true
+overshoot = true
+collision_mask = 1
+speed = 0.0
+range = 0.0
+max_hits = 1
+metadata/_custom_type_script = "uid://dk76dkxiof803"

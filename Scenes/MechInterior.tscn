@@ -81,6 +81,8 @@ metadata/_custom_type_script = "uid://cjyqac2xxs6we"
 
 [node name="MechStruct" type="Area3D" parent="PlayerMech/MechInterior/MechRegions/WorkshopCorridor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 91, 8)
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("8_rmh8e")
 stages = Array[PackedScene]([null, ExtResource("9_rmh8e")])
 metadata/_custom_type_script = "uid://chd63r4truvoy"

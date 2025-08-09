@@ -28,7 +28,8 @@ enum TYPES {
 	BURST_CHARGES,
 	BOUNCE,
 	SLOW_MOTION,
-	REPAIR_MODE
+	REPAIR_MODE,
+	FIXFOAM_CANNON
 }
 
 var player: Player
@@ -50,7 +51,7 @@ func action_physics_process(_delta: float) -> void:
 	pass
 
 
-func action_input(event: InputEvent) -> void:
+func action_input(_event: InputEvent) -> void:
 	pass
 
 

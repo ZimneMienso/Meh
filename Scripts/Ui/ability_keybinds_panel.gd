@@ -66,6 +66,10 @@ func populate_list_with_current_abilities() -> void:
 		if not ability.create_input_action:
 			continue
 		add_keybind_list_item(ability)
+	for ability in player.repair_mode_abilities:
+		if not ability.create_input_action:
+			continue
+		add_keybind_list_item(ability)
 
 
 func clear_list() -> void:

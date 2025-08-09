@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RepairMode" load_steps=4 format=3 uid="uid://txbn1mcqrys7"]
+
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_cnpjm"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_mdxjn"]
+[ext_resource type="Script" uid="uid://bi7atflw2e2jr" path="res://Scripts/Abilities/Abilities/RepairMode.gd" id="3_rx1ph"]
+
+[resource]
+script = ExtResource("3_rx1ph")
+blocks_actions = Array[ExtResource("1_cnpjm")]([])
+create_input_action = true
+icon = ExtResource("2_mdxjn")
+repair_mode = false
+metadata/_custom_type_script = "uid://bi7atflw2e2jr"

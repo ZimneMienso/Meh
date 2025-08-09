@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="BurstCharges" load_steps=5 format=3 uid="uid://cnsyv2fm0erio"]
 
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_3vccn"]
-[ext_resource type="Script" uid="uid://ctmkc2ot4y556" path="res://Scripts/Abilities/BurstCharges.gd" id="2_fcyrc"]
+[ext_resource type="Script" uid="uid://ctmkc2ot4y556" path="res://Scripts/Abilities/Abilities/BurstCharges.gd" id="2_fcyrc"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_kppcl"]
 [ext_resource type="PackedScene" uid="uid://jucbthbyikw2" path="res://Scenes/Abilities/burst_charge_particles.tscn" id="2_u4q1h"]
 

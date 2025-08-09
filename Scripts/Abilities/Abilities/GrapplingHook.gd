@@ -148,21 +148,6 @@ func clear_attachments():
 	hook_attachments.clear()
 
 
-# This might be useful somewhere else and thus relocate at some point
-func project_cursor_on_world() -> Vector3:
-	var viewport: Viewport = player.get_viewport()
-	var camera: Camera3D = viewport.get_camera_3d()
-	var mouse_pos: Vector2 = viewport.get_mouse_position()
-	var projection_origin: Vector3 = camera.project_ray_origin(mouse_pos)
-	var projection_direction: Vector3 = camera.project_ray_normal(mouse_pos)
-	# No idea how it works and how I figured that out before
-	var projection_distance: float = \
-	-projection_origin.x / projection_direction.x
-	var mouse_projection: Vector3 = \
-	projection_origin + projection_direction * projection_distance
-	return mouse_projection
-
-
 # This absolutely will relocate somewhere else at some point
 static func v3_to_v2(vector3: Vector3) -> Vector2:
 	return Vector2(vector3.z, vector3.y)
@@ -222,7 +207,7 @@ func fire_hook_projectile():
 	hook_projectile.add_child(hook_placeholder_mesh_instance)
 	hook_projectile.add_child(hook_paceholder_collision_shape)
 	hook_projectile.linear_velocity = \
-	(project_cursor_on_world() - player.global_position - \
+	(HF.project_cursor_on_world(player.get_viewport()) - player.global_position - \
 	projectile_spawn_offset).normalized() * hook_speed
 
 	active_hook_projectile = hook_projectile
