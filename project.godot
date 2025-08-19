@@ -11,16 +11,17 @@ config_version=5
 [application]
 
 config/name="meh"
-run/main_scene="uid://cuskm0iosxnif"
+run/main_scene="uid://xglj16jrt0nx"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 HF="*res://Scripts/Singletons/helper_functions.gd"
-Draw3D="*res://Scripts/LineDrawStuff/Draw3D.gd"
 INV="*res://Scripts/Singletons/inventory.gd"
+MECH_SPACE="*res://Scripts/Singletons/mech_space.gd"
 CAMERAMAN="*res://Scenes/GameObjects/Cameraman.tscn"
+Draw3D="*res://Scripts/LineDrawStuff/Draw3D.gd"
 
 [file_customization]
 

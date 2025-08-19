@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://b1q7p2nhdjeih"]
-
-[node name="CollisionShape3D" type="CollisionShape3D"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]

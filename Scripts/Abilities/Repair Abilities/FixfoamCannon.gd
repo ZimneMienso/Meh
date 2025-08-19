@@ -26,11 +26,15 @@ func action_process(_delta: float) -> void:
 
 
 ## Called every _physics_process tick of the player
-func action_physics_process(_delta: float) -> void:
+func action_physics_process(delta: float) -> void:
 	if performing:
 		var target_pos: Vector3 = HF.project_cursor_on_world(player.get_viewport())
 		projectile.fire(player.get_parent(), player.global_position + Vector3.UP * 1, target_pos)
+		firing_cooldown = firing_period
 		stop_performing_action()
+
+	if firing_cooldown > 0:
+		firing_cooldown = max(firing_cooldown - delta, 0)
 
 
 ## Called on equiping
@@ -43,5 +47,4 @@ func ready() -> void:
 func _on_projectile_hit(hit_data: ProjectileEmitter.ProjHitData):
 	assert(hit_data.collider is MechStruct, "Received hit_data doesn't contain a MechStruct")
 	var struct: MechStruct = hit_data.collider as MechStruct
-	if struct.stage > 0:
-		struct.receive_repair(repair_value)
+	struct.receive_repair(repair_value)

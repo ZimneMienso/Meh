@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://xglj16jrt0nx"]
+
+[ext_resource type="PackedScene" uid="uid://cuskm0iosxnif" path="res://Scenes/Mechs/PlayerMech.tscn" id="1_vr6xi"]
+[ext_resource type="PackedScene" uid="uid://smv0jkwiiw0v" path="res://Scenes/Mechs/FakeEnemy.tscn" id="2_2h7oj"]
+
+[node name="Node" type="Node"]
+
+[node name="PlayerMech" parent="." instance=ExtResource("1_vr6xi")]
+
+[node name="FakeEnemy" parent="." instance=ExtResource("2_2h7oj")]

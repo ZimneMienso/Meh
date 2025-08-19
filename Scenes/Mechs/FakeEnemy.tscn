@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://smv0jkwiiw0v"]
+
+[ext_resource type="Script" uid="uid://bwhuoljir223s" path="res://Scripts/MechLayer/NPMech.gd" id="1_m786s"]
+
+[node name="FakeEnemy" type="Node"]
+script = ExtResource("1_m786s")
+metadata/_custom_type_script = "uid://bwhuoljir223s"
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="attack"]

@@ -1,21 +1,43 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvs26maf7x1xk"]
+[gd_scene load_steps=7 format=3 uid="uid://ct8gsn5ks5xmk"]
 
-[ext_resource type="PackedScene" uid="uid://b1q7p2nhdjeih" path="res://Scenes/MechStructures/StructStageTemplate.tscn" id="1_28tv7"]
+[ext_resource type="Script" uid="uid://chd63r4truvoy" path="res://Scripts/MechLayer/MechStructure.gd" id="1_28tv7"]
+[ext_resource type="Script" uid="uid://drnlwsmpppwjm" path="res://Scripts/MechLayer/MechStructStage.gd" id="2_05ewb"]
+[ext_resource type="AudioStream" uid="uid://bgnm2gfsbtp3t" path="res://Assets/Audio/metal_hit.wav" id="2_gi8iu"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_05ewb"]
-height = 4.0
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7aagv"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gi8iu"]
-height = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6bk31"]
 albedo_color = Color(1, 0, 0, 1)
 
-[node name="CollisionShape3D" instance=ExtResource("1_28tv7")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
-shape = SubResource("CylinderShape3D_05ewb")
+[node name="TestStruct" type="StaticBody3D" node_paths=PackedStringArray("stages", "stage_holder")]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_28tv7")
+stages = [NodePath("StageHolder/Stage1"), NodePath("StageHolder/Stage2")]
+default_audio = ExtResource("2_gi8iu")
+stage_holder = NodePath("StageHolder")
+metadata/_custom_type_script = "uid://chd63r4truvoy"
 
-[node name="MeshInstance3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.37114e-08, -1, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CylinderShape3D_7aagv")
+
+[node name="StageHolder" type="Node3D" parent="."]
+
+[node name="Stage1" type="Node3D" parent="StageHolder"]
+script = ExtResource("2_05ewb")
+
+[node name="Stage2" type="Node3D" parent="StageHolder"]
+visible = false
+script = ExtResource("2_05ewb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StageHolder/Stage2"]
+transform = Transform3D(-4.37114e-08, 0.2, 0, -1, -8.74228e-09, 0, 0, 0, 1, -1, 0, 0)
 mesh = SubResource("CylinderMesh_gi8iu")
+skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_6bk31")
+
+[connection signal="hide_all_stages" from="." to="StageHolder/Stage1" method="_on_hide_all_stages"]
+[connection signal="hide_all_stages" from="." to="StageHolder/Stage2" method="_on_hide_all_stages"]
