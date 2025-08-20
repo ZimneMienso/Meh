@@ -25,6 +25,7 @@ tags = Array[int]([0])
 metadata/_custom_type_script = "uid://d0ywsq5wq4xa7"
 
 [sub_resource type="Resource" id="Resource_bvt00"]
+resource_name = "Run Max Speed"
 script = ExtResource("3_ksbbd")
 attribute_type = 1
 bonus_type = 0
@@ -32,6 +33,7 @@ value = 10.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_oqgf2"]
+resource_name = "Run Acceleration"
 script = ExtResource("3_ksbbd")
 attribute_type = 2
 bonus_type = 0
@@ -39,6 +41,7 @@ value = 3.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_qxfql"]
+resource_name = "Ground Stop Friction"
 script = ExtResource("3_ksbbd")
 attribute_type = 3
 bonus_type = 0
@@ -46,6 +49,7 @@ value = 10.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_2klc5"]
+resource_name = "Forced Ground Stop Acceleration Bonus"
 script = ExtResource("3_ksbbd")
 attribute_type = 4
 bonus_type = 0
@@ -53,6 +57,7 @@ value = 30.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_ha31o"]
+resource_name = "Jump Impulse"
 script = ExtResource("3_ksbbd")
 attribute_type = 30
 bonus_type = 0
@@ -60,6 +65,7 @@ value = 8.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_glx4g"]
+resource_name = "Air Friction"
 script = ExtResource("3_ksbbd")
 attribute_type = 52
 bonus_type = 0
@@ -67,6 +73,7 @@ value = 1.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_pa6b8"]
+resource_name = "Max Jump Velocity"
 script = ExtResource("3_ksbbd")
 attribute_type = 31
 bonus_type = 0
@@ -74,6 +81,7 @@ value = 10.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_crh0w"]
+resource_name = "Constant Slide Friction"
 script = ExtResource("3_ksbbd")
 attribute_type = 70
 bonus_type = 0
@@ -81,6 +89,7 @@ value = 1.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_c7le1"]
+resource_name = "Force Slide Slope Angle"
 script = ExtResource("3_ksbbd")
 attribute_type = 71
 bonus_type = 0
@@ -88,6 +97,7 @@ value = 50.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_yoq75"]
+resource_name = "Air Acceleration"
 script = ExtResource("3_ksbbd")
 attribute_type = 50
 bonus_type = 0
@@ -95,6 +105,7 @@ value = 1.5
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_ksbbd"]
+resource_name = "Air Control Max Velocity"
 script = ExtResource("3_ksbbd")
 attribute_type = 51
 bonus_type = 0

@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bc53rwwxka3us" path="res://Scripts/DataClasses/Equipment/Equipment.gd" id="7_jduov"]
 
 [sub_resource type="Resource" id="Resource_q33u6"]
+resource_name = "Run Max Speed"
 script = ExtResource("3_3a7kl")
 attribute_type = 1
 bonus_type = 0
@@ -16,6 +17,7 @@ value = 4.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_r2eff"]
+resource_name = "Run Acceleration"
 script = ExtResource("3_3a7kl")
 attribute_type = 2
 bonus_type = 0
@@ -23,6 +25,7 @@ value = 100.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_shf82"]
+resource_name = "Ground Stop Friction"
 script = ExtResource("3_3a7kl")
 attribute_type = 3
 bonus_type = 0
@@ -30,6 +33,7 @@ value = 300.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_jtkk0"]
+resource_name = "Jump Impulse"
 script = ExtResource("3_3a7kl")
 attribute_type = 30
 bonus_type = 0
@@ -37,6 +41,7 @@ value = 6.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_xrwok"]
+resource_name = "Max Jump Velocity"
 script = ExtResource("3_3a7kl")
 attribute_type = 31
 bonus_type = 0
@@ -44,6 +49,7 @@ value = 10.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_a6onj"]
+resource_name = "Air Acceleration"
 script = ExtResource("3_3a7kl")
 attribute_type = 50
 bonus_type = 0
@@ -51,6 +57,7 @@ value = 4.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_iucrw"]
+resource_name = "Air Control Max Velocity"
 script = ExtResource("3_3a7kl")
 attribute_type = 51
 bonus_type = 0
