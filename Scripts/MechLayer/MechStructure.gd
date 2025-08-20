@@ -159,7 +159,3 @@ func remove_stage() -> void:
 	stages.erase(last_stage)
 	last_stage.free()
 	max_stage -= 1
-
-
-func _on_hide_all_stages() -> void:
-	pass # Replace with function body.
