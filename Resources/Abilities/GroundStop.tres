@@ -10,4 +10,5 @@ blocks_actions = Array[ExtResource("1_wu410")]([])
 create_input_action = false
 icon = ExtResource("2_wu410")
 repair_mode = false
+show_in_menus = false
 metadata/_custom_type_script = "uid://b3rkd3i2kmf52"

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cs63jt85mqf8n"]
+[gd_scene load_steps=5 format=3 uid="uid://cs63jt85mqf8n"]
 
 [ext_resource type="Script" uid="uid://dv4lqq0lpfism" path="res://Scripts/Ui/loadout_screen.gd" id="1_01iap"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_5cc6k"]
-[ext_resource type="PackedScene" uid="uid://i8ym81oyfo05" path="res://Scenes/Ui/AbilityKeybindsPanel.tscn" id="2_impxa"]
+[ext_resource type="PackedScene" uid="uid://i8ym81oyfo05" path="res://Scenes/Ui/AbilityListPanel.tscn" id="2_impxa"]
+[ext_resource type="PackedScene" uid="uid://uagg506ko3vy" path="res://Scenes/Ui/AbilityConfig.tscn" id="4_impxa"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -21,64 +22,65 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_01iap")
-inventory_item_button_pattern = NodePath("InventoryContainer/Inventory/InventoryButtonsContainer/InventoryItemButton")
-inventory_buttons_container = NodePath("InventoryContainer/Inventory/InventoryButtonsContainer")
-loadout_slot_button_pattern = NodePath("LoadoutContainer/Loadout/LoadoutButtonsContainer/LoadoutSlotButton")
-loadout_buttons_container = NodePath("InventoryContainer/Inventory/InventoryButtonsContainer")
-ability_keybind_panel = NodePath("StatsContainer/AbilityKeybindsPanel")
+inventory_item_button_pattern = NodePath("Inventory/Inventory/InventoryButtonsContainer/InventoryItemButton")
+inventory_buttons_container = NodePath("Inventory/Inventory/InventoryButtonsContainer")
+loadout_slot_button_pattern = NodePath("Loadout/Loadout/LoadoutButtonsContainer/LoadoutSlotButton")
+loadout_buttons_container = NodePath("Inventory/Inventory/InventoryButtonsContainer")
+ability_keybind_panel = NodePath("StatsAndAbilities/AbilityListPanel")
 
-[node name="StatsContainer" type="VBoxContainer" parent="LoadoutScreen"]
+[node name="StatsAndAbilities" type="VBoxContainer" parent="LoadoutScreen"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LoadoutScreen/StatsContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="LoadoutScreen/StatsAndAbilities"]
 layout_mode = 2
 
-[node name="StatsButton" type="Button" parent="LoadoutScreen/StatsContainer/HBoxContainer"]
+[node name="StatsButton" type="Button" parent="LoadoutScreen/StatsAndAbilities/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Stats"
 
-[node name="KeybindsButton" type="Button" parent="LoadoutScreen/StatsContainer/HBoxContainer"]
+[node name="AbilitiesButton" type="Button" parent="LoadoutScreen/StatsAndAbilities/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Keybinds"
+text = "Abilities"
 
-[node name="Stats" type="PanelContainer" parent="LoadoutScreen/StatsContainer"]
+[node name="Stats" type="PanelContainer" parent="LoadoutScreen/StatsAndAbilities"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Button" type="Button" parent="LoadoutScreen/StatsContainer/Stats"]
+[node name="Button" type="Button" parent="LoadoutScreen/StatsAndAbilities/Stats"]
 layout_mode = 2
 text = "sraks"
 
-[node name="AbilityKeybindsPanel" parent="LoadoutScreen/StatsContainer" instance=ExtResource("2_impxa")]
-visible = false
+[node name="AbilityListPanel" parent="LoadoutScreen/StatsAndAbilities" instance=ExtResource("2_impxa")]
 layout_mode = 2
 
-[node name="LoadoutContainer" type="VBoxContainer" parent="LoadoutScreen"]
+[node name="Loadout" type="VBoxContainer" parent="LoadoutScreen"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LoadoutLabelContainer" type="PanelContainer" parent="LoadoutScreen/LoadoutContainer"]
+[node name="LoadoutLabelContainer" type="PanelContainer" parent="LoadoutScreen/Loadout"]
 layout_mode = 2
 
-[node name="Loadout Label" type="Label" parent="LoadoutScreen/LoadoutContainer/LoadoutLabelContainer"]
+[node name="Loadout Label" type="Label" parent="LoadoutScreen/Loadout/LoadoutLabelContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Loadout"
 horizontal_alignment = 1
 
-[node name="Loadout" type="PanelContainer" parent="LoadoutScreen/LoadoutContainer"]
+[node name="Loadout" type="PanelContainer" parent="LoadoutScreen/Loadout"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LoadoutButtonsContainer" type="FlowContainer" parent="LoadoutScreen/LoadoutContainer/Loadout"]
+[node name="LoadoutButtonsContainer" type="FlowContainer" parent="LoadoutScreen/Loadout/Loadout"]
 layout_mode = 2
 
-[node name="LoadoutSlotButton" type="Button" parent="LoadoutScreen/LoadoutContainer/Loadout/LoadoutButtonsContainer"]
+[node name="LoadoutSlotButton" type="Button" parent="LoadoutScreen/Loadout/Loadout/LoadoutButtonsContainer"]
 visible = false
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
@@ -88,57 +90,61 @@ icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 
-[node name="InventoryContainer" type="VBoxContainer" parent="LoadoutScreen"]
+[node name="AbilityConfig" parent="LoadoutScreen" instance=ExtResource("4_impxa")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Inventory" type="VBoxContainer" parent="LoadoutScreen"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CloseButtonContainer" type="HBoxContainer" parent="LoadoutScreen/InventoryContainer"]
+[node name="CloseButtonContainer" type="HBoxContainer" parent="LoadoutScreen/Inventory"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="InventoryLabelContainer" type="PanelContainer" parent="LoadoutScreen/InventoryContainer/CloseButtonContainer"]
+[node name="InventoryLabelContainer" type="PanelContainer" parent="LoadoutScreen/Inventory/CloseButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Inventory Label" type="Label" parent="LoadoutScreen/InventoryContainer/CloseButtonContainer/InventoryLabelContainer"]
+[node name="Inventory Label" type="Label" parent="LoadoutScreen/Inventory/CloseButtonContainer/InventoryLabelContainer"]
 layout_mode = 2
-size_flags_vertical = 0
 text = "Inventory"
 horizontal_alignment = 1
 
-[node name="CloseMenuButton" type="Button" parent="LoadoutScreen/InventoryContainer/CloseButtonContainer"]
+[node name="CloseMenuButton" type="Button" parent="LoadoutScreen/Inventory/CloseButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.09
 text = "X"
 
-[node name="InventorySearchOptions" type="HBoxContainer" parent="LoadoutScreen/InventoryContainer"]
+[node name="InventorySearchOptions" type="HBoxContainer" parent="LoadoutScreen/Inventory"]
 layout_mode = 2
 
-[node name="TextSearch" type="LineEdit" parent="LoadoutScreen/InventoryContainer/InventorySearchOptions"]
+[node name="TextSearch" type="LineEdit" parent="LoadoutScreen/Inventory/InventorySearchOptions"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Search items..."
 
-[node name="TagFilter" type="Button" parent="LoadoutScreen/InventoryContainer/InventorySearchOptions"]
+[node name="TagFilter" type="Button" parent="LoadoutScreen/Inventory/InventorySearchOptions"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 text = "Tags"
 
-[node name="PanelContainer" type="PanelContainer" parent="LoadoutScreen/InventoryContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="LoadoutScreen/Inventory"]
 layout_mode = 2
 
-[node name="Inventory" type="PanelContainer" parent="LoadoutScreen/InventoryContainer"]
+[node name="Inventory" type="PanelContainer" parent="LoadoutScreen/Inventory"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="InventoryButtonsContainer" type="FlowContainer" parent="LoadoutScreen/InventoryContainer/Inventory"]
+[node name="InventoryButtonsContainer" type="FlowContainer" parent="LoadoutScreen/Inventory/Inventory"]
 layout_mode = 2
 
-[node name="InventoryItemButton" type="Button" parent="LoadoutScreen/InventoryContainer/Inventory/InventoryButtonsContainer"]
+[node name="InventoryItemButton" type="Button" parent="LoadoutScreen/Inventory/Inventory/InventoryButtonsContainer"]
 visible = false
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
@@ -148,8 +154,10 @@ icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 
-[connection signal="pressed" from="LoadoutScreen/StatsContainer/HBoxContainer/StatsButton" to="LoadoutScreen/StatsContainer/Stats" method="show"]
-[connection signal="pressed" from="LoadoutScreen/StatsContainer/HBoxContainer/StatsButton" to="LoadoutScreen/StatsContainer/AbilityKeybindsPanel" method="hide"]
-[connection signal="pressed" from="LoadoutScreen/StatsContainer/HBoxContainer/KeybindsButton" to="LoadoutScreen/StatsContainer/Stats" method="hide"]
-[connection signal="pressed" from="LoadoutScreen/StatsContainer/HBoxContainer/KeybindsButton" to="LoadoutScreen/StatsContainer/AbilityKeybindsPanel" method="show"]
-[connection signal="pressed" from="LoadoutScreen/InventoryContainer/CloseButtonContainer/CloseMenuButton" to="LoadoutScreen" method="close"]
+[connection signal="pressed" from="LoadoutScreen/StatsAndAbilities/HBoxContainer/StatsButton" to="LoadoutScreen/StatsAndAbilities/Stats" method="show"]
+[connection signal="pressed" from="LoadoutScreen/StatsAndAbilities/HBoxContainer/StatsButton" to="LoadoutScreen/StatsAndAbilities/AbilityListPanel" method="hide"]
+[connection signal="pressed" from="LoadoutScreen/StatsAndAbilities/HBoxContainer/AbilitiesButton" to="LoadoutScreen/StatsAndAbilities/Stats" method="hide"]
+[connection signal="pressed" from="LoadoutScreen/StatsAndAbilities/HBoxContainer/AbilitiesButton" to="LoadoutScreen/StatsAndAbilities/AbilityListPanel" method="show"]
+[connection signal="request_ability_config_window" from="LoadoutScreen/StatsAndAbilities/AbilityListPanel" to="LoadoutScreen" method="_on_request_ability_config_window"]
+[connection signal="ability_config_closed" from="LoadoutScreen/AbilityConfig" to="LoadoutScreen/Loadout" method="show"]
+[connection signal="pressed" from="LoadoutScreen/Inventory/CloseButtonContainer/CloseMenuButton" to="LoadoutScreen" method="close"]

@@ -8,6 +8,7 @@ extends CharacterAction
 ## How much does it repair per shot
 @export var repair_value: float = 0.5
 var firing_cooldown: float = 0
+@export var test: AbilitySettingBool
 
 
 ## Input events passed from the player

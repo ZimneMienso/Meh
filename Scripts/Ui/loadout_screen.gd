@@ -9,7 +9,7 @@ signal loadout_menu_closed
 @export var loadout_slot_button_pattern: Button
 @export var loadout_buttons_container: Container
 
-@export var ability_keybind_panel: AbilityKeybindsPanel
+@export var ability_keybind_panel: AbilityListPanel
 
 var inventory_item_buttons: Array[Button]
 var loadout_slot_buttons: Array[Button]
@@ -129,3 +129,8 @@ func update_loadout_button(button: Button, slot: EqSlot):
 	else:
 		button.icon = slot.icon
 		button.text = slot.name
+
+
+func _on_request_ability_config_window(ability: CharacterAction) -> void:
+	%Loadout.hide()
+	%AbilityConfig.display_ability(ability)

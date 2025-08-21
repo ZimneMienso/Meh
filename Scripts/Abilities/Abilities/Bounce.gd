@@ -9,6 +9,8 @@ var use_delay_progress: float = 0
 @export var goo_ball_scene: PackedScene
 var goo_ball_mesh: MeshInstance3D
 
+@export var test: AbilitySettingBool
+@export var test2: AbilitySettingFloat
 
 func action_input(event: InputEvent) -> void:
 	if not event.is_action(ability_name):

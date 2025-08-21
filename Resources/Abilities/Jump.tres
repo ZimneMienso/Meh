@@ -10,4 +10,5 @@ blocks_actions = Array[ExtResource("1_dioex")]([])
 create_input_action = false
 icon = ExtResource("2_dioex")
 repair_mode = false
+show_in_menus = false
 metadata/_custom_type_script = "uid://bhodwaf24whjh"

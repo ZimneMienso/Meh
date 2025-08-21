@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://i8ym81oyfo05"]
+
+[ext_resource type="Script" uid="uid://d8engktuj2t5" path="res://Scripts/Ui/ability_list_panel.gd" id="1_dg67t"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="1_rbcj7"]
+
+[node name="AbilityKeybindsPanel" type="PanelContainer" node_paths=PackedStringArray("ability_list_item")]
+offset_right = 653.0
+offset_bottom = 350.0
+size_flags_vertical = 3
+script = ExtResource("1_dg67t")
+ability_list_item = NodePath("ScrollContainer/KeybindButtonList/AbilityConfigButton")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+
+[node name="KeybindButtonList" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AbilityConfigButton" type="Button" parent="ScrollContainer/KeybindButtonList"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Configure"
+icon = ExtResource("1_rbcj7")

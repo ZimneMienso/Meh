@@ -14,6 +14,9 @@ var ability_name: String
 ## Repair mode abilities only work when repair mode is active,
 ## receive inputs first and consume them.
 @export var repair_mode: bool = false
+## Is the ability displayed on the ability list in loadout menu etc.
+## Needs to be true for the player to be able to configure the ability.
+@export var show_in_menus: bool = true
 
 enum TYPES {
 	NULL,
@@ -36,6 +39,7 @@ var player: Player
 ## Anwser to the question "Do we perform the action this frame?"
 var performing: bool = false
 var ability_objects: Array[Node]
+var player_settings: Array[AbilitySetting]
 
 
 # Look at me ma! I've created resources with node functions!
@@ -63,6 +67,8 @@ func ready() -> void:
 	ability_name = TYPES.find_key(type)
 	if create_input_action and not InputMap.has_action(ability_name):
 		InputMap.add_action(ability_name)
+
+	player_settings = get_player_settings()
 
 
 ## Check if the action is not blocked and start performing it if true
@@ -106,3 +112,12 @@ func remove_ability_object(object: Node) -> void:
 	assert(ability_objects.has(object), "Attempted to remove ability object that is not on the abilities list")
 	ability_objects.erase(object)
 	object.queue_free()
+
+
+func get_player_settings() -> Array[AbilitySetting]:
+	var result: Array[AbilitySetting]
+	for property in get_property_list():
+		if ["AbilitySettingBool", "AbilitySettingInt", "AbilitySettingFloat"].has(
+			property["class_name"]):
+			result.append(get(property["name"]))
+	return result

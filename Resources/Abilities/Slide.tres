@@ -12,4 +12,5 @@ blocks_actions = Array[ExtResource("1_svfg3")]([ExtResource("2_vthng"), ExtResou
 create_input_action = false
 icon = ExtResource("4_svfg3")
 repair_mode = false
+show_in_menus = false
 metadata/_custom_type_script = "uid://d22kk565fmqgr"
