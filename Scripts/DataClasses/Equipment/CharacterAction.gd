@@ -55,7 +55,13 @@ func action_physics_process(_delta: float) -> void:
 	pass
 
 
+## Passed down from the player
 func action_input(_event: InputEvent) -> void:
+	pass
+
+
+## Called when player sends an ability request.
+func anwser_request(_parameters: Array) -> void:
 	pass
 
 

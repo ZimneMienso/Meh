@@ -296,6 +296,19 @@ static func apply_constant_friction(delta: float, value: float, friction: float)
 	return move_toward(value, 0, friction * delta)
 
 
+## Finds the specified ability and makes it anwser to the parameters.
+func send_ability_request(ability_type: CharacterAction.TYPES, parameters: Array) -> void:
+	for ability in abilities:
+		if ability.type == ability_type:
+			ability.anwser_request(parameters)
+			return
+	for ability in repair_mode_abilities:
+		if ability.type == ability_type:
+			ability.anwser_request(parameters)
+			return
+	print("send_ability_request() could not find the ability " + CharacterAction.TYPES.find_key(ability_type))
+
+
 func debug_update_stats_label():
 	var text: String = \
 	"

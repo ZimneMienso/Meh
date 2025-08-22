@@ -12,4 +12,6 @@ slow = 0.5
 blocks_actions = Array[ExtResource("1_46602")]([])
 create_input_action = true
 icon = ExtResource("2_w3jdg")
+repair_mode = false
+show_in_menus = true
 metadata/_custom_type_script = "uid://dtphp3f2ayh1n"

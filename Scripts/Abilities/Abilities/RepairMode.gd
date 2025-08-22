@@ -2,6 +2,8 @@ class_name RepairMode
 extends CharacterAction
 
 
+@export var trigger_slowmo: AbilitySettingBool
+
 
 ## Input events passed from the player
 func action_input(event: InputEvent):
@@ -24,6 +26,18 @@ func action_process(_delta: float) -> void:
 func action_physics_process(_delta: float) -> void:
 	if performing:
 		pass
+
+
+func start_performing_action() -> void:
+	super()
+	if trigger_slowmo.get_value():
+		player.send_ability_request(CharacterAction.TYPES.SLOW_MOTION, [true, 1])
+
+
+func stop_performing_action() -> void:
+	super()
+	if trigger_slowmo.get_value():
+		player.send_ability_request(CharacterAction.TYPES.SLOW_MOTION, [false])
 
 
 ## Called on equiping

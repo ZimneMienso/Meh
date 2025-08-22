@@ -12,6 +12,12 @@ var stored_slow: float
 ## By how much the game slows during the ability
 @export_range(0, 0.9, 0.01) var slow: float
 
+## Multiplies stored slow usage by this.
+var cost_multiplier: float = 1
+## How many outside things want this ability active.
+var activator_count: int = 0
+var native_activation: bool = false
+
 
 func action_input(event: InputEvent) -> void:
 	if not event.is_action(ability_name):
@@ -19,14 +25,16 @@ func action_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed(ability_name):
 		if performing:
 			stop_performing_action()
+			native_activation = false
 		elif stored_slow > 0.1:
-			start_performing_action()
+			attempt_action()
+			native_activation = true
 
 
 ## Called every _physics_process tick of the player
 func action_physics_process(delta: float) -> void:
 	if performing:
-		stored_slow -= delta
+		stored_slow -= delta * cost_multiplier
 		if stored_slow <= 0:
 			stop_performing_action()
 	else:
@@ -36,12 +44,12 @@ func action_physics_process(delta: float) -> void:
 func start_performing_action():
 	super()
 	Engine.time_scale = 1 - slow
-	#Engine.physics_ticks_per_second = roundi(60 * (1 - slow))
+
 
 func stop_performing_action():
 	super()
 	Engine.time_scale = 1
-	#Engine.physics_ticks_per_second = 60
+	cost_multiplier = 1
 
 
 ## Called on equiping
@@ -49,3 +57,22 @@ func ready() -> void:
 	type = TYPES.SLOW_MOTION
 	super()
 	stored_slow = max_stored_slow
+
+
+## Called when player sends an ability request.
+## Expected parameters: [set_active: bool, cost_multiplier: float]
+func anwser_request(parameters: Array) -> void:
+	var set_active: bool = parameters[0]
+	## Check if the request is to turn on or off.
+	## Note: This assumes everything that requests slowmode will also
+	## deactivate it exactly once per "cycle" so that activator count 
+	## eventually returns to 0.
+	if not set_active:
+		activator_count = max(0, activator_count - 1)
+		## If nothing requests it anymore, deactivate.
+		if not native_activation and activator_count == 0:
+			stop_performing_action()
+	else:
+		activator_count += 1
+		attempt_action()
+		cost_multiplier = parameters[1]
