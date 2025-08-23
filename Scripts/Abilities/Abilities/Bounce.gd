@@ -9,16 +9,17 @@ var use_delay_progress: float = 0
 @export var goo_ball_scene: PackedScene
 var goo_ball_mesh: MeshInstance3D
 
-@export var test: AbilitySettingBool
-@export var test2: AbilitySettingFloat
+@export var trigger: AbilitySettingKeybind
+@export var autotrigger_slowmo: AbilitySettingBool
+
 
 func action_input(event: InputEvent) -> void:
-	if not event.is_action(ability_name):
+	if not event.is_action(trigger.action_name):
 		return
-	if Input.is_action_just_pressed(ability_name) and \
+	if Input.is_action_just_pressed(trigger.action_name) and \
 	use_delay_progress == 0 and not performing:
 		attempt_action()
-	elif Input.is_action_just_pressed(ability_name) and performing:
+	elif Input.is_action_just_pressed(trigger.action_name) and performing:
 		stop_performing_action()
 
 

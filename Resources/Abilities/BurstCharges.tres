@@ -1,9 +1,15 @@
-[gd_resource type="Resource" script_class="BurstCharges" load_steps=5 format=3 uid="uid://cnsyv2fm0erio"]
+[gd_resource type="Resource" script_class="BurstCharges" load_steps=7 format=3 uid="uid://cnsyv2fm0erio"]
 
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_3vccn"]
 [ext_resource type="Script" uid="uid://ctmkc2ot4y556" path="res://Scripts/Abilities/Abilities/BurstCharges.gd" id="2_fcyrc"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_kppcl"]
 [ext_resource type="PackedScene" uid="uid://jucbthbyikw2" path="res://Scenes/Abilities/burst_charge_particles.tscn" id="2_u4q1h"]
+[ext_resource type="Script" uid="uid://bmeekr26xi7af" path="res://Scripts/DataClasses/Equipment/AbilitySettingKeybind.gd" id="5_kppcl"]
+
+[sub_resource type="Resource" id="Resource_jeu8i"]
+script = ExtResource("5_kppcl")
+setting_text = "fire_charge"
+metadata/_custom_type_script = "uid://bmeekr26xi7af"
 
 [resource]
 script = ExtResource("2_fcyrc")
@@ -13,8 +19,9 @@ charge_regen = 0.0
 use_cooldown = 0.3
 wall_detection_range = 2.0
 particle_emitter_scene = ExtResource("2_u4q1h")
+trigger = SubResource("Resource_jeu8i")
 blocks_actions = Array[ExtResource("1_3vccn")]([])
-create_input_action = true
 icon = ExtResource("2_kppcl")
 repair_mode = false
+show_in_menus = true
 metadata/_custom_type_script = "uid://ctmkc2ot4y556"

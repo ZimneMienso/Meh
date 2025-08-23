@@ -13,6 +13,5 @@ func get_value() -> bool:
 	return value
 
 
-func set_value(new_value) -> void:
-	assert(new_value is bool)
+func set_value(new_value: bool) -> void:
 	value = new_value

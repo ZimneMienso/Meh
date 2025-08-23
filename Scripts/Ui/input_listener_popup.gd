@@ -16,7 +16,7 @@ const catch_message: String = \
 "Confirm to apply the keybind
 Cancel to reset"
 
-var ability: CharacterAction
+var setting: AbilitySettingKeybind
 
 var listening: bool
 var keybind_candidate: InputEvent
@@ -66,7 +66,7 @@ func listen():
 
 
 ## Present the event or NONE as the candidate for the hotkey
-func catch(event: InputEvent = null):
+func catch(event: InputEvent = null) -> void:
 	if event == null:
 		status_label.text = "Keybind: NONE"
 	else:
@@ -79,19 +79,37 @@ func catch(event: InputEvent = null):
 
 
 ## Assign the keybind to the action
-func apply():
+func apply() -> void:
+	var action_name: String = setting.action_name
 	assert(InputMap.has_action(
-		ability.ability_name), "Missing action for " + ability.ability_name)
-	## If no event is bound to the given action, add the candidate event
-	if InputMap.action_get_events(ability.ability_name).size() == 0:
-		InputMap.action_add_event(ability.ability_name, keybind_candidate)
-		keybind_changed.emit(ability.ability_name, keybind_candidate)
-		
-	## If the current event is not the candidate, change it
-	elif InputMap.action_get_events(ability.ability_name)[0] != keybind_candidate:
-		InputMap.action_erase_events(ability.ability_name)
-		InputMap.action_add_event(ability.ability_name, keybind_candidate)
-		keybind_changed.emit(ability.ability_name, keybind_candidate)
-	## Last case being: there is more than zero events and 
-	## the first one is equal to the current candidate
+		action_name), "Missing action for " + action_name)
+
+	## Reset action if it has events assigned.
+	if InputMap.action_get_events(action_name).size() > 0:
+			InputMap.erase_action(action_name)
+			InputMap.add_action(action_name)
+
+	## If the player cleared the input, stop here.
+	if not keybind_candidate:
+		keybind_changed.emit(keybind_candidate)
+		queue_free()
+		return
+
+	## Assign the new keybind
+	InputMap.action_add_event(action_name, keybind_candidate)
+	keybind_changed.emit(keybind_candidate)
+	
+	
+	### If no event is bound to the given action, add the candidate event
+	#if InputMap.action_get_events(action_name).size() == 0:
+		#InputMap.action_add_event(action_name, keybind_candidate)
+		#keybind_changed.emit(keybind_candidate)
+		#
+	### If the current event is not the candidate, change it
+	#elif InputMap.action_get_events(action_name)[0] != keybind_candidate:
+		#InputMap.action_erase_events(action_name)
+		#InputMap.action_add_event(action_name, keybind_candidate)
+		#keybind_changed.emit(keybind_candidate)
+	### Last case being: there is more than zero events and 
+	### the first one is equal to the current candidate
 	queue_free()

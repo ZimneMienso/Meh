@@ -1,6 +1,8 @@
 extends CharacterAction
 class_name RocketBoost
 
+@export var trigger: AbilitySettingKeybind
+
 @export var particle_emitter_scene: PackedScene
 var particle_emitter: GPUParticles3D
 
@@ -16,9 +18,9 @@ var fuel: float
 
 
 func action_input(event: InputEvent) -> void:
-	if not event.is_action(ability_name):
+	if not event.is_action(trigger.action_name):
 		return
-	if Input.is_action_just_pressed(ability_name):
+	if Input.is_action_just_pressed(trigger.action_name):
 		if performing:
 			stop_performing_action()
 		elif fuel > fuel_to_start:

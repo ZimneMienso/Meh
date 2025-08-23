@@ -3,6 +3,8 @@ extends CharacterAction
 
 # TODO Adaptive, speed-dependent slow?
 
+@export var trigger: AbilitySettingKeybind
+
 ## Used as at a rate of 1/"normal" speed (Engine.time_scale == 1) second to 
 ## sustain the ability
 @export var max_stored_slow: float
@@ -11,7 +13,6 @@ var stored_slow: float
 @export var slow_regen: float
 ## By how much the game slows during the ability
 @export_range(0, 0.9, 0.01) var slow: float
-
 ## Multiplies stored slow usage by this.
 var cost_multiplier: float = 1
 ## How many outside things want this ability active.
@@ -20,9 +21,9 @@ var native_activation: bool = false
 
 
 func action_input(event: InputEvent) -> void:
-	if not event.is_action(ability_name):
+	if not event.is_action(trigger.action_name):
 		return
-	if Input.is_action_just_pressed(ability_name):
+	if Input.is_action_just_pressed(trigger.action_name):
 		if performing:
 			stop_performing_action()
 			native_activation = false

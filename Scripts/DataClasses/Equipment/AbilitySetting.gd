@@ -5,7 +5,8 @@ extends Resource
 enum VALUE_TYPES {
 	BOOL,
 	INT,
-	FLOAT
+	FLOAT,
+	KEYBIND
 }
 
 var value_type: VALUE_TYPES

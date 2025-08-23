@@ -17,14 +17,16 @@ var use_cooldown_progress: float
 @export var wall_detection_range: float
 @export var particle_emitter_scene: PackedScene
 
+@export var trigger: AbilitySettingKeybind
+
 
 ## Called every _process tick of the player
 func action_input(event: InputEvent) -> void:
-	if not event.is_action(ability_name):
+	if not event.is_action(trigger.action_name):
 		return
 	var intput_vector: Vector2 = player.input_vector
 	
-	if Input.is_action_just_pressed(ability_name) and intput_vector and \
+	if Input.is_action_just_pressed(trigger.action_name) and intput_vector and \
 	charges and use_cooldown_progress == 0:
 		attempt_action()
 

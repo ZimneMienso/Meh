@@ -10,13 +10,11 @@ var value: int
 
 func _init() -> void:
 	value_type = VALUE_TYPES.INT
-	
 
 
 func get_value() -> int:
 	return value
 
 
-func set_value(new_value) -> void:
-	assert(new_value is int)
+func set_value(new_value: int) -> void:
 	value = new_value

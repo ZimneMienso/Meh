@@ -8,14 +8,14 @@ extends CharacterAction
 ## How much does it repair per shot
 @export var repair_value: float = 0.5
 var firing_cooldown: float = 0
-@export var test: AbilitySettingBool
+@export var trigger: AbilitySettingKeybind
 
 
 ## Input events passed from the player
 func action_input(event: InputEvent) -> void:
-	if not event.is_action(ability_name):
+	if not event.is_action(trigger.action_name):
 		return
-	if Input.is_action_pressed(ability_name) and firing_cooldown == 0:
+	if Input.is_action_pressed(trigger.action_name) and firing_cooldown == 0:
 			attempt_action()
 
 	player.get_viewport().set_input_as_handled()

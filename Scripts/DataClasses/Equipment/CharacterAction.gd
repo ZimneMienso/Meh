@@ -6,7 +6,7 @@ class_name CharacterAction
 @export var blocks_actions: Array[CharacterAction]
 var type: TYPES = TYPES.NULL
 
-@export var create_input_action: bool = false
+#@export var create_input_action: bool = false
 ## Also the name of the action that triggers it if create_input_action is true
 var ability_name: String
 
@@ -71,10 +71,13 @@ func ready() -> void:
 	assert(type != TYPES.NULL, "Called ready on a CharacterAction with no type")
 
 	ability_name = TYPES.find_key(type)
-	if create_input_action and not InputMap.has_action(ability_name):
-		InputMap.add_action(ability_name)
 
 	player_settings = get_player_settings()
+	for setting in player_settings:
+		if setting is AbilitySettingKeybind:
+			setting.action_name = ability_name + "_" + setting.setting_text
+			if not InputMap.has_action(setting.action_name):
+				InputMap.add_action(setting.action_name)
 
 
 ## Check if the action is not blocked and start performing it if true
@@ -123,7 +126,7 @@ func remove_ability_object(object: Node) -> void:
 func get_player_settings() -> Array[AbilitySetting]:
 	var result: Array[AbilitySetting]
 	for property in get_property_list():
-		if ["AbilitySettingBool", "AbilitySettingInt", "AbilitySettingFloat"].has(
-			property["class_name"]):
+		var property_class_name: String = property["class_name"]
+		if property_class_name.begins_with("AbilitySetting"):
 			result.append(get(property["name"]))
 	return result

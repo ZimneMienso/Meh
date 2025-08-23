@@ -6,6 +6,8 @@ extends CharacterAction
 # TODO Add bending
 # TODO Limit the position corrcetion to avoid ending up in walls
 
+@export var trigger: AbilitySettingKeybind
+
 @export var hook_range: float
 @export var hook_speed: float
 var hook_lifetime: float
@@ -25,8 +27,8 @@ var hook_attachments: Array[HookAttachment]
 
 
 func action_input(event: InputEvent) -> void:
-	if event.is_action(ability_name):
-		if Input.is_action_just_pressed(ability_name):
+	if event.is_action(trigger.action_name):
+		if Input.is_action_just_pressed(trigger.action_name):
 			if performing:
 				stop_performing_action()
 			else:

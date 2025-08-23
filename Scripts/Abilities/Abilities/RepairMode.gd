@@ -1,19 +1,19 @@
 class_name RepairMode
 extends CharacterAction
 
-
+@export var trigger: AbilitySettingKeybind
 @export var trigger_slowmo: AbilitySettingBool
 
 
 ## Input events passed from the player
 func action_input(event: InputEvent):
-	if not event.is_action_pressed(ability_name):
+	if not event.is_action_pressed(trigger.action_name):
 		return
-	if Input.is_action_just_pressed(ability_name):
+	if Input.is_action_just_pressed(trigger.action_name):
 		if performing:
 			stop_performing_action()
 		else:
-			start_performing_action()
+			attempt_action()
 	
 
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://uagg506ko3vy"]
+[gd_scene load_steps=4 format=3 uid="uid://uagg506ko3vy"]
 
 [ext_resource type="Script" uid="uid://cd40h0e1d5ntq" path="res://Scripts/Ui/ability_config.gd" id="1_ne5ef"]
+[ext_resource type="PackedScene" uid="uid://b1xm3xi2bouej" path="res://Scenes/Ui/InputListenerPopup.tscn" id="2_4657w"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_gf0vq"]
 
 [node name="AbilityConfig" type="VBoxContainer"]
@@ -11,6 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_ne5ef")
+input_listener_scene = ExtResource("2_4657w")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -35,58 +37,96 @@ text = "X"
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MainContainer" type="VBoxContainer" parent="MainPanel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainPanel"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="MainPanel/MainContainer"]
+[node name="MainContainer" type="VBoxContainer" parent="MainPanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AbilityIcon" type="TextureRect" parent="MainPanel/ScrollContainer/MainContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 texture = ExtResource("2_gf0vq")
 
-[node name="AbilityNameLabel" type="Label" parent="MainPanel/MainContainer"]
+[node name="AbilityNameLabel" type="Label" parent="MainPanel/ScrollContainer/MainContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Ability Name"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MainPanel/MainContainer"]
+[node name="HSeparator" type="HSeparator" parent="MainPanel/ScrollContainer/MainContainer"]
 layout_mode = 2
 
-[node name="SettingsContainer" type="VBoxContainer" parent="MainPanel/MainContainer"]
+[node name="KeybindsSectionLabel" type="Label" parent="MainPanel/ScrollContainer/MainContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Keybinds"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MainPanel/ScrollContainer/MainContainer"]
+layout_mode = 2
+
+[node name="KeybindContainer" type="HFlowContainer" parent="MainPanel/ScrollContainer/MainContainer"]
+layout_mode = 2
+
+[node name="KeybindSetting" type="VBoxContainer" parent="MainPanel/ScrollContainer/MainContainer/KeybindContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="KeybindLabel" type="Label" parent="MainPanel/ScrollContainer/MainContainer/KeybindContainer/KeybindSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Keybind Name"
+horizontal_alignment = 1
+
+[node name="KeybindButton" type="Button" parent="MainPanel/ScrollContainer/MainContainer/KeybindContainer/KeybindSetting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+text = "Keybind"
+
+[node name="HSeparator3" type="HSeparator" parent="MainPanel/ScrollContainer/MainContainer"]
+layout_mode = 2
+
+[node name="SettingsContainer" type="VBoxContainer" parent="MainPanel/ScrollContainer/MainContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SliderSetting" type="MarginContainer" parent="MainPanel/MainContainer/SettingsContainer"]
+[node name="SliderSetting" type="MarginContainer" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/MainContainer/SettingsContainer/SliderSetting"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/SliderSetting"]
 layout_mode = 2
 
-[node name="MarginL" type="Control" parent="MainPanel/MainContainer/SettingsContainer/SliderSetting/HBoxContainer"]
+[node name="MarginL" type="Control" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/SliderSetting/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="MarginContainer" type="MarginContainer" parent="MainPanel/MainContainer/SettingsContainer/SliderSetting/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/SliderSetting/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_right = 30
 
-[node name="SliderLabel" type="Label" parent="MainPanel/MainContainer/SettingsContainer/SliderSetting/HBoxContainer/MarginContainer"]
+[node name="SliderLabel" type="Label" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/SliderSetting/HBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Variable Name"
 
-[node name="Slider" type="HSlider" parent="MainPanel/MainContainer/SettingsContainer/SliderSetting/HBoxContainer"]
+[node name="Slider" type="HSlider" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/SliderSetting/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SliderValueLabel" type="Label" parent="MainPanel/MainContainer/SettingsContainer/SliderSetting/HBoxContainer/Slider"]
+[node name="SliderValueLabel" type="Label" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/SliderSetting/HBoxContainer/Slider"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -103,39 +143,39 @@ grow_vertical = 2
 text = "Value"
 horizontal_alignment = 1
 
-[node name="MarginR" type="Control" parent="MainPanel/MainContainer/SettingsContainer/SliderSetting/HBoxContainer"]
+[node name="MarginR" type="Control" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/SliderSetting/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="CheckBoxSetting" type="MarginContainer" parent="MainPanel/MainContainer/SettingsContainer"]
+[node name="CheckBoxSetting" type="MarginContainer" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/MainContainer/SettingsContainer/CheckBoxSetting"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/CheckBoxSetting"]
 layout_mode = 2
 
-[node name="MarginL" type="Control" parent="MainPanel/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer"]
+[node name="MarginL" type="Control" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.08
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CheckBox" type="CheckBox" parent="MainPanel/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer/HBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CheckboxLabel" type="Label" parent="MainPanel/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer/HBoxContainer"]
+[node name="CheckboxLabel" type="Label" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Variable Name"
 
-[node name="MarginR" type="Control" parent="MainPanel/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer"]
+[node name="MarginR" type="Control" parent="MainPanel/ScrollContainer/MainContainer/SettingsContainer/CheckBoxSetting/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1

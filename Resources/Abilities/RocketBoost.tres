@@ -1,19 +1,26 @@
-[gd_resource type="Resource" script_class="RocketBoost" load_steps=5 format=3 uid="uid://ck4ykx6mlcn"]
+[gd_resource type="Resource" script_class="RocketBoost" load_steps=7 format=3 uid="uid://ck4ykx6mlcn"]
 
 [ext_resource type="Script" uid="uid://bux404fi2dpoy" path="res://Scripts/Abilities/Abilities/RocketBoost.gd" id="1_dunto"]
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_ekcq2"]
 [ext_resource type="PackedScene" uid="uid://cnlh8si4gv7rv" path="res://Scenes/Abilities/rocket_engine_particles.tscn" id="1_yehfd"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_ekcq2"]
+[ext_resource type="Script" uid="uid://bmeekr26xi7af" path="res://Scripts/DataClasses/Equipment/AbilitySettingKeybind.gd" id="5_t1rc4"]
+
+[sub_resource type="Resource" id="Resource_jek5j"]
+script = ExtResource("5_t1rc4")
+setting_text = "trigger_boost"
+metadata/_custom_type_script = "uid://bmeekr26xi7af"
 
 [resource]
 script = ExtResource("1_dunto")
+trigger = SubResource("Resource_jek5j")
 particle_emitter_scene = ExtResource("1_yehfd")
 max_fuel = 1000.0
 fuel_regen = 100.0
 fuel_usage = 150.0
 fuel_to_start = 200.0
 blocks_actions = Array[ExtResource("1_ekcq2")]([])
-create_input_action = true
 icon = ExtResource("2_ekcq2")
 repair_mode = false
+show_in_menus = true
 metadata/_custom_type_script = "uid://bux404fi2dpoy"

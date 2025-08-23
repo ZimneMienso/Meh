@@ -17,6 +17,5 @@ func get_value() -> float:
 	return value
 
 
-func set_value(new_value) -> void:
-	assert(new_value is float)
+func set_value(new_value: float) -> void:
 	value = new_value
