@@ -10,6 +10,7 @@ deceleration_bonus_acceleration = 24.0
 precision_mode_max_velocity = 5.0
 precision_mode_bonus_acceleration = 15.0
 blocks_actions = Array[ExtResource("1_dmkv6")]([])
+create_input_action = false
 icon = ExtResource("2_dmkv6")
 repair_mode = false
 show_in_menus = false

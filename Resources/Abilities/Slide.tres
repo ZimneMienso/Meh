@@ -9,6 +9,7 @@
 [resource]
 script = ExtResource("1_bcg04")
 blocks_actions = Array[ExtResource("1_svfg3")]([ExtResource("2_vthng"), ExtResource("3_svfg3")])
+create_input_action = false
 icon = ExtResource("4_svfg3")
 repair_mode = false
 show_in_menus = false

@@ -5,7 +5,7 @@ extends Mech
 
 @export var damage: float = 5
 
-func attack(_damage_value: float = 0) -> void:
+func attack(damage_value: float = 0) -> void:
 	var damageable_targets: Array[MechRegion]
 	damageable_targets.assign(
 		MECH_SPACE.player_mech.targetable_regions.filter(

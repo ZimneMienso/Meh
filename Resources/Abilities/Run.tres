@@ -10,6 +10,7 @@ script = ExtResource("1_2aod1")
 precision_mode_max_velocity = 3.0
 precision_mode_bonus_acceleration = 30.0
 blocks_actions = Array[ExtResource("1_40oev")]([ExtResource("2_40oev")])
+create_input_action = false
 icon = ExtResource("3_40oev")
 repair_mode = false
 show_in_menus = false
