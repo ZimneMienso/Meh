@@ -7,7 +7,6 @@
 [resource]
 script = ExtResource("1_moj8w")
 blocks_actions = Array[ExtResource("1_dioex")]([])
-create_input_action = false
 icon = ExtResource("2_dioex")
 repair_mode = false
 show_in_menus = false

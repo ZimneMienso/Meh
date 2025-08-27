@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://d23qm170b5i3y"]
+
+[ext_resource type="ArrayMesh" uid="uid://cv6pr3n0225bj" path="res://Assets/Import/AngleStick/AngleBorder.res" id="1_7or4v"]
+[ext_resource type="ArrayMesh" uid="uid://x0hrcqonliyi" path="res://Assets/Import/AngleStick/AnglePointer.res" id="2_emajo"]
+
+[node name="BounceReticle" type="Node3D"]
+
+[node name="AngleBorderLow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+mesh = ExtResource("1_7or4v")
+skeleton = NodePath("../..")
+
+[node name="AngleBorderHigh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+mesh = ExtResource("1_7or4v")
+skeleton = NodePath("../..")
+
+[node name="AnglePointer" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+mesh = ExtResource("2_emajo")
+skeleton = NodePath("../..")

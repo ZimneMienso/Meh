@@ -123,6 +123,7 @@ func remove_ability_object(object: Node) -> void:
 	object.queue_free()
 
 
+## Returns all properties of AbilitySetting* type.
 func get_player_settings() -> Array[AbilitySetting]:
 	var result: Array[AbilitySetting]
 	for property in get_property_list():
@@ -130,3 +131,15 @@ func get_player_settings() -> Array[AbilitySetting]:
 		if property_class_name.begins_with("AbilitySetting"):
 			result.append(get(property["name"]))
 	return result
+
+
+## An ability on priority input list will have it's process_priority_input
+## func called before any ability recieves normal input processing.
+func register_in_priority_input() -> void:
+	player.priority_input_abilities.append(self)
+
+
+## Override it and call super(event) at the end if event was the one expected.
+func process_priority_input(_event: InputEvent) -> void:
+	player.priority_input_abilities.erase(self)
+	player.get_viewport().set_input_as_handled()

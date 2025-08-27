@@ -22,6 +22,7 @@ var attributes: Dictionary[int, Attribute]
 
 var abilities: Array[CharacterAction]
 var repair_mode_abilities: Array[CharacterAction]
+var priority_input_abilities: Array[CharacterAction]
 var active_abilities: Array[int]
 var blocked_actions: Array[int]
 
@@ -114,6 +115,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	## Ignore mouse motion
 	if event is InputEventMouseMotion:
 		return
+
+	## Process priority input before anything else.
+	for ability in priority_input_abilities:
+		ability.process_priority_input(event)
+		## At this point the ability should have consumed the input.
+		if get_viewport().is_input_handled():
+			return
+
 	## Process repair mode abilities first if in repair mode or not at all otherwise
 	if active_abilities.has(CharacterAction.TYPES.REPAIR_MODE):
 		for ability in repair_mode_abilities:
@@ -123,6 +132,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	## propagation doesn't do anything if it's all handled from this method.
 		if get_viewport().is_input_handled():
 			return
+
 	## Process non repair mode abilities
 	for ability in abilities:
 		ability.action_input(event)

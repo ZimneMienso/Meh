@@ -19,7 +19,6 @@ var cost_multiplier: float = 1
 var activator_count: int = 0
 var native_activation: bool = false
 
-
 func action_input(event: InputEvent) -> void:
 	if not event.is_action(trigger.action_name):
 		return
