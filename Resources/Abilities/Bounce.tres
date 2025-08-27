@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Bounce" load_steps=14 format=3 uid="uid://dixmti5mhtgfp"]
+[gd_resource type="Resource" script_class="Bounce" load_steps=15 format=3 uid="uid://dixmti5mhtgfp"]
 
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_cjjeu"]
 [ext_resource type="PackedScene" uid="uid://jgq2h8ta2gx8" path="res://Scenes/Abilities/bounce.tscn" id="2_fwca7"]
@@ -18,9 +18,14 @@ default_value = false
 setting_text = "Automatically Trigger Slowdown"
 metadata/_custom_type_script = "uid://b0o5ks0xxtywp"
 
+[sub_resource type="Resource" id="Resource_uytvj"]
+script = ExtResource("12_4s0da")
+setting_text = "directional_bounce"
+metadata/_custom_type_script = "uid://bmeekr26xi7af"
+
 [sub_resource type="Resource" id="Resource_4s0da"]
 script = ExtResource("12_4s0da")
-setting_text = "trigger_bounce"
+setting_text = "bounce_ON/OFF"
 metadata/_custom_type_script = "uid://bmeekr26xi7af"
 
 [resource]
@@ -28,7 +33,10 @@ script = ExtResource("2_kimca")
 delay_between_uses = 0.0
 goo_ball_scene = ExtResource("2_fwca7")
 trigger = SubResource("Resource_4s0da")
+choosing_bounce_direction = SubResource("Resource_uytvj")
 autotrigger_slowmo = SubResource("Resource_n6mok")
+max_bounce_angle_influence = 0.785398
+max_time_to_bounce = 0.0
 blocks_actions = Array[ExtResource("1_cjjeu")]([ExtResource("2_jx35m"), ExtResource("3_cjjeu"), ExtResource("4_kmtm0"), ExtResource("5_n6mok"), ExtResource("6_4s0da")])
 icon = ExtResource("8_cjjeu")
 repair_mode = false
