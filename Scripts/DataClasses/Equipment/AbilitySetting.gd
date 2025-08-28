@@ -11,4 +11,5 @@ enum VALUE_TYPES {
 
 var value_type: VALUE_TYPES
 
-@export var setting_text: String
+@export_multiline var setting_text: String
+@export_multiline var tooltip: String

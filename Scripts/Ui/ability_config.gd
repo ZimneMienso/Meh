@@ -49,7 +49,9 @@ func create_setting_ui(setting: AbilitySetting) -> void:
 	if setting is AbilitySettingBool:
 		## Setup the template.
 		%CheckboxLabel.text = setting.setting_text
+		%CheckboxLabel.tooltip_text = setting.tooltip
 		%CheckBox.button_pressed = setting.get_value()
+		%CheckBox.tooltip_text = setting.tooltip
 
 		## Create an instance.
 		new_setting = %CheckBoxSetting.duplicate()
@@ -62,10 +64,12 @@ func create_setting_ui(setting: AbilitySetting) -> void:
 	if setting is AbilitySettingInt:
 		## Setup the template.
 		%SliderLabel.text = setting.setting_text
+		%SliderLabel.tooltip_text = setting.tooltip
 		%Slider.min_value = setting.min_value
 		%Slider.max_value = setting.max_value
 		%Slider.step = 1
 		%Slider.value = setting.get_value()
+		%Slider.tooltip_text = setting.tooltip
 		update_slider_value_label(setting.value, %SliderValueLabel, setting.suffix)
 
 		## Create an instance.
@@ -81,10 +85,12 @@ func create_setting_ui(setting: AbilitySetting) -> void:
 	if setting is AbilitySettingFloat:
 		## Setup the template.
 		%SliderLabel.text = setting.setting_text
+		%SliderLabel.tooltip_text = setting.tooltip
 		%Slider.min_value = setting.min_value
 		%Slider.max_value = setting.max_value
 		%Slider.step = setting.step
 		%Slider.value = setting.get_value()
+		%Slider.tooltip_text = setting.tooltip
 		update_slider_value_label(setting.value, %SliderValueLabel, setting.suffix)
 
 		## Create an instance.
@@ -100,6 +106,7 @@ func create_setting_ui(setting: AbilitySetting) -> void:
 	if setting is AbilitySettingKeybind:
 		## Setup the template.
 		%KeybindLabel.text = setting.setting_text.capitalize()
+		%KeybindLabel.tooltip_text = setting.tooltip
 		if InputMap.action_get_events(setting.action_name).size() == 1:
 			%KeybindButton.text = \
 			InputMap.action_get_events(setting.action_name)[0].as_text()

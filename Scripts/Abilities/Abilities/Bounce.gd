@@ -10,7 +10,6 @@ var use_delay_progress: float = 0
 var goo_ball_mesh: MeshInstance3D
 
 @export var trigger: AbilitySettingKeybind
-@export var autotrigger_slowmo: AbilitySettingBool
 
 
 func action_input(event: InputEvent) -> void:
