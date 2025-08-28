@@ -17,6 +17,8 @@ var stored_slow: float
 var cost_multiplier: float = 1
 ## How many outside things want this ability active.
 var activator_count: int = 0
+## All active discounts
+var discounts: Array[float] = [1]
 var native_activation: bool = false
 
 func action_input(event: InputEvent) -> void:
@@ -63,16 +65,20 @@ func ready() -> void:
 ## Expected parameters: [set_active: bool, cost_multiplier: float]
 func anwser_request(parameters: Array) -> void:
 	var set_active: bool = parameters[0]
+	var multiplier: float = parameters[1]
 	## Check if the request is to turn on or off.
 	## Note: This assumes everything that requests slowmode will also
 	## deactivate it exactly once per "cycle" so that activator count 
 	## eventually returns to 0.
 	if not set_active:
 		activator_count = max(0, activator_count - 1)
+		discounts.erase(multiplier)
 		## If nothing requests it anymore, deactivate.
 		if not native_activation and activator_count == 0:
 			stop_performing_action()
 	else:
 		activator_count += 1
+		discounts.append(multiplier)
 		attempt_action()
-		cost_multiplier = parameters[1]
+	discounts.sort()
+	cost_multiplier = discounts[0]

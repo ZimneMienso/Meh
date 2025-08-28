@@ -37,7 +37,7 @@ func start_performing_action() -> void:
 func stop_performing_action() -> void:
 	super()
 	if trigger_slowmo.get_value():
-		player.send_ability_request(CharacterAction.TYPES.SLOW_MOTION, [false])
+		player.send_ability_request(CharacterAction.TYPES.SLOW_MOTION, [false, 1])
 
 
 ## Called on equiping
