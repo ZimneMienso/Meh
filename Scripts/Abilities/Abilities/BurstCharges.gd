@@ -38,16 +38,17 @@ func start_performing_action():
 	
 	## Do the thing
 	## First, get the direction and project a raycast in the opposite one
-		## Get opposite direction
+	## Get opposite direction
 	var opposite_direction2: Vector2 = -player.input_vector
 	var opposite_direction3: Vector3 = \
 	Vector3(0, opposite_direction2.y, opposite_direction2.x)
-		## Create a raycast query
+	## Create a raycast query
 	var space_state: PhysicsDirectSpaceState3D = \
 	player.get_world_3d().direct_space_state
+	var ray_origin: Vector3 = player.global_position + Vector3.UP
 	var query: PhysicsRayQueryParameters3D = \
 	PhysicsRayQueryParameters3D.create(
-		player.global_position, player.global_position + \
+		ray_origin, ray_origin + \
 		opposite_direction3 * wall_detection_range
 		)
 	query.collision_mask = 1
@@ -56,27 +57,32 @@ func start_performing_action():
 	
 	## If the raycast hits a wall, redirect,
 	## otherwise remove velocity in that direction
-		## Calculate the portion of velocity in that direction
-	var direction_angle: float = opposite_direction2.angle_to(Vector2.RIGHT)
+	## Calculate the portion of velocity in that direction
 
-	var velocity2: Vector2 = Vector2(player.velocity.z, player.velocity.y)
-
-	var zeroed_velocity: Vector2 = velocity2.rotated(direction_angle)
-
-	var velocity_in_direction2: Vector2 = \
-	Vector2(max(0, zeroed_velocity.x), 0).rotated(-direction_angle)
-
-	var velocity_in_direction3: Vector3 = Vector3(
-	0,
-	velocity_in_direction2.y,
-	velocity_in_direction2.x)
+	var velocity_in_direction: Vector3 = \
+	get_velocity_in_direction(player.velocity, opposite_direction2)
 	
 	## Cancel velocity in the opposite direction
-	player.velocity -= velocity_in_direction3
+	player.velocity -= velocity_in_direction
+
 
 	## If near a wall, add the cancelled velocity to the impulse direction
 	if query_result:
-		player.velocity += player.input_vector3 * velocity_in_direction3.length()
+	## If velocity rollback is active, calculate the new velocity based
+	## on that instead of current velocity,
+	## provided the rollback velocity is higher.
+		var velocity_rollback_event := player.get_velocity_rollback()
+		if velocity_rollback_event:
+			var rollback_velocity: Vector3 = \
+			get_velocity_in_direction(
+				velocity_rollback_event.pre_collision_velocity,
+				opposite_direction2
+			)
+
+			if rollback_velocity.length() > velocity_in_direction.length():
+				velocity_in_direction = rollback_velocity
+
+		player.velocity += player.input_vector3 * velocity_in_direction.length()
 
 	## Apply the "constant" impulse
 	var impulse_velocity: Vector3 = player.input_vector3 * impulse
@@ -113,3 +119,14 @@ func action_physics_process(delta: float) -> void:
 func ready() -> void:
 	type = TYPES.BURST_CHARGES
 	super()
+
+
+func get_velocity_in_direction(velocity: Vector3, direction: Vector2) -> Vector3:
+	var velocity2: Vector2 = Vector2(velocity.z, velocity.y)
+	var direction_angle: float = direction.angle_to(Vector2.RIGHT)
+	var zeroed_velocity: Vector2 = velocity2.rotated(direction_angle)
+	var velocity_in_direction2: Vector2 = \
+	Vector2(max(0, zeroed_velocity.x), 0).rotated(-direction_angle)
+	var velocity_in_direction3: Vector3 = Vector3(
+	0, velocity_in_direction2.y, velocity_in_direction2.x)
+	return velocity_in_direction3

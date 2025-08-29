@@ -9,6 +9,7 @@
 [sub_resource type="Resource" id="Resource_jek5j"]
 script = ExtResource("5_t1rc4")
 setting_text = "trigger_boost"
+tooltip = ""
 metadata/_custom_type_script = "uid://bmeekr26xi7af"
 
 [resource]

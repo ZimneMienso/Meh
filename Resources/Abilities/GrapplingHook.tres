@@ -8,6 +8,7 @@
 [sub_resource type="Resource" id="Resource_n1xvn"]
 script = ExtResource("4_krku2")
 setting_text = "fire_hook"
+tooltip = ""
 metadata/_custom_type_script = "uid://bmeekr26xi7af"
 
 [resource]

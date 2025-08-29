@@ -126,6 +126,7 @@ eqslots = Array[ExtResource("2_yoq75")]([SubResource("Resource_n6hdu")])
 initial_attribute_modifiers = Array[ExtResource("3_ksbbd")]([SubResource("Resource_bvt00"), SubResource("Resource_oqgf2"), SubResource("Resource_qxfql"), SubResource("Resource_2klc5"), SubResource("Resource_ha31o"), SubResource("Resource_glx4g"), SubResource("Resource_pa6b8"), SubResource("Resource_crh0w"), SubResource("Resource_c7le1"), SubResource("Resource_yoq75"), SubResource("Resource_ksbbd")])
 inherent_abilities = Array[ExtResource("4_1e7my")]([ExtResource("5_miouo"), ExtResource("6_o3h8g"), ExtResource("7_1e7my"), ExtResource("8_arntx"), ExtResource("9_yoq75"), ExtResource("10_ksbbd"), ExtResource("11_glx4g"), ExtResource("12_miouo"), ExtResource("13_o3h8g"), ExtResource("14_1e7my"), ExtResource("15_lslt6"), ExtResource("16_ulo2v")])
 skeleton = NodePath("CharacterPlaceholder/Armature/Skeleton3D")
+velocity_rollback_duration = 0.2
 
 [node name="CharacterPlaceholder" parent="." instance=ExtResource("9_lslt6")]
 

@@ -11,6 +11,8 @@ var goo_ball_mesh: MeshInstance3D
 
 @export var trigger: AbilitySettingKeybind
 
+var just_activated: bool
+
 
 func action_input(event: InputEvent) -> void:
 	if not event.is_action(trigger.action_name):
@@ -30,8 +32,7 @@ func action_physics_process(delta: float) -> void:
 		if last_slide_collision:
 			var collided_surface_normal: Vector3 = \
 			last_slide_collision.get_normal()
-			player.velocity = \
-			player.last_frame_velocity.bounce(collided_surface_normal)
+			bounce(player.last_frame_velocity, collided_surface_normal)
 
 		goo_ball_mesh.show()
 
@@ -40,7 +41,17 @@ func action_physics_process(delta: float) -> void:
 			use_delay_progress = maxf(0, use_delay_progress - delta)
 
 
-func stop_performing_action():
+func start_performing_action() -> void:
+	super()
+	var last_collision_rollback_event := player.get_velocity_rollback()
+	if last_collision_rollback_event:
+		bounce(
+			last_collision_rollback_event.pre_collision_velocity,
+			last_collision_rollback_event.collision.get_normal()
+		)
+
+
+func stop_performing_action() -> void:
 	super()
 	use_delay_progress = delay_between_uses
 	goo_ball_mesh.hide()
@@ -54,3 +65,7 @@ func ready() -> void:
 	goo_ball_mesh = goo_ball_scene.instantiate()
 	add_ability_object(goo_ball_mesh, player)
 	goo_ball_mesh.hide()
+
+
+func bounce(velocity: Vector3, normal: Vector3) -> void:
+	player.velocity = velocity.bounce(normal)
