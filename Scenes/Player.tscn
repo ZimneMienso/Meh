@@ -61,7 +61,7 @@ resource_name = "Jump Impulse"
 script = ExtResource("3_ksbbd")
 attribute_type = 30
 bonus_type = 0
-value = 8.0
+value = 16.0
 metadata/_custom_type_script = "uid://cao24bdyja8u6"
 
 [sub_resource type="Resource" id="Resource_glx4g"]
@@ -127,6 +127,7 @@ initial_attribute_modifiers = Array[ExtResource("3_ksbbd")]([SubResource("Resour
 inherent_abilities = Array[ExtResource("4_1e7my")]([ExtResource("5_miouo"), ExtResource("6_o3h8g"), ExtResource("7_1e7my"), ExtResource("8_arntx"), ExtResource("9_yoq75"), ExtResource("10_ksbbd"), ExtResource("11_glx4g"), ExtResource("12_miouo"), ExtResource("13_o3h8g"), ExtResource("14_1e7my"), ExtResource("15_lslt6"), ExtResource("16_ulo2v")])
 skeleton = NodePath("CharacterPlaceholder/Armature/Skeleton3D")
 velocity_rollback_duration = 0.2
+coyote_time_duration = 0.2
 
 [node name="CharacterPlaceholder" parent="." instance=ExtResource("9_lslt6")]
 

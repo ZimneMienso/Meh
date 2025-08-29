@@ -49,12 +49,14 @@ func start_performing_action() -> void:
 			last_collision_rollback_event.pre_collision_velocity,
 			last_collision_rollback_event.collision.get_normal()
 		)
+	player.collision_rollback_blockers.append(self)
 
 
 func stop_performing_action() -> void:
 	super()
 	use_delay_progress = delay_between_uses
 	goo_ball_mesh.hide()
+	player.collision_rollback_blockers.erase(self)
 
 
 ## Called on equiping

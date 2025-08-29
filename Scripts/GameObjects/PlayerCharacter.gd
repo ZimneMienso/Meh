@@ -36,6 +36,10 @@ var input_vector3: Vector3
 var last_frame_velocity: Vector3
 @export_range(0, 1, 0.01, "or_greater") var velocity_rollback_duration: float
 var last_collision_rollback_event: CollisionRollbackEvent
+## Abilities that are actively blocking rollback recording and reading.
+var collision_rollback_blockers: Array[CharacterAction] = []
+@export_range(0, 1, 0.01, "or_greater") var coyote_time_duration: float
+var coyote_time: float = 0
 
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
@@ -100,6 +104,15 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	align_rotation_with_velocity()
 
+	## Coyote time
+	var last_slide_collision: KinematicCollision3D = get_last_slide_collision()
+	if last_slide_collision:
+		update_velocity_rollback()
+		if is_on_floor():
+			coyote_time = coyote_time_duration
+	process_velocity_rollback(delta)
+	coyote_time = max(0, coyote_time - delta)
+
 	active_abilities.clear()
 	## Ability physics process
 	for ability in abilities:
@@ -115,12 +128,6 @@ func _physics_process(delta: float) -> void:
 	var air_friction: float = get_attribute(Attribute.TYPE.AIR_FRICTION)
 	if not is_on_floor() and velocity.length() > 2:
 		velocity -= velocity.normalized() * air_friction * delta
-
-	## Coyote velocity
-	var last_slide_collision: KinematicCollision3D = get_last_slide_collision()
-	if last_slide_collision:
-		update_velocity_rollback()
-	process_velocity_rollback(delta)
 
 	last_frame_velocity = velocity 
 
@@ -344,10 +351,11 @@ func send_ability_request(ability_type: CharacterAction.TYPES, parameters: Array
 	print("send_ability_request() could not find the ability " + CharacterAction.TYPES.find_key(ability_type))
 
 
-## Checks if the last frame velocity was higher than the recorded coyote velocity
-## In that case, returns last frame speed and resets the coyote timer.
-## Otherwise returns coyote velocity.
+## Records a new velocity rollback event if it's velocity is higher than the
+## current one's.
 func update_velocity_rollback() -> void:
+	if collision_rollback_blockers:
+		return
 	if last_collision_rollback_event and last_frame_velocity.length() < \
 	last_collision_rollback_event.pre_collision_velocity.length():
 		return
@@ -358,7 +366,7 @@ func update_velocity_rollback() -> void:
 	)
 
 
-## Applies time to everything coyote time related.
+## Applies time to everything collision rollback related.
 func process_velocity_rollback(delta: float) -> void:
 	if not last_collision_rollback_event:
 		return
@@ -366,10 +374,18 @@ func process_velocity_rollback(delta: float) -> void:
 		last_collision_rollback_event = null
 
 
-## Returns the coyote velocity and consumes it.
+## Returns the recorded collision rollback event and consumes it.
 func get_velocity_rollback() -> CollisionRollbackEvent:
+	if collision_rollback_blockers:
+		return null
 	var result := last_collision_rollback_event
 	last_collision_rollback_event = null
+	return result
+
+
+func get_coyote_time() -> float:
+	var result: float = coyote_time
+	coyote_time = 0
 	return result
 
 

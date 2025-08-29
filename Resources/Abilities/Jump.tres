@@ -6,6 +6,7 @@
 
 [resource]
 script = ExtResource("1_moj8w")
+cooldown = 0.2
 blocks_actions = Array[ExtResource("1_dioex")]([])
 icon = ExtResource("2_dioex")
 repair_mode = false
