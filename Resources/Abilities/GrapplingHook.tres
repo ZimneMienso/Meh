@@ -1,9 +1,33 @@
-[gd_resource type="Resource" script_class="GrapplingHook" load_steps=6 format=3 uid="uid://custveo0wacsu"]
+[gd_resource type="Resource" script_class="GrapplingHook" load_steps=9 format=3 uid="uid://custveo0wacsu"]
 
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_osud1"]
 [ext_resource type="Script" uid="uid://d3as7hjaneikk" path="res://Scripts/Abilities/Abilities/GrapplingHook.gd" id="2_k5cb8"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_krku2"]
+[ext_resource type="Script" uid="uid://dk76dkxiof803" path="res://Scripts/GameObjects/Projectiles/RayProjectileEmitter.gd" id="2_n1xvn"]
 [ext_resource type="Script" uid="uid://bmeekr26xi7af" path="res://Scripts/DataClasses/Equipment/AbilitySettingKeybind.gd" id="4_krku2"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_uysa1"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="Resource" id="Resource_0xpyy"]
+script = ExtResource("2_n1xvn")
+instantaneous = false
+create_fake_projectile = true
+fire_on_miss = false
+overshoot = true
+projectile_speed = 50.0
+projectile_range = 30.001
+max_hits = 1
+mesh = SubResource("SphereMesh_uysa1")
+mesh_x_rotation = 4.71239
+rotate_to_velocity = true
+target_collision_mask = 1
+terrain_collision_mask = 0
+die_on_terrain = true
+trigger_on_terrain = false
+reduce_hits_on_terrain = true
+metadata/_custom_type_script = "uid://dk76dkxiof803"
 
 [sub_resource type="Resource" id="Resource_n1xvn"]
 script = ExtResource("4_krku2")
@@ -14,6 +38,7 @@ metadata/_custom_type_script = "uid://bmeekr26xi7af"
 [resource]
 script = ExtResource("2_k5cb8")
 trigger = SubResource("Resource_n1xvn")
+hook_projectile = SubResource("Resource_0xpyy")
 hook_range = 30.0
 hook_speed = 50.0
 blocks_actions = Array[ExtResource("1_osud1")]([])

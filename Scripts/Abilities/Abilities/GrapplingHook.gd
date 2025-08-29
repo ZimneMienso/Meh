@@ -8,6 +8,7 @@ extends CharacterAction
 
 @export var trigger: AbilitySettingKeybind
 
+@export var hook_projectile: RayProjectileEmitter
 @export var hook_range: float
 @export var hook_speed: float
 var hook_lifetime: float
@@ -68,26 +69,26 @@ func action_physics_process(_delta: float) -> void:
 	if not hook_attachments:
 		return
 	var last_attachment: HookAttachment = hook_attachments[-1]
-	var last_attachment_pos: Vector2 = v3_to_v2(last_attachment.global_position)
+	var last_attachment_pos: Vector2 = HF.v3_to_v2(last_attachment.global_position)
 	
-	if last_attachment_pos.distance_to(v3_to_v2(player.global_position)) < \
+	if last_attachment_pos.distance_to(HF.v3_to_v2(player.global_position)) < \
 	last_attachment.rope_lenght:
 		return
 
 	var max_lenght_rope_endpoint: Vector2 = \
-	last_attachment_pos.direction_to(v3_to_v2(player.global_position)) * \
+	last_attachment_pos.direction_to(HF.v3_to_v2(player.global_position)) * \
 		last_attachment.rope_lenght + last_attachment_pos
 
 	var pos_in_relation_to_circle: Vector2 = \
 	max_lenght_rope_endpoint - last_attachment_pos
 	## The angle between position in circle space to velocity
 	var position_to_velocity_angle: float = \
-	pos_in_relation_to_circle.angle_to(v3_to_v2(player.velocity))
+	pos_in_relation_to_circle.angle_to(HF.v3_to_v2(player.velocity))
 
 	var angle_on_circle: float = \
-	(v3_to_v2(player.position) - last_attachment_pos).angle_to(Vector2.RIGHT)
+	(HF.v3_to_v2(player.position) - last_attachment_pos).angle_to(Vector2.RIGHT)
 	var velocity_rotated_by_angle_on_circle: Vector2 = \
-	v3_to_v2(player.velocity).rotated(angle_on_circle)
+	HF.v3_to_v2(player.velocity).rotated(angle_on_circle)
 	
 	if swing_direction == 0 and \
 	# TODO Maybe move the deg to an exported var
@@ -106,10 +107,10 @@ func action_physics_process(_delta: float) -> void:
 	var circle_tangent: Vector2 = pos_in_relation_to_circle.normalized().rotated(
 		swing_direction * PI/2)
 	var rotated_velocity: Vector2 = player.velocity.length() * circle_tangent
-	var position_error: Vector3 = player.global_position - v2_to_v3(
+	var position_error: Vector3 = player.global_position - HF.v2_to_v3(
 		max_lenght_rope_endpoint)
 		
-	player.velocity = v2_to_v3(rotated_velocity)
+	player.velocity = HF.v2_to_v3(rotated_velocity)
 	player.position -= position_error
 
 
@@ -128,6 +129,8 @@ func ready() -> void:
 	rope_mesh_material.albedo_color = Color.BLACK
 
 	add_ability_object(rope_immediate_mesh, player.get_tree().get_root())
+
+	hook_projectile.projectile_hit.connect(_on_projectile_hit)
 
 
 func start_performing_action():
@@ -150,69 +153,12 @@ func clear_attachments():
 	hook_attachments.clear()
 
 
-# This absolutely will relocate somewhere else at some point
-static func v3_to_v2(vector3: Vector3) -> Vector2:
-	return Vector2(vector3.z, vector3.y)
-
-
-# This absolutely will relocate somewhere else at some point
-static func v2_to_v3(vector2: Vector2, x: float = 0) -> Vector3:
-	return Vector3(x, vector2.y, vector2.x)
-
-
-func fire_hook_projectile():
-	var hook_projectile: RigidBody3D = RigidBody3D.new()
-	hook_projectile.gravity_scale = 0
-	hook_projectile.collision_layer = 0
-	hook_projectile.contact_monitor = true
-	hook_projectile.max_contacts_reported = 1
-	hook_projectile.continuous_cd = true
-
-	var hook_placeholder_mesh_instance: MeshInstance3D = MeshInstance3D.new()
-	
-	var hook_placeholder_mesh: SphereMesh = SphereMesh.new()
-	hook_placeholder_mesh.height = 0.25
-	hook_placeholder_mesh.radius = 0.125
-	hook_placeholder_mesh_instance.mesh = \
-	hook_placeholder_mesh
-
-	var hook_placeholder_mesh_material: StandardMaterial3D = \
-	StandardMaterial3D.new()
-	hook_placeholder_mesh_material.albedo_color = \
-	Color(1,0,0)
-
-	var hook_paceholder_collision_shape: CollisionShape3D = \
-	CollisionShape3D.new()
-	var hook_placeholder_collision_shape_shape: SphereShape3D = \
-	SphereShape3D.new()
-	hook_placeholder_collision_shape_shape.radius = \
-	0.125
-	hook_paceholder_collision_shape.shape = \
-	hook_placeholder_collision_shape_shape
-
-	hook_projectile.body_entered.connect(
-		on_hook_projectile_collision.bind(hook_projectile))
-	hook_projectile.body_entered.connect(
-		hook_projectile.queue_free.unbind(1))
-
-	player.get_parent().add_child(hook_projectile)
-
-	var timer: Timer = Timer.new()
-	hook_projectile.add_child(timer)
-	timer.timeout.connect(hook_projectile.queue_free)
-	timer.timeout.connect(stop_performing_action)
-	timer.start(hook_lifetime)
-
-	var projectile_spawn_offset: Vector3 = Vector3.UP
-	hook_projectile.global_position = \
-	player.global_position + projectile_spawn_offset
-	hook_projectile.add_child(hook_placeholder_mesh_instance)
-	hook_projectile.add_child(hook_paceholder_collision_shape)
-	hook_projectile.linear_velocity = \
-	(HF.project_cursor_on_world(player.get_viewport()) - player.global_position - \
-	projectile_spawn_offset).normalized() * hook_speed
-
-	active_hook_projectile = hook_projectile
+func fire_hook_projectile() -> void:
+	var target: Vector3 = HF.project_cursor_on_world(player.get_viewport())
+	active_hook_projectile = hook_projectile.fire(
+		player.get_parent(), player.global_position + Vector3.UP * 1, target)
+	if not active_hook_projectile:
+		stop_performing_action()
 
 
 func on_hook_projectile_collision(
@@ -235,6 +181,12 @@ func attach_grappling_hook(attach_to: Node3D, hook_position: Vector3):
 	new_hook_attachment.rope_lenght = \
 	(player.global_position - hook_position).length()
 
-	hook_attach_point_debug.scale *= 0.01 #TODO fix the stupid import
+	hook_attach_point_debug.scale *= 0.1 #TODO fix the stupid import
 	new_hook_attachment.add_child(hook_attach_point_debug)
 	hook_attachments.append(new_hook_attachment)
+
+
+func _on_projectile_hit(hit_data: ProjectileEmitter.ProjHitData) -> void:
+	## Check in case the shot is cancelled before it lands.
+	if performing:
+		attach_grappling_hook(hit_data.collider, hit_data.collision_pos)

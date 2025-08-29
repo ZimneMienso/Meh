@@ -45,7 +45,7 @@ func ready() -> void:
 	projectile.projectile_hit.connect(_on_projectile_hit)
 
 
-func _on_projectile_hit(hit_data: ProjectileEmitter.ProjHitData):
+func _on_projectile_hit(hit_data: ProjectileEmitter.ProjHitData) -> void:
 	assert(hit_data.collider is MechStruct, "Received hit_data doesn't contain a MechStruct")
 	var struct: MechStruct = hit_data.collider as MechStruct
 	struct.receive_repair(repair_value)

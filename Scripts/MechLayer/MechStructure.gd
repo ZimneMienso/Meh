@@ -26,7 +26,7 @@ const struct_collision_layer: int = 4
 @export_range(1, 5, 1, "or_greater") var active_stage: int = 1:
 	set(value):
 		if value > max_stage:
-			print("Active stage set to higher than max_stage, setting to max_stage.")
+			print("Active stage set to higher than max_astage, setting to max_stage.")
 			value = max_stage
 		if value < 1:
 			print("Active stage set below 1 (fully repaired), setting to 1.")

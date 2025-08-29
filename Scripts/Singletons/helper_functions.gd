@@ -17,3 +17,12 @@ func project_cursor_on_world(viewport: Viewport) -> Vector3:
 	var mouse_projection: Vector3 = \
 	projection_origin + projection_direction * projection_distance
 	return mouse_projection
+
+
+## Legacy shit used by grappling hook
+func v3_to_v2(vector3: Vector3) -> Vector2:
+	return Vector2(vector3.z, vector3.y)
+
+
+func v2_to_v3(vector2: Vector2, x: float = 0) -> Vector3:
+	return Vector3(x, vector2.y, vector2.x)

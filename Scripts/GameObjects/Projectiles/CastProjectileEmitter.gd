@@ -3,7 +3,7 @@ extends ProjectileEmitter
 
 
 class FakeProjectile:
-	extends  Node3D
+	extends Node3D
 	
 	var velocity: Vector3
 
@@ -30,7 +30,7 @@ class FakeProjectile:
 @export var overshoot: bool = true
 
 
-func fire_fake_proj(parent: Node, origin: Vector3, target: Vector3):
+func fire_fake_proj(parent: Node, origin: Vector3, target: Vector3) -> FakeProjectile:
 	## Visuals
 	var fake_proj_visuals: Array[Node]
 	if mesh:
@@ -55,3 +55,4 @@ func fire_fake_proj(parent: Node, origin: Vector3, target: Vector3):
 	var death_delay: float = origin.distance_to(target) / projectile_speed
 	var death_timer := fake_proj.get_tree().create_timer(death_delay, false, true)
 	death_timer.timeout.connect(fake_proj.queue_free)
+	return fake_proj

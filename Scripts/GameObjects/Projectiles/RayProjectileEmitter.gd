@@ -2,7 +2,7 @@ class_name RayProjectileEmitter
 extends CastProjectileEmitter
 
 
-func fire(parent: Node3D, origin: Vector3, target: Vector3) -> void:
+func fire(parent: Node3D, origin: Vector3, target: Vector3) -> Node3D:
 	## Evaluate range and overshoot.
 	## If overshoot, go full range towards the target
 	if overshoot:
@@ -99,7 +99,7 @@ func fire(parent: Node3D, origin: Vector3, target: Vector3) -> void:
 	## Handle projectile death.
 	## If there was no projectile, return.
 	if not fired:
-		return
+		return null
 	## If the projectile hit instantly, it dies instantly.
 	if instantaneous:
 		projectile_died.emit(death_pos)
@@ -111,6 +111,6 @@ func fire(parent: Node3D, origin: Vector3, target: Vector3) -> void:
 	## Handle the fake projectile.
 	## Check if the fake projectile should fire at all.
 	if not create_fake_projectile:
-		return
+		return null
 	## The end.
-	fire_fake_proj(parent, origin, death_pos)
+	return fire_fake_proj(parent, origin, death_pos)

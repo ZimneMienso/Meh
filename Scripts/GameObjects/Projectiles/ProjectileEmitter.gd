@@ -46,6 +46,6 @@ class ProjHitData:
 @export var reduce_hits_on_terrain: bool = true
 
 
-## Creates the projectile in the world.
-func fire(_parent: Node3D, _origin: Vector3, _target: Vector3) -> void:
-	pass
+## Creates the projectile in the world and returns the fired projectile.
+func fire(_parent: Node3D, _origin: Vector3, _target: Vector3) -> Node3D:
+	return null
