@@ -4,6 +4,9 @@ extends CharacterAction
 # TODO Adaptive, speed-dependent slow?
 
 @export var trigger: AbilitySettingKeybind
+@export var relative_slowdown: AbilitySettingBool
+## The percievable speed to which the time will slow down in relative mode.
+@export var relative_slowdown_speed: float = 50
 
 ## Used as at a rate of 1/"normal" speed (Engine.time_scale == 1) second to 
 ## sustain the ability
@@ -36,6 +39,10 @@ func action_input(event: InputEvent) -> void:
 ## Called every _physics_process tick of the player
 func action_physics_process(delta: float) -> void:
 	if performing:
+		if relative_slowdown.value == true:
+			var time_scale: float = \
+			min(relative_slowdown_speed / player.velocity.length(), 1 - slow)
+			Engine.time_scale = time_scale
 		stored_slow -= delta * cost_multiplier
 		if stored_slow <= 0:
 			stop_performing_action()

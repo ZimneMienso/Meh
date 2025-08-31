@@ -1,9 +1,17 @@
-[gd_resource type="Resource" script_class="SlowMotion" load_steps=6 format=3 uid="uid://dxpm14al3xfbk"]
+[gd_resource type="Resource" script_class="SlowMotion" load_steps=8 format=3 uid="uid://dxpm14al3xfbk"]
 
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_46602"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_w3jdg"]
 [ext_resource type="Script" uid="uid://dtphp3f2ayh1n" path="res://Scripts/Abilities/Abilities/SlowMotion.gd" id="3_eci5s"]
+[ext_resource type="Script" uid="uid://b0o5ks0xxtywp" path="res://Scripts/DataClasses/Equipment/AbilitySettingBool.gd" id="3_enp3e"]
 [ext_resource type="Script" uid="uid://bmeekr26xi7af" path="res://Scripts/DataClasses/Equipment/AbilitySettingKeybind.gd" id="4_w3jdg"]
+
+[sub_resource type="Resource" id="Resource_enp3e"]
+script = ExtResource("3_enp3e")
+default_value = false
+setting_text = "Relative Slowdown"
+tooltip = "If velocity exceeds 50 m/s, slows down perception of time so that it seems like you move at that velocity."
+metadata/_custom_type_script = "uid://b0o5ks0xxtywp"
 
 [sub_resource type="Resource" id="Resource_eci5s"]
 script = ExtResource("4_w3jdg")
@@ -14,6 +22,8 @@ metadata/_custom_type_script = "uid://bmeekr26xi7af"
 [resource]
 script = ExtResource("3_eci5s")
 trigger = SubResource("Resource_eci5s")
+relative_slowdown = SubResource("Resource_enp3e")
+relative_slowdown_speed = 50.0
 max_stored_slow = 10.0
 slow_regen = 1.0
 slow = 0.5
