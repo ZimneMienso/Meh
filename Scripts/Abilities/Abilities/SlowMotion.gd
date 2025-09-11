@@ -1,7 +1,6 @@
 class_name SlowMotion
 extends CharacterAction
 
-# TODO Adaptive, speed-dependent slow?
 
 @export var trigger: AbilitySettingKeybind
 @export var relative_slowdown: AbilitySettingBool

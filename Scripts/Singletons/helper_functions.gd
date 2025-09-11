@@ -19,6 +19,14 @@ func project_cursor_on_world(viewport: Viewport) -> Vector3:
 	return mouse_projection
 
 
+# This should probably just be an equasion that outputs the distance to the
+# point closest to the line in the direction of the direction vector, but I'm 
+# feeling lazy today so.
+func get_speed_in_direction(direction: Vector3, velocity: Vector3) -> float:
+	return velocity.rotated(
+		Vector3.RIGHT, direction.signed_angle_to(Vector3.UP, Vector3.RIGHT)).y
+
+
 ## Legacy shit used by grappling hook
 func v3_to_v2(vector3: Vector3) -> Vector2:
 	return Vector2(vector3.z, vector3.y)

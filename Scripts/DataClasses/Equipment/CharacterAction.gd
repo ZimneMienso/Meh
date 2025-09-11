@@ -85,9 +85,15 @@ func ready() -> void:
 func attempt_action() -> void:
 	if performing:
 		return
-	if player.blocked_actions.has(type):
+	if not can_perform_action():
 		return
 	start_performing_action()
+
+
+func can_perform_action() -> bool:
+	if player.blocked_actions.has(type):
+		return false
+	return true
 
 
 ## Inform the action it is supposed to be active and block conflicting actions

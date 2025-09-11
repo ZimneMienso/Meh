@@ -33,6 +33,8 @@ var equipment_nodes: Dictionary[Equipment, Array]
 var input_vector: Vector2
 var input_vector3: Vector3
 
+var previous_frame_collision: KinematicCollision3D = null
+var last_slide_collision: KinematicCollision3D = null
 var last_frame_velocity: Vector3
 @export_range(0, 1, 0.01, "or_greater") var velocity_rollback_duration: float
 var last_collision_rollback_event: CollisionRollbackEvent
@@ -54,11 +56,13 @@ class CollisionRollbackEvent:
 	var pre_collision_velocity: Vector3
 	var time_left: float
 
+
 	func _init(new_collision: KinematicCollision3D, new_velocity: Vector3, duration: float) -> void:
 		collision = new_collision
 		pre_collision_velocity = new_velocity
 		time_left = duration
-	
+
+
 	## Ticks the timer and returns false if the event is expired.
 	func process(delta: float) -> bool:
 		time_left -= delta
@@ -96,7 +100,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 
-
 	velocity += delta * get_gravity()
 	velocity.x = 0
 
@@ -105,7 +108,8 @@ func _physics_process(delta: float) -> void:
 	align_rotation_with_velocity()
 
 	## Coyote time
-	var last_slide_collision: KinematicCollision3D = get_last_slide_collision()
+	previous_frame_collision = last_slide_collision
+	last_slide_collision = get_last_slide_collision()
 	if last_slide_collision:
 		update_velocity_rollback()
 		if is_on_floor():

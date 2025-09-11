@@ -117,8 +117,10 @@ size = Vector3(1, 1.711, 0.435)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("anim_player", "visual_only_body", "skeleton")]
 collision_layer = 2
-floor_max_angle = 1.39626
+floor_stop_on_slope = false
+floor_max_angle = 1.0472
 floor_snap_length = 0.3
+safe_margin = 0.05
 script = ExtResource("1_megsn")
 anim_player = NodePath("CharacterPlaceholder/AnimationPlayer")
 visual_only_body = NodePath("CharacterPlaceholder")
@@ -139,5 +141,6 @@ shape = SubResource("BoxShape3D_vonw3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.97114, 0)
 pixel_size = 0.007
 billboard = 2
+no_depth_test = true
 
 [editable path="CharacterPlaceholder"]
