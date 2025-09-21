@@ -1,6 +1,14 @@
 extends CharacterBody3D
 class_name Player
 
+enum COLLISION_STATES {
+	AIR,
+	FLOOR,
+	WALL,
+	CEILING
+}
+
+
 @export var anim_player: AnimationPlayer
 @export var visual_only_body: Node3D
 
@@ -33,15 +41,46 @@ var equipment_nodes: Dictionary[Equipment, Array]
 var input_vector: Vector2
 var input_vector3: Vector3
 
-var previous_frame_collision: KinematicCollision3D = null
-var last_slide_collision: KinematicCollision3D = null
-var last_frame_velocity: Vector3
+@export_group("Coyote Time")
 @export_range(0, 1, 0.01, "or_greater") var velocity_rollback_duration: float
 var last_collision_rollback_event: CollisionRollbackEvent
 ## Abilities that are actively blocking rollback recording and reading.
 var collision_rollback_blockers: Array[CharacterAction] = []
 @export_range(0, 1, 0.01, "or_greater") var coyote_time_duration: float
 var coyote_time: float = 0
+var previous_frame_collision: KinematicCollision3D = null
+var last_slide_collision: KinematicCollision3D = null
+var last_frame_velocity: Vector3
+
+@export_group("Slide MK2")
+## On collision at this or lower angle of attack, retain 100% of speed and
+## redirect velocity along the surface. 
+@export_range(0, 90, 1, "radians_as_degrees") var min_speed_retention_angle: float = deg_to_rad(45)
+## On collision at this or greater angle of attack, cancel all velocity 
+## towards the surface.
+@export_range(0, 90, 1, "radians_as_degrees") var max_speed_retention_angle: float = deg_to_rad(75)
+## The maximum angle at which a slope will still be considered a floor or a ceiling.
+@export_range(0, 180, 1, "radians_as_degrees") var horizontal_surface_max_angle: float = deg_to_rad(45)
+## The maximum count of "bounces" the sliding algorithm makes.
+@export_range(1, 8, 1, "or_greater") var max_bounces: int = 6
+@export_subgroup("Snapping", "snapping")
+## The distance snapping will check for collisions
+@export_range(0.01, 5, 0.01, "or_greater") var snapping_lenght: float = 0.2
+## The the magnitude of the velocity in the direction of the attached surface
+## normal that will cause detachment from that surface.
+@export_range(0, 5, 0.1, "or_greater") var snapping_detach_speed: float = 0
+## Speed below which snapping will not occur (fixes gravity-induced sliding on
+## flat horizontal surfaces)
+@export_range(1, 10, 0.1, "or_greater") var snapping_speed_treshold: float = 3
+## The distance the body will be moved away from a surface as snapping is stopped.
+@export_range(0, 2, 0.01, "or_greater") var snapping_detach_lenght: float = 0.2
+## The direction that will be checked for surfaces for the purpose of snapping.
+var snapping_direction: Vector3 = Vector3.ZERO
+
+## The type of surface touched during the last move_and_slide_mk2().
+var collision_state: COLLISION_STATES
+## The maximum angle between the snapping direction and input vector before unsnapping.
+const snapping_input_tolerance: float = deg_to_rad(105)
 
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
@@ -100,19 +139,22 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 
-	velocity += delta * get_gravity()
 	velocity.x = 0
+	global_position.x = 0
 
 	debug_update_stats_label()
-	move_and_slide()
+
+	previous_frame_collision = last_slide_collision
+	var move_and_slide_vector: Vector3 = move_and_slide_mk3(velocity * delta)
+	global_position += move_and_slide_vector
+	velocity += delta * get_gravity()
+
 	align_rotation_with_velocity()
 
 	## Coyote time
-	previous_frame_collision = last_slide_collision
-	last_slide_collision = get_last_slide_collision()
 	if last_slide_collision:
 		update_velocity_rollback()
-		if is_on_floor():
+		if is_on_floor2():
 			coyote_time = coyote_time_duration
 	process_velocity_rollback(delta)
 	coyote_time = max(0, coyote_time - delta)
@@ -130,7 +172,7 @@ func _physics_process(delta: float) -> void:
 
 	## Air friction
 	var air_friction: float = get_attribute(Attribute.TYPE.AIR_FRICTION)
-	if not is_on_floor() and velocity.length() > 2:
+	if not is_on_floor2() and velocity.length() > 2:
 		velocity -= velocity.normalized() * air_friction * delta
 
 	last_frame_velocity = velocity 
@@ -172,6 +214,123 @@ func _unhandled_input(event: InputEvent) -> void:
 	## Process non repair mode abilities
 	for ability in abilities:
 		ability.action_input(event)
+
+
+func move_and_slide_mk3(travel: Vector3, from: Vector3 = transform.origin, depth: int = 1) -> Vector3:
+	if depth > 5:
+		return Vector3.ZERO
+
+	## Test move
+	var collision_param := PhysicsTestMotionParameters3D.new()
+	collision_param.from = transform
+	collision_param.from.origin = from
+	collision_param.motion = travel
+	collision_param.margin = safe_margin
+	collision_param.recovery_as_collision = true
+	var collision := PhysicsTestMotionResult3D.new()
+	if PhysicsServer3D.body_test_motion(get_rid(), collision_param, collision) and \
+	## Treat collisions "along" the surface as if there was no collision.
+	collision.get_collision_normal().dot(travel) != 0:
+		var slide_vector: Vector3 = collision.get_remainder().slide(
+			collision.get_collision_normal()).normalized() * collision.get_remainder().length()
+		## Redirect velocity in the direction of the slide. If the direction is zero
+		## (happens when the normal and travel are parallel), use travel direction instead.
+		var velocity_redirect: Vector3 = slide_vector
+		if slide_vector == Vector3.ZERO:
+			velocity_redirect = collision.get_travel()
+		## Calculate the fraction of the velocity that remains after the collision.
+		var angle_of_attack: float = collision.get_collision_normal().angle_to(travel) - PI/2
+		var speed_retention: float = clampf(remap(
+		angle_of_attack,
+		min_speed_retention_angle, 
+		max_speed_retention_angle,
+		1, 0), 0, 1)
+		velocity = velocity_redirect.normalized() * velocity.length() * speed_retention
+		return collision.get_travel() + move_and_slide_mk3(slide_vector, from + slide_vector, depth + 1)
+	return travel
+
+
+func move_and_slide_mk2(delta: float) -> KinematicCollision3D:
+	## Move and slide logic
+	var travel: Vector3 = velocity * delta
+	var collision: KinematicCollision3D
+	var speed_retention: float
+	collision = move_and_collide(travel, true, safe_margin, true)
+	if collision:
+		## This is the slide vector.
+		var projection: Vector3 = collision.get_remainder().slide(collision.get_normal())
+		var angle_of_attack: float = collision.get_normal().angle_to(travel) - PI/2
+		speed_retention = clampf(remap(
+			angle_of_attack,
+			min_speed_retention_angle, 
+			max_speed_retention_angle,
+			1, 0), 0, 1)
+		snapping_direction = -collision.get_normal()
+
+		global_position += collision.get_travel() + projection
+		velocity = (travel + projection).normalized() * velocity.length() * speed_retention
+	else:
+		global_position += travel
+
+	match snapping_direction:
+		var direction when direction == Vector3.ZERO:
+			collision_state = COLLISION_STATES.AIR
+		var direction when direction.angle_to(Vector3.DOWN) < horizontal_surface_max_angle:
+			collision_state = COLLISION_STATES.FLOOR
+		var direction when direction.angle_to(Vector3.DOWN) > PI - horizontal_surface_max_angle:
+			collision_state = COLLISION_STATES.CEILING
+		_:
+			collision_state = COLLISION_STATES.WALL
+
+	## Snapping
+	## Check if snapping is desired at all.
+	# TODO Snapping and sliding blockers
+	# TODO Wall and ceiling snapping as an option
+	if snapping_direction:
+		## Perform a test move in the reverse direction of collided surface normal
+		## up to the maximum snapping_lenght
+		var snap_test: KinematicCollision3D = move_and_collide(snapping_direction * snapping_lenght, true, safe_margin, true)
+
+		## Decide to either snap to a surface or stop snapping. Snap if:
+		## -If the test move hit anything. 
+		if snap_test and \
+		## -The speed in the opposite direction is lower than
+		## the snapping_detach_speed.
+		HF.get_speed_in_direction(snap_test.get_normal(), velocity) < \
+		snapping_detach_speed and \
+		## -Player input vector is not pointing away from the surface
+		## but only consider that if the surface is not a floor.
+		(collision_state == COLLISION_STATES.FLOOR or \
+		input_vector3 == Vector3.ZERO or \
+		input_vector3.angle_to(snapping_direction) < \
+		snapping_input_tolerance):
+			## If current velocity is lesser than the treshold to snap, don't snap
+			## (hack to avoid sliding induced by graviti on flat surfaces).
+			if velocity.length() > snapping_speed_treshold:
+				global_position += snap_test.get_travel()
+			## Else, don't/stop snapping.
+		else:
+			if snapping_direction != Vector3.ZERO:
+				global_position -= snapping_direction * snapping_detach_lenght
+			snapping_direction = Vector3.ZERO
+
+	return collision
+
+
+func is_in_air() -> bool:
+	return collision_state == COLLISION_STATES.AIR
+
+
+func is_on_floor2() -> bool:
+	return collision_state == COLLISION_STATES.FLOOR
+
+
+func is_on_wall2() -> bool:
+	return collision_state == COLLISION_STATES.WALL
+
+
+func is_on_ceiling2() -> bool:
+	return collision_state == COLLISION_STATES.CEILING
 
 
 func align_rotation_with_velocity():
@@ -352,7 +511,7 @@ func send_ability_request(ability_type: CharacterAction.TYPES, parameters: Array
 		if ability.type == ability_type:
 			ability.anwser_request(parameters)
 			return
-	print("send_ability_request() could not find the ability " + CharacterAction.TYPES.find_key(ability_type))
+	printerr("send_ability_request() could not find the ability " + CharacterAction.TYPES.find_key(ability_type))
 
 
 ## Records a new velocity rollback event if it's velocity is higher than the
@@ -364,7 +523,7 @@ func update_velocity_rollback() -> void:
 	last_collision_rollback_event.pre_collision_velocity.length():
 		return
 	last_collision_rollback_event = CollisionRollbackEvent.new(
-		get_last_slide_collision(),
+		last_slide_collision,
 		last_frame_velocity,
 		velocity_rollback_duration
 	)

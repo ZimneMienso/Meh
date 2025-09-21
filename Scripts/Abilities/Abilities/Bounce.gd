@@ -28,7 +28,7 @@ func action_input(event: InputEvent) -> void:
 func action_physics_process(delta: float) -> void:
 	if performing:
 		var last_slide_collision: KinematicCollision3D = \
-		player.get_last_slide_collision()
+		player.last_slide_collision
 		if last_slide_collision:
 			var collided_surface_normal: Vector3 = \
 			last_slide_collision.get_normal()

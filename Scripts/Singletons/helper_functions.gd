@@ -23,8 +23,9 @@ func project_cursor_on_world(viewport: Viewport) -> Vector3:
 # point closest to the line in the direction of the direction vector, but I'm 
 # feeling lazy today so.
 func get_speed_in_direction(direction: Vector3, velocity: Vector3) -> float:
-	return velocity.rotated(
-		Vector3.RIGHT, direction.signed_angle_to(Vector3.UP, Vector3.RIGHT)).y
+	#return velocity.rotated(
+		#Vector3.RIGHT, direction.signed_angle_to(Vector3.UP, Vector3.RIGHT)).y
+	return direction.dot(velocity) * velocity.length()
 
 
 ## Legacy shit used by grappling hook

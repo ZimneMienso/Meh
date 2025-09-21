@@ -13,7 +13,7 @@ var input_vector: Vector2
 ## Called every _process tick of the player
 func action_process(_delta: float) -> void:
 	input_vector = player.input_vector
-	if not player.is_on_floor() and (input_vector.x != 0 or input_vector.y < 0):
+	if player.is_in_air() and (input_vector.x != 0 or input_vector.y < 0):
 		attempt_action()
 	else:
 		stop_performing_action()

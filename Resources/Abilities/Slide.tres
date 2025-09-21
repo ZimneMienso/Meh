@@ -8,11 +8,6 @@
 
 [resource]
 script = ExtResource("1_bcg04")
-min_speed_retention_angle = 1.0472
-max_speed_retention_angle = 1.309
-snapping_lenght = 1.0
-snapping_detach_speed = 5.0
-snapping_safety_detach = 0.1
 blocks_actions = Array[ExtResource("1_svfg3")]([ExtResource("2_vthng"), ExtResource("3_svfg3")])
 icon = ExtResource("4_svfg3")
 repair_mode = false

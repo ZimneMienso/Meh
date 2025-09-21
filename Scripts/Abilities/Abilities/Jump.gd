@@ -8,7 +8,7 @@ var cooldown_progress: float = 0
 func action_process(_delta: float) -> void:
 	#if Input.is_action_pressed("Jump") and (player.is_on_floor() or player.get_coyote_time()):
 	if Input.is_action_pressed("Jump") and cooldown_progress == 0 and \
-	(player.is_on_floor() or player.get_coyote_time()):
+	(player.is_on_floor2() or player.get_coyote_time()):
 		attempt_action()
 
 

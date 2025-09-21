@@ -118,9 +118,10 @@ size = Vector3(1, 1.711, 0.435)
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("anim_player", "visual_only_body", "skeleton")]
 collision_layer = 2
 floor_stop_on_slope = false
+floor_block_on_wall = false
 floor_max_angle = 1.0472
 floor_snap_length = 0.3
-safe_margin = 0.05
+safe_margin = 0.02
 script = ExtResource("1_megsn")
 anim_player = NodePath("CharacterPlaceholder/AnimationPlayer")
 visual_only_body = NodePath("CharacterPlaceholder")
@@ -130,6 +131,8 @@ inherent_abilities = Array[ExtResource("4_1e7my")]([ExtResource("5_miouo"), ExtR
 skeleton = NodePath("CharacterPlaceholder/Armature/Skeleton3D")
 velocity_rollback_duration = 0.2
 coyote_time_duration = 0.2
+snapping_detach_speed = 3.0
+snapping_detach_lenght = 0.1
 
 [node name="CharacterPlaceholder" parent="." instance=ExtResource("9_lslt6")]
 

@@ -8,7 +8,7 @@ func action_process(_delta: float) -> void:
 
 ## Called every _physics_process tick of the player
 func action_physics_process(delta: float) -> void:
-	if player.is_on_floor():
+	if player.is_on_floor2():
 		attempt_action()
 	else:
 		stop_performing_action()

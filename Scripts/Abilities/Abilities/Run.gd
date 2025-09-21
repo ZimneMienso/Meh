@@ -8,7 +8,7 @@ var input_axis: float
 
 func action_process(_delta: float) -> void:
 	input_axis = Input.get_axis("Move Right", "Move Left")
-	if player.is_on_floor() and input_axis != 0:
+	if player.is_on_floor2() and input_axis != 0:
 		attempt_action()
 	else:
 		stop_performing_action()

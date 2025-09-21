@@ -83,6 +83,7 @@ text = "You Dead"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 88.1, 0)
 temp_debug1 = NodePath("DebugThingy1")
 temp_debug2 = NodePath("DebugThingy2")
+min_speed_retention_angle = 1.0472
 
 [node name="DebugThingy1" type="MeshInstance3D" parent="MechInterior/External/Player"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
