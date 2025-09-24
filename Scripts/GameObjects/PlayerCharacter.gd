@@ -47,7 +47,6 @@ var last_collision_rollback_event: CollisionRollbackEvent
 ## Abilities that are actively blocking rollback recording and reading.
 var collision_rollback_blockers: Array[CharacterAction] = []
 var previous_frame_collision: PhysicsTestMotionResult3D = null
-var last_slide_collision: PhysicsTestMotionResult3D = null
 var last_frame_velocity: Vector3
 
 @export_group("Slide MK2")
@@ -74,6 +73,7 @@ var last_frame_velocity: Vector3
 @export_range(0, 2, 0.01, "or_greater") var snapping_detach_lenght: float = 0.2
 ## The direction that will be checked for surfaces for the purpose of snapping.
 var snapping_direction: Vector3 = Vector3.ZERO
+var last_slide_collision: PhysicsTestMotionResult3D = null
 
 ## The type of surface touched during the last move_and_slide_mk2().
 var collision_state: COLLISION_STATES
@@ -215,6 +215,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	for ability in abilities:
 		ability.action_input(event)
 
+#region Movement
 
 func move_and_slide_mk2(travel: Vector3, from: Vector3 = transform.origin, depth: int = 1) -> Vector3:
 	if depth > 5:
@@ -271,7 +272,6 @@ func apply_snap():
 
 ## Snapping
 	## Check if snapping is desired at all.
-	# TODO Snapping blockers
 	# TODO Wall and ceiling snapping as an option
 	# TODO Keep collision state consistent
 	if snapping_direction != Vector3.ZERO:
@@ -302,7 +302,9 @@ func apply_snap():
 		input_vector3.angle_to(snapping_direction) < \
 		snapping_input_tolerance):
 			global_position += collision.get_travel()
-			snapping_direction = -collision.get_collision_normal()
+			if not last_slide_collision:
+				last_slide_collision = collision
+			#snapping_direction = -collision.get_collision_normal()
 			## Else, don't/stop snapping.
 		else:
 			snapping_direction = Vector3.ZERO
@@ -322,6 +324,25 @@ func is_on_wall2() -> bool:
 
 func is_on_ceiling2() -> bool:
 	return collision_state == COLLISION_STATES.CEILING
+
+
+## Returns the normal of the last slide collision surface.
+## Returns Vector3.ZERO if there was no collision.
+func get_contact_normal() -> Vector3:
+	if last_slide_collision:
+		return last_slide_collision.get_collision_normal()
+	return Vector3.ZERO
+
+
+## Returns the minimum angle between the last slide collision surface and Vector3.UP.
+## The value is always positive, unless there was no collision last move and slide call,
+## in this case it will return -1.
+func get_contact_angle() -> float:
+	if last_slide_collision:
+		return get_contact_normal().angle_to(Vector3.UP)
+	return -1
+
+#endregion Movement
 
 
 func align_rotation_with_velocity():
