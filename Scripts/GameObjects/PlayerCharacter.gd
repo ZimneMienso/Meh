@@ -46,10 +46,8 @@ var input_vector3: Vector3
 var last_collision_rollback_event: CollisionRollbackEvent
 ## Abilities that are actively blocking rollback recording and reading.
 var collision_rollback_blockers: Array[CharacterAction] = []
-@export_range(0, 1, 0.01, "or_greater") var coyote_time_duration: float
-var coyote_time: float = 0
-var previous_frame_collision: KinematicCollision3D = null
-var last_slide_collision: KinematicCollision3D = null
+var previous_frame_collision: PhysicsTestMotionResult3D = null
+var last_slide_collision: PhysicsTestMotionResult3D = null
 var last_frame_velocity: Vector3
 
 @export_group("Slide MK2")
@@ -91,12 +89,12 @@ const ability_keybind_cfg_path: String = "user://AbilityKeybinds.cfg"
 
 
 class CollisionRollbackEvent:
-	var collision: KinematicCollision3D
+	var collision: PhysicsTestMotionResult3D
 	var pre_collision_velocity: Vector3
 	var time_left: float
 
 
-	func _init(new_collision: KinematicCollision3D, new_velocity: Vector3, duration: float) -> void:
+	func _init(new_collision: PhysicsTestMotionResult3D, new_velocity: Vector3, duration: float) -> void:
 		collision = new_collision
 		pre_collision_velocity = new_velocity
 		time_left = duration
@@ -139,28 +137,30 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 
-	velocity.x = 0
-	global_position.x = 0
-
 	debug_update_stats_label()
 
+## Movement
 	previous_frame_collision = last_slide_collision
-	var move_and_slide_vector: Vector3 = move_and_slide_mk3(velocity * delta)
+	## Clear the collision so that the move and slide might write it again
+	last_slide_collision = null
+	var move_and_slide_vector: Vector3 = move_and_slide_mk2(velocity * delta)
 	global_position += move_and_slide_vector
+	apply_snap()
 	velocity += delta * get_gravity()
 
 	align_rotation_with_velocity()
 
-	## Coyote time
+## Corrections
+	velocity.x = 0
+	global_position.x = 0
+
+## Coyote time
 	if last_slide_collision:
 		update_velocity_rollback()
-		if is_on_floor2():
-			coyote_time = coyote_time_duration
 	process_velocity_rollback(delta)
-	coyote_time = max(0, coyote_time - delta)
 
+## Ability physics process
 	active_abilities.clear()
-	## Ability physics process
 	for ability in abilities:
 		ability.action_physics_process(delta)
 		if ability.performing:
@@ -170,7 +170,7 @@ func _physics_process(delta: float) -> void:
 		if ability.performing:
 			active_abilities.append(ability.type)
 
-	## Air friction
+## Air friction
 	var air_friction: float = get_attribute(Attribute.TYPE.AIR_FRICTION)
 	if not is_on_floor2() and velocity.length() > 2:
 		velocity -= velocity.normalized() * air_friction * delta
@@ -216,18 +216,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		ability.action_input(event)
 
 
-func move_and_slide_mk3(travel: Vector3, from: Vector3 = transform.origin, depth: int = 1) -> Vector3:
+func move_and_slide_mk2(travel: Vector3, from: Vector3 = transform.origin, depth: int = 1) -> Vector3:
 	if depth > 5:
 		return Vector3.ZERO
 
 	## Test move
 	var collision_param := PhysicsTestMotionParameters3D.new()
+	collision_param.max_collisions = 4
 	collision_param.from = transform
 	collision_param.from.origin = from
 	collision_param.motion = travel
 	collision_param.margin = safe_margin
 	collision_param.recovery_as_collision = true
 	var collision := PhysicsTestMotionResult3D.new()
+
 	if PhysicsServer3D.body_test_motion(get_rid(), collision_param, collision) and \
 	## Treat collisions "along" the surface as if there was no collision.
 	collision.get_collision_normal().dot(travel) != 0:
@@ -246,32 +248,17 @@ func move_and_slide_mk3(travel: Vector3, from: Vector3 = transform.origin, depth
 		max_speed_retention_angle,
 		1, 0), 0, 1)
 		velocity = velocity_redirect.normalized() * velocity.length() * speed_retention
-		return collision.get_travel() + move_and_slide_mk3(slide_vector, from + slide_vector, depth + 1)
+		last_slide_collision = collision
+		return collision.get_travel() + move_and_slide_mk2(slide_vector, from + slide_vector, depth + 1)
+	## No collision
 	return travel
 
 
-func move_and_slide_mk2(delta: float) -> KinematicCollision3D:
-	## Move and slide logic
-	var travel: Vector3 = velocity * delta
-	var collision: KinematicCollision3D
-	var speed_retention: float
-	collision = move_and_collide(travel, true, safe_margin, true)
-	if collision:
-		## This is the slide vector.
-		var projection: Vector3 = collision.get_remainder().slide(collision.get_normal())
-		var angle_of_attack: float = collision.get_normal().angle_to(travel) - PI/2
-		speed_retention = clampf(remap(
-			angle_of_attack,
-			min_speed_retention_angle, 
-			max_speed_retention_angle,
-			1, 0), 0, 1)
-		snapping_direction = -collision.get_normal()
+func apply_snap():
+	if last_slide_collision:
+		snapping_direction = -last_slide_collision.get_collision_normal()
 
-		global_position += collision.get_travel() + projection
-		velocity = (travel + projection).normalized() * velocity.length() * speed_retention
-	else:
-		global_position += travel
-
+## Collision state evaluation
 	match snapping_direction:
 		var direction when direction == Vector3.ZERO:
 			collision_state = COLLISION_STATES.AIR
@@ -282,39 +269,43 @@ func move_and_slide_mk2(delta: float) -> KinematicCollision3D:
 		_:
 			collision_state = COLLISION_STATES.WALL
 
-	## Snapping
+## Snapping
 	## Check if snapping is desired at all.
-	# TODO Snapping and sliding blockers
+	# TODO Snapping blockers
 	# TODO Wall and ceiling snapping as an option
-	if snapping_direction:
+	# TODO Keep collision state consistent
+	if snapping_direction != Vector3.ZERO:
 		## Perform a test move in the reverse direction of collided surface normal
 		## up to the maximum snapping_lenght
-		var snap_test: KinematicCollision3D = move_and_collide(snapping_direction * snapping_lenght, true, safe_margin, true)
+		var collision_param := PhysicsTestMotionParameters3D.new()
+		collision_param.max_collisions = 4
+		collision_param.from = transform
+		collision_param.motion = snapping_direction * snapping_lenght
+		collision_param.margin = safe_margin
+		collision_param.recovery_as_collision = true
+		collision_param.collide_separation_ray = true
+		var collision := PhysicsTestMotionResult3D.new()
 
 		## Decide to either snap to a surface or stop snapping. Snap if:
 		## -If the test move hit anything. 
-		if snap_test and \
+		if PhysicsServer3D.body_test_motion(get_rid(), collision_param, collision) and \
 		## -The speed in the opposite direction is lower than
 		## the snapping_detach_speed.
-		HF.get_speed_in_direction(snap_test.get_normal(), velocity) < \
+		HF.get_speed_in_direction(collision.get_collision_normal(), velocity) < \
 		snapping_detach_speed and \
+		# TODO Reconsider if this is really supposed to be controllable
+		# by the player directly and in this specific way.
 		## -Player input vector is not pointing away from the surface
 		## but only consider that if the surface is not a floor.
 		(collision_state == COLLISION_STATES.FLOOR or \
 		input_vector3 == Vector3.ZERO or \
 		input_vector3.angle_to(snapping_direction) < \
 		snapping_input_tolerance):
-			## If current velocity is lesser than the treshold to snap, don't snap
-			## (hack to avoid sliding induced by graviti on flat surfaces).
-			if velocity.length() > snapping_speed_treshold:
-				global_position += snap_test.get_travel()
+			global_position += collision.get_travel()
+			snapping_direction = -collision.get_collision_normal()
 			## Else, don't/stop snapping.
 		else:
-			if snapping_direction != Vector3.ZERO:
-				global_position -= snapping_direction * snapping_detach_lenght
 			snapping_direction = Vector3.ZERO
-
-	return collision
 
 
 func is_in_air() -> bool:
@@ -546,17 +537,12 @@ func get_velocity_rollback() -> CollisionRollbackEvent:
 	return result
 
 
-func get_coyote_time() -> float:
-	var result: float = coyote_time
-	coyote_time = 0
-	return result
-
-
 func debug_update_stats_label():
 	var text: String = \
 	"
 	Velocity = %s
 	Actions = %s
+	Collision State = %s
 	"
 
 	
@@ -564,4 +550,4 @@ func debug_update_stats_label():
 	for ability in active_abilities:
 		player_actions_text.append(CharacterAction.TYPES.find_key(ability))
 	
-	$StatsLabel.text = text % [velocity.round(), player_actions_text, ]
+	$StatsLabel.text = text % [velocity.round(), player_actions_text, COLLISION_STATES.find_key(collision_state)]

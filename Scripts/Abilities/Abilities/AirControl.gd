@@ -6,6 +6,7 @@ extends CharacterAction
 @export var deceleration_bonus_acceleration: float
 @export var precision_mode_max_velocity: float
 @export var precision_mode_bonus_acceleration: float
+@export_range(0, 50, 0.1, "or_greater") var max_fast_fall_velocity: float = 25
 
 var input_vector: Vector2
 
@@ -46,7 +47,7 @@ func action_physics_process(delta: float) -> void:
 			air_acceleration * input_vector.x  * delta
 
 		## Fast fall
-		if input_vector.y < 0:
+		if input_vector.y < 0 and player.velocity.y > -max_fast_fall_velocity:
 			player.velocity.y -= delta * \
 			(air_acceleration + precision_mode_bonus_acceleration)
 

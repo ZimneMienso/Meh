@@ -27,11 +27,11 @@ func action_input(event: InputEvent) -> void:
 ## Called every _physics_process tick of the player
 func action_physics_process(delta: float) -> void:
 	if performing:
-		var last_slide_collision: KinematicCollision3D = \
+		var last_slide_collision: PhysicsTestMotionResult3D = \
 		player.last_slide_collision
 		if last_slide_collision:
 			var collided_surface_normal: Vector3 = \
-			last_slide_collision.get_normal()
+			last_slide_collision.get_collision_normal()
 			bounce(player.last_frame_velocity, collided_surface_normal)
 
 		goo_ball_mesh.show()
@@ -47,7 +47,7 @@ func start_performing_action() -> void:
 	if last_collision_rollback_event:
 		bounce(
 			last_collision_rollback_event.pre_collision_velocity,
-			last_collision_rollback_event.collision.get_normal()
+			last_collision_rollback_event.collision.get_collision_normal()
 		)
 	player.collision_rollback_blockers.append(self)
 

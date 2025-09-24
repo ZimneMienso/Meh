@@ -1,7 +1,6 @@
 class_name BurstCharges
 extends CharacterAction
 
-# TODO Implement velocity rollback after collision
 # TODO Separate particle variant for wall bounce
 
 @export var impulse: float

@@ -6,7 +6,9 @@
 
 [resource]
 script = ExtResource("1_moj8w")
-cooldown = 0.2
+cooldown = 0.1
+coyote_time_duration = 0.2
+minimum_slope_jump_angle = 0.610865
 blocks_actions = Array[ExtResource("1_dioex")]([])
 icon = ExtResource("2_dioex")
 repair_mode = false
