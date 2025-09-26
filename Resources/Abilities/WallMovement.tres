@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WallMovement" load_steps=4 format=3 uid="uid://cg5gdncf462xn"]
+
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_4g8no"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_18xlc"]
+[ext_resource type="Script" uid="uid://bqxel5l4g3s6h" path="res://Scripts/Abilities/Abilities/WallMovement.gd" id="3_a7one"]
+
+[resource]
+script = ExtResource("3_a7one")
+friction_factor = 5.0
+jump_impulse = 16.0
+jump_angle = 0.349066
+blocks_actions = Array[ExtResource("1_4g8no")]([])
+icon = ExtResource("2_18xlc")
+repair_mode = false
+show_in_menus = true
+metadata/_custom_type_script = "uid://bqxel5l4g3s6h"

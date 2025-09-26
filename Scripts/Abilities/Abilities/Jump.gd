@@ -2,10 +2,10 @@ class_name Jump
 extends CharacterAction
 
 
-@export_range(0, 1, 0.01, "or_greater") var cooldown: float
+@export_range(0, 1, 0.01, "or_greater") var cooldown: float = 0.1
 var cooldown_progress: float = 0
 
-@export_range(0, 1, 0.01, "or_greater") var coyote_time_duration: float
+@export_range(0, 1, 0.01, "or_greater") var coyote_time_duration: float = 0.2
 var coyote_time: float = 0
 var slide_jump_contact_point: PhysicsTestMotionResult3D = null
 

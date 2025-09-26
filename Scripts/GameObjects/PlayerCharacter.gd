@@ -57,7 +57,7 @@ var last_frame_velocity: Vector3
 ## towards the surface.
 @export_range(0, 90, 1, "radians_as_degrees") var max_speed_retention_angle: float = deg_to_rad(75)
 ## The maximum angle at which a slope will still be considered a floor or a ceiling.
-@export_range(0, 180, 1, "radians_as_degrees") var horizontal_surface_max_angle: float = deg_to_rad(45)
+@export_range(0, 90, 1, "radians_as_degrees") var horizontal_surface_max_angle: float = deg_to_rad(45)
 ## The maximum count of "bounces" the sliding algorithm makes.
 @export_range(1, 8, 1, "or_greater") var max_bounces: int = 6
 @export_subgroup("Snapping", "snapping")
@@ -259,17 +259,6 @@ func apply_snap():
 	if last_slide_collision:
 		snapping_direction = -last_slide_collision.get_collision_normal()
 
-## Collision state evaluation
-	match snapping_direction:
-		var direction when direction == Vector3.ZERO:
-			collision_state = COLLISION_STATES.AIR
-		var direction when direction.angle_to(Vector3.DOWN) < horizontal_surface_max_angle:
-			collision_state = COLLISION_STATES.FLOOR
-		var direction when direction.angle_to(Vector3.DOWN) > PI - horizontal_surface_max_angle:
-			collision_state = COLLISION_STATES.CEILING
-		_:
-			collision_state = COLLISION_STATES.WALL
-
 ## Snapping
 	## Check if snapping is desired at all.
 	# TODO Wall and ceiling snapping as an option
@@ -292,15 +281,7 @@ func apply_snap():
 		## -The speed in the opposite direction is lower than
 		## the snapping_detach_speed.
 		HF.get_speed_in_direction(collision.get_collision_normal(), velocity) < \
-		snapping_detach_speed and \
-		# TODO Reconsider if this is really supposed to be controllable
-		# by the player directly and in this specific way.
-		## -Player input vector is not pointing away from the surface
-		## but only consider that if the surface is not a floor.
-		(collision_state == COLLISION_STATES.FLOOR or \
-		input_vector3 == Vector3.ZERO or \
-		input_vector3.angle_to(snapping_direction) < \
-		snapping_input_tolerance):
+		snapping_detach_speed:
 			global_position += collision.get_travel()
 			if not last_slide_collision:
 				last_slide_collision = collision
@@ -308,6 +289,18 @@ func apply_snap():
 			## Else, don't/stop snapping.
 		else:
 			snapping_direction = Vector3.ZERO
+
+	## Collision state evaluation
+		match snapping_direction:
+			var direction when direction == Vector3.ZERO:
+				collision_state = COLLISION_STATES.AIR
+			var direction when direction.angle_to(Vector3.DOWN) < horizontal_surface_max_angle:
+				collision_state = COLLISION_STATES.FLOOR
+			var direction when direction.angle_to(Vector3.DOWN) > PI - horizontal_surface_max_angle:
+				collision_state = COLLISION_STATES.CEILING
+			_:
+				collision_state = COLLISION_STATES.WALL
+		#print(rad_to_deg(snapping_direction.angle_to(Vector3.DOWN)), " ", rad_to_deg(horizontal_surface_max_angle))
 
 
 func is_in_air() -> bool:
