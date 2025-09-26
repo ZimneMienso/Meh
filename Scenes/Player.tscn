@@ -132,7 +132,6 @@ inherent_abilities = Array[ExtResource("4_1e7my")]([ExtResource("5_miouo"), ExtR
 skeleton = NodePath("CharacterPlaceholder/Armature/Skeleton3D")
 velocity_rollback_duration = 0.2
 min_speed_retention_angle = 0.261799
-horizontal_surface_max_angle = 1.39626
 snapping_lenght = 0.3
 snapping_detach_speed = 3.0
 snapping_detach_lenght = 0.1

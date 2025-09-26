@@ -4,6 +4,7 @@ class_name Player
 enum COLLISION_STATES {
 	AIR,
 	FLOOR,
+	SLOPE,
 	WALL,
 	CEILING
 }
@@ -57,7 +58,8 @@ var last_frame_velocity: Vector3
 ## towards the surface.
 @export_range(0, 90, 1, "radians_as_degrees") var max_speed_retention_angle: float = deg_to_rad(75)
 ## The maximum angle at which a slope will still be considered a floor or a ceiling.
-@export_range(0, 90, 1, "radians_as_degrees") var horizontal_surface_max_angle: float = deg_to_rad(45)
+@export_range(0, 90, 1, "radians_as_degrees") var floor_and_ceiling_max_angle: float = deg_to_rad(10)
+@export_range(0, 90, 1, "radians_as_degrees") var slope_max_angle: float = deg_to_rad(80)
 ## The maximum count of "bounces" the sliding algorithm makes.
 @export_range(1, 8, 1, "or_greater") var max_bounces: int = 6
 @export_subgroup("Snapping", "snapping")
@@ -77,8 +79,6 @@ var last_slide_collision: PhysicsTestMotionResult3D = null
 
 ## The type of surface touched during the last move_and_slide_mk2().
 var collision_state: COLLISION_STATES
-## The maximum angle between the snapping direction and input vector before unsnapping.
-const snapping_input_tolerance: float = deg_to_rad(105)
 
 const anim_name_idle: String = "Armature|Idle"
 const anim_name_run: String = "Armature|Run"
@@ -136,7 +136,6 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-
 	debug_update_stats_label()
 
 ## Movement
@@ -262,7 +261,6 @@ func apply_snap():
 ## Snapping
 	## Check if snapping is desired at all.
 	# TODO Wall and ceiling snapping as an option
-	# TODO Keep collision state consistent
 	if snapping_direction != Vector3.ZERO:
 		## Perform a test move in the reverse direction of collided surface normal
 		## up to the maximum snapping_lenght
@@ -294,10 +292,12 @@ func apply_snap():
 		match snapping_direction:
 			var direction when direction == Vector3.ZERO:
 				collision_state = COLLISION_STATES.AIR
-			var direction when direction.angle_to(Vector3.DOWN) < horizontal_surface_max_angle:
+			var direction when direction.angle_to(Vector3.DOWN) < floor_and_ceiling_max_angle:
 				collision_state = COLLISION_STATES.FLOOR
-			var direction when direction.angle_to(Vector3.DOWN) > PI - horizontal_surface_max_angle:
+			var direction when direction.angle_to(Vector3.DOWN) > PI - floor_and_ceiling_max_angle:
 				collision_state = COLLISION_STATES.CEILING
+			var direction when direction.angle_to(Vector3.DOWN) < slope_max_angle:
+				collision_state = COLLISION_STATES.SLOPE
 			_:
 				collision_state = COLLISION_STATES.WALL
 		#print(rad_to_deg(snapping_direction.angle_to(Vector3.DOWN)), " ", rad_to_deg(horizontal_surface_max_angle))
@@ -309,6 +309,10 @@ func is_in_air() -> bool:
 
 func is_on_floor2() -> bool:
 	return collision_state == COLLISION_STATES.FLOOR
+
+
+func is_on_slope() -> bool:
+	return collision_state == COLLISION_STATES.SLOPE
 
 
 func is_on_wall2() -> bool:
@@ -554,7 +558,7 @@ func get_velocity_rollback() -> CollisionRollbackEvent:
 func debug_update_stats_label():
 	var text: String = \
 	"
-	Velocity = %s
+	Velocity = %s Speed = %s
 	Actions = %s
 	Collision State = %s
 	"
@@ -564,4 +568,4 @@ func debug_update_stats_label():
 	for ability in active_abilities:
 		player_actions_text.append(CharacterAction.TYPES.find_key(ability))
 	
-	$StatsLabel.text = text % [velocity.round(), player_actions_text, COLLISION_STATES.find_key(collision_state)]
+	$StatsLabel.text = text % [velocity.round(), round(velocity.length()), player_actions_text, COLLISION_STATES.find_key(collision_state)]
