@@ -103,7 +103,6 @@ func start_performing_action() -> void:
 	performing = true
 	## Stop performing actions that just have been blocked
 	for blocked_action in blocks_actions:
-		# TODO This should work on a TYPES tag basis or something else that is less problematic
 		blocked_action.stop_performing_action()
 		player.blocked_actions.append(blocked_action.type)
 
@@ -118,7 +117,7 @@ func stop_performing_action() -> void:
 
 
 ## Basically add_child() but registers the child as belonging to this ability
-func add_ability_object(object: Node, parent: Node) -> void:
+func add_ability_object(object: Node, parent: Node = player) -> void:
 	ability_objects.append(object)
 	parent.add_child.call_deferred(object)
 

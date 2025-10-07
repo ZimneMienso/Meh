@@ -1,12 +1,11 @@
 extends Node3D
 
-var camera: Camera3D
+@export var camera: Camera3D
 
 var tracking: Node3D
 
 
 func _ready() -> void:
-	camera = get_node("Camera3D")
 	default_mode()
 
 

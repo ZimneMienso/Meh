@@ -159,3 +159,20 @@ func remove_stage() -> void:
 	stages.erase(last_stage)
 	last_stage.free()
 	max_stage -= 1
+
+
+## Returns the combined AABB of all VisualInstance3D children of the current stage.
+func get_aabb() -> AABB:
+	var visual_instances: Array[VisualInstance3D]
+	var current_stage: MechStructStage = stages[active_stage - 1]
+	visual_instances.assign(current_stage.find_children("*", "VisualInstance3D"))
+	if not visual_instances:
+		assert(false, "MechStructStage has no VisualInstance3D children.")
+		return AABB()
+	var result: AABB
+	for visual_instance in visual_instances.size():
+		if visual_instance == 0:
+			result = visual_instances[0].get_aabb()
+			continue
+		result = result.merge(visual_instances[visual_instance].get_aabb())
+	return result

@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dohfjstxq8685" path="res://Scripts/Singletons/cameraman.gd" id="1_17pkx"]
 
-[node name="Cameraman" type="Node3D"]
+[node name="Cameraman" type="Node3D" node_paths=PackedStringArray("camera")]
 script = ExtResource("1_17pkx")
+camera = NodePath("Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(7.50743e-08, -0.118803, 0.992918, 3.54059e-09, 0.992918, 0.118803, -1, -5.40353e-09, 7.49632e-08, 7.776, 0.108, 0)

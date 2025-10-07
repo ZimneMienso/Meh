@@ -74,10 +74,20 @@ theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 150
 theme_override_constants/margin_bottom = 60
 
-[node name="Label" type="Label" parent="MechInterior/External/UI/GameOverPopup/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MechInterior/External/UI/GameOverPopup/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MechInterior/External/UI/GameOverPopup/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 86
 text = "You Dead"
+
+[node name="Button" type="Button" parent="MechInterior/External/UI/GameOverPopup/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(80, 47.56)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "OK
+"
 
 [node name="Player" parent="MechInterior/External" node_paths=PackedStringArray("temp_debug1", "temp_debug2") instance=ExtResource("5_rqy1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 88.1, 0)
@@ -104,19 +114,24 @@ perforable = true
 metadata/_custom_type_script = "uid://cjyqac2xxs6we"
 
 [node name="TestStruct" parent="MechInterior/MechRegions/WorkshopCorridor" instance=ExtResource("7_ncyfr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90, 7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 90, 7)
 
 [node name="TestStruct2" parent="MechInterior/MechRegions/WorkshopCorridor" instance=ExtResource("7_ncyfr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90, 19)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 90, 19)
 
 [node name="TestStruct3" parent="MechInterior/MechRegions/WorkshopCorridor" instance=ExtResource("7_ncyfr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90, 25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 90, 25)
 
 [node name="TestStruct4" parent="MechInterior/MechRegions/WorkshopCorridor" instance=ExtResource("7_ncyfr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 93, 25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 93, 25)
 
 [node name="TestStruct5" parent="MechInterior/MechRegions/WorkshopCorridor" instance=ExtResource("7_ncyfr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 93, 16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 93, 16)
+
+[node name="TestStruct6" parent="MechInterior/MechRegions/WorkshopCorridor" instance=ExtResource("7_ncyfr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 93, -4)
+collision_layer = 4
+active_stage = 2
 
 [node name="CLU" type="Node" parent="MechInterior/MechRegions"]
 script = ExtResource("8_o0mpl")
@@ -125,18 +140,20 @@ perforable = true
 metadata/_custom_type_script = "uid://be2tpoodpcmic"
 
 [node name="TestStruct6" parent="MechInterior/MechRegions/CLU" instance=ExtResource("7_ncyfr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 75, 16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 75, 16)
 
 [node name="TestStruct7" parent="MechInterior/MechRegions/CLU" instance=ExtResource("7_ncyfr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 75, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 75, 1)
 
 [node name="TestStruct8" parent="MechInterior/MechRegions/CLU" instance=ExtResource("7_ncyfr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 64, 15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 64, 15)
 
 [node name="TestStruct9" parent="MechInterior/MechRegions/CLU" instance=ExtResource("7_ncyfr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 64, 15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 64, 15)
 
 [node name="MechGlobalAudio" type="AudioStreamPlayer" parent="."]
+
+[connection signal="pressed" from="MechInterior/External/UI/GameOverPopup/MarginContainer/VBoxContainer/Button" to="MechInterior/External/UI/GameOverPopup" method="hide"]
 
 [editable path="MechInterior/Geometry"]
 [editable path="MechInterior/External/UI"]

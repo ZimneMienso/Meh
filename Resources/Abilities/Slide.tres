@@ -8,9 +8,9 @@
 
 [resource]
 script = ExtResource("1_bcg04")
-forced_slide_angle = 0.349066
 slide_speed_treshold_high = 8.0
 slide_speed_treshold_low = 3.0
+jump_impulse = 16.0
 blocks_actions = Array[ExtResource("1_svfg3")]([ExtResource("2_vthng"), ExtResource("3_svfg3")])
 icon = ExtResource("4_svfg3")
 repair_mode = false

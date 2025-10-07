@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgy07w7enxqnh"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_jsqmi"]
+height = 6.0
+radius = 16.0
+
+[node name="MechDamageDetector" type="Area3D"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_jsqmi")

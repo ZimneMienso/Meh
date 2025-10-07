@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Bounce" load_steps=12 format=3 uid="uid://dixmti5mhtgfp"]
+[gd_resource type="Resource" script_class="Bounce" load_steps=13 format=3 uid="uid://dixmti5mhtgfp"]
 
 [ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_cjjeu"]
 [ext_resource type="PackedScene" uid="uid://jgq2h8ta2gx8" path="res://Scenes/Abilities/bounce.tscn" id="2_fwca7"]
@@ -8,6 +8,7 @@
 [ext_resource type="Resource" uid="uid://bq1r8tmsely48" path="res://Resources/Abilities/Slide.tres" id="4_kmtm0"]
 [ext_resource type="Resource" uid="uid://b5gvsspniux1" path="res://Resources/Abilities/Jump.tres" id="5_n6mok"]
 [ext_resource type="Resource" uid="uid://c2ehr58lrbxe6" path="res://Resources/Abilities/GroundStop.tres" id="6_4s0da"]
+[ext_resource type="Resource" uid="uid://cg5gdncf462xn" path="res://Resources/Abilities/WallMovement.tres" id="7_n6mok"]
 [ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="8_cjjeu"]
 [ext_resource type="Script" uid="uid://bmeekr26xi7af" path="res://Scripts/DataClasses/Equipment/AbilitySettingKeybind.gd" id="12_4s0da"]
 
@@ -22,7 +23,7 @@ script = ExtResource("2_kimca")
 delay_between_uses = 0.0
 goo_ball_scene = ExtResource("2_fwca7")
 trigger = SubResource("Resource_4s0da")
-blocks_actions = Array[ExtResource("1_cjjeu")]([ExtResource("2_jx35m"), ExtResource("3_cjjeu"), ExtResource("4_kmtm0"), ExtResource("5_n6mok"), ExtResource("6_4s0da")])
+blocks_actions = Array[ExtResource("1_cjjeu")]([ExtResource("2_jx35m"), ExtResource("3_cjjeu"), ExtResource("4_kmtm0"), ExtResource("5_n6mok"), ExtResource("6_4s0da"), ExtResource("7_n6mok")])
 icon = ExtResource("8_cjjeu")
 repair_mode = false
 show_in_menus = true
