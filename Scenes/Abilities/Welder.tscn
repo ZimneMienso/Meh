@@ -1,0 +1,75 @@
+[gd_scene load_steps=13 format=3 uid="uid://bqkn0a2f88a1p"]
+
+[ext_resource type="Texture2D" uid="uid://b65rgbwnjowbq" path="res://Assets/Welder Flame/0001.png" id="1_vjr3g"]
+[ext_resource type="Texture2D" uid="uid://cfvglndayw68g" path="res://Assets/Welder Flame/0002.png" id="2_elj8q"]
+[ext_resource type="Texture2D" uid="uid://0xx3gk1wqsf" path="res://Assets/Welder Flame/0003.png" id="3_31ine"]
+[ext_resource type="Texture2D" uid="uid://docf6pi2mhj1d" path="res://Assets/Welder Flame/0004.png" id="4_2wbae"]
+[ext_resource type="Texture2D" uid="uid://b7ko7241pa4hh" path="res://Assets/Welder Flame/0005.png" id="5_no38i"]
+[ext_resource type="Texture2D" uid="uid://bpceo7u6tx77b" path="res://Assets/Welder Flame/0006.png" id="6_1gwby"]
+[ext_resource type="Texture2D" uid="uid://dbuqb87qiou3i" path="res://Assets/Welder Flame/0007.png" id="7_45xdm"]
+[ext_resource type="Texture2D" uid="uid://c34ftbixady5l" path="res://Assets/Welder Flame/0008.png" id="8_xwaxx"]
+[ext_resource type="Texture2D" uid="uid://bmm5hmimsrpoj" path="res://Assets/Welder Flame/0009.png" id="9_k87mg"]
+[ext_resource type="Texture2D" uid="uid://bwbvk2e20ewht" path="res://Assets/Welder Flame/0010.png" id="10_uod0s"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wfs2a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_vjr3g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_elj8q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_31ine")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_2wbae")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_no38i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_1gwby")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_45xdm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_xwaxx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_k87mg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_uod0s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 30.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nanpb"]
+size = Vector3(0.8, 1, 0.246)
+
+[node name="Welder" type="Node3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="FlameSprite" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(-5.2108e-15, -1, -4.37114e-08, 1.19209e-07, -4.37114e-08, 1, -1, 0, 1.19209e-07, 0, 0, 0)
+offset = Vector2(512, 0)
+pixel_size = 0.001
+sprite_frames = SubResource("SpriteFrames_wfs2a")
+frame_progress = 0.00403775
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0, 0, 0)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, 0)
+shape = SubResource("BoxShape3D_nanpb")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0

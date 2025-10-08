@@ -20,6 +20,9 @@ func _ready() -> void:
 	assert(audio_players.size() <= 1, "More than one AudioStreamPlayer found in player mech.")
 	audio_player = audio_players[0]
 
+	## Room animation
+	$MechInterior/Geometry/AnimationPlayer.play("Heatsinks Slow")
+
 
 func die() -> void:
 	super()

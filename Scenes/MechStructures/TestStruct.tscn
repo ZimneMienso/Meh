@@ -6,6 +6,7 @@
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_7aagv"]
 height = 4.5
+radius = 1.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gi8iu"]
 

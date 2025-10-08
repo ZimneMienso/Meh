@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Welder" load_steps=7 format=3 uid="uid://big1024wumxx6"]
+
+[ext_resource type="Script" uid="uid://cnrrhrxkndplq" path="res://Scripts/DataClasses/Equipment/CharacterAction.gd" id="1_4p34x"]
+[ext_resource type="Texture2D" uid="uid://4c7lfbxamsv5" path="res://Assets/Icons/Placeholder Icon.png" id="2_0rm1i"]
+[ext_resource type="Script" uid="uid://b3mtfw0dswoqm" path="res://Scripts/Abilities/Abilities/RepairMode/Welder.gd" id="3_0rm1i"]
+[ext_resource type="Script" uid="uid://bmeekr26xi7af" path="res://Scripts/DataClasses/Equipment/AbilitySettingKeybind.gd" id="4_xr1tr"]
+[ext_resource type="PackedScene" uid="uid://bqkn0a2f88a1p" path="res://Scenes/Abilities/Welder.tscn" id="5_y37du"]
+
+[sub_resource type="Resource" id="Resource_dlxg8"]
+script = ExtResource("4_xr1tr")
+setting_text = "FIRE"
+tooltip = "STARTS THE FIRE"
+metadata/_custom_type_script = "uid://bmeekr26xi7af"
+
+[resource]
+script = ExtResource("3_0rm1i")
+welder_scene = ExtResource("5_y37du")
+hit_period = 0.1
+repair_value = 1.0
+trigger = SubResource("Resource_dlxg8")
+blocks_actions = Array[ExtResource("1_4p34x")]([])
+icon = ExtResource("2_0rm1i")
+repair_mode = true
+show_in_menus = true
+metadata/_custom_type_script = "uid://b3mtfw0dswoqm"

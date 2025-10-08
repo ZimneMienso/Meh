@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://5nhb10aid85s"]
+[gd_scene load_steps=33 format=3 uid="uid://5nhb10aid85s"]
 
 [ext_resource type="Script" uid="uid://di7ogynbux1la" path="res://Scripts/GameObjects/PlayerCharacter.gd" id="1_megsn"]
 [ext_resource type="Script" uid="uid://d0ywsq5wq4xa7" path="res://Scripts/DataClasses/Equipment/EqSlot.gd" id="2_yoq75"]
@@ -18,6 +18,7 @@
 [ext_resource type="Resource" uid="uid://txbn1mcqrys7" path="res://Resources/Abilities/RepairMode.tres" id="15_lslt6"]
 [ext_resource type="Resource" uid="uid://d0vx344prgtsn" path="res://Resources/Abilities/FixfoamCannon.tres" id="16_ulo2v"]
 [ext_resource type="Resource" uid="uid://cg5gdncf462xn" path="res://Resources/Abilities/WallMovement.tres" id="17_ulo2v"]
+[ext_resource type="Resource" uid="uid://big1024wumxx6" path="res://Resources/Abilities/Welder.tres" id="18_1iu4k"]
 
 [sub_resource type="Resource" id="Resource_n6hdu"]
 script = ExtResource("2_yoq75")
@@ -128,7 +129,7 @@ anim_player = NodePath("CharacterPlaceholder/AnimationPlayer")
 visual_only_body = NodePath("CharacterPlaceholder")
 eqslots = Array[ExtResource("2_yoq75")]([SubResource("Resource_n6hdu")])
 initial_attribute_modifiers = Array[ExtResource("3_ksbbd")]([SubResource("Resource_bvt00"), SubResource("Resource_oqgf2"), SubResource("Resource_qxfql"), SubResource("Resource_2klc5"), SubResource("Resource_ha31o"), SubResource("Resource_glx4g"), SubResource("Resource_pa6b8"), SubResource("Resource_crh0w"), SubResource("Resource_c7le1"), SubResource("Resource_yoq75"), SubResource("Resource_ksbbd")])
-inherent_abilities = Array[ExtResource("4_1e7my")]([ExtResource("5_miouo"), ExtResource("6_o3h8g"), ExtResource("7_1e7my"), ExtResource("8_arntx"), ExtResource("9_yoq75"), ExtResource("10_ksbbd"), ExtResource("11_glx4g"), ExtResource("12_miouo"), ExtResource("13_o3h8g"), ExtResource("14_1e7my"), ExtResource("15_lslt6"), ExtResource("16_ulo2v"), ExtResource("17_ulo2v")])
+inherent_abilities = Array[ExtResource("4_1e7my")]([ExtResource("5_miouo"), ExtResource("6_o3h8g"), ExtResource("7_1e7my"), ExtResource("8_arntx"), ExtResource("9_yoq75"), ExtResource("10_ksbbd"), ExtResource("11_glx4g"), ExtResource("12_miouo"), ExtResource("13_o3h8g"), ExtResource("14_1e7my"), ExtResource("15_lslt6"), ExtResource("16_ulo2v"), ExtResource("17_ulo2v"), ExtResource("18_1iu4k")])
 skeleton = NodePath("CharacterPlaceholder/Armature/Skeleton3D")
 velocity_rollback_duration = 0.2
 min_speed_retention_angle = 0.261799
@@ -144,6 +145,7 @@ shape = SubResource("BoxShape3D_vonw3")
 
 [node name="StatsLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.97114, 0)
+visible = false
 pixel_size = 0.007
 billboard = 2
 no_depth_test = true
